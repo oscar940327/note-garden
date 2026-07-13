@@ -10,4 +10,5 @@ private/
 .replit
 replit.nix
 .quartz/
+.quartz-safe-gitconfig
 quartz/cli/tui/dist/
