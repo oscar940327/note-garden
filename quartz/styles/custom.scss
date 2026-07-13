@@ -1,3 +1,28 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// Keep interaction feedback short and predictable. Avoid broad `transition: all`
+// rules because Quartz components change layout across responsive breakpoints.
+:where(a, button, input, summary) {
+  transition:
+    color 120ms ease,
+    background-color 120ms ease,
+    border-color 120ms ease,
+    opacity 120ms ease;
+}
+
+// Respect the operating-system accessibility preference and provide a reliable
+// fallback for low-power devices. This also disables smooth anchor scrolling.
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
