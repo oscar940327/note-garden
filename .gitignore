@@ -12,3 +12,4 @@ replit.nix
 .quartz/
 .quartz-safe-gitconfig
 quartz/cli/tui/dist/
+content/.trash/
