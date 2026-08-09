@@ -30,7 +30,7 @@ public:
 
 ### 🧠 雙指針思路
 
-![27.移除元素-双指针法](https://hackmd.io/_uploads/HkAlNaMLlg.gif)
+![[0027.gif]]
 
 ```cpp
 slow=0;
