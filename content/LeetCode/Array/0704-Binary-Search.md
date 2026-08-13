@@ -7,11 +7,7 @@ difficulty: Easy
 status: reviewing
 ---
 
-# 704. 二分查找 Binary Search
-
-## 📌 題目資訊
-
-🔗 [LeetCode 題目連結](https://leetcode.com/problems/binary-search/description/)
+🔗 [題目連結](https://leetcode.com/problems/binary-search/description/)
 
 ## 📘 先嘗試自己寫
 
