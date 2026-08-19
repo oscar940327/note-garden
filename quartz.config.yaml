@@ -173,7 +173,7 @@ plugins:
         linkDistance: 30
         fontSize: 0.6
         opacityScale: 1
-        showTags: false
+        showTags: true
         focusOnHover: false
         enableRadial: false
       globalGraph:
