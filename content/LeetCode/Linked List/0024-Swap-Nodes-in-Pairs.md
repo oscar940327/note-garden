@@ -1,3 +1,11 @@
+---
+title: 24. Swap Nodes in Pairs
+tags:
+  - leetcode
+  - linked_list
+difficulty: Medium
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/swap-nodes-in-pairs/)
 

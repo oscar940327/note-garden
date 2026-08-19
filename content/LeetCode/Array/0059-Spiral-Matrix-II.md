@@ -1,3 +1,11 @@
+---
+title: 59. Spiral Matrix II
+tags:
+  - leetcode
+  - array
+difficulty: Medium
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/spiral-matrix-ii/)
 

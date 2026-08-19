@@ -1,3 +1,11 @@
+---
+title: 707. Design Linked List
+tags:
+  - leetcode
+  - linked_list
+difficulty: Medium
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/design-linked-list/)
 
@@ -271,4 +279,3 @@ size--;
 >  * obj->deleteAtIndex(index);
 >  */
 > ```
-

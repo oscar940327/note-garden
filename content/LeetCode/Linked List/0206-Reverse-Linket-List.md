@@ -1,3 +1,11 @@
+---
+title: 206. Reverse Linked List
+tags:
+  - leetcode
+  - linked_list
+difficulty: Easy
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/reverse-linked-list/)
 

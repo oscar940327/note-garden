@@ -1,3 +1,10 @@
+---
+title: KamaCoder 44. Land Purchase by Developers
+tags:
+  - kamacoder
+  - array
+status: reviewing
+---
 
 🔗 [**題目連結**](https://kamacoder.com/problempage.php?pid=1044)
 

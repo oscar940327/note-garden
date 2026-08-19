@@ -1,3 +1,11 @@
+---
+title: 27. Remove Element
+tags:
+  - leetcode
+  - array
+difficulty: Easy
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/remove-element/description/)
 

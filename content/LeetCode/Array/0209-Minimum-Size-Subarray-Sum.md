@@ -1,3 +1,11 @@
+---
+title: 209. Minimum Size Subarray Sum
+tags:
+  - leetcode
+  - array
+difficulty: Medium
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/minimum-size-subarray-sum/)
 

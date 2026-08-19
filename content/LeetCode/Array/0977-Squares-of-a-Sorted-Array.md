@@ -1,3 +1,11 @@
+---
+title: 977. Squares of a Sorted Array
+tags:
+  - leetcode
+  - array
+difficulty: Easy
+status: reviewing
+---
 
 🔗 [**題目連結**](https://leetcode.com/problems/squares-of-a-sorted-array/)
 
