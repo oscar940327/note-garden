@@ -144,49 +144,72 @@ https://opencs.app/grade/
 ### top 30
 
 **UIUC**
-- MCS Urbana-Champaign：**12–20%**
-- MCS Chicago：**15–25%**
-- MEng ECE：**15–28%**
+
+* MCS Urbana-Champaign：**12–20%**
+* MCS Chicago：**15–25%**
+* MEng ECE：**15–25%**
 
 **Georgia Tech**
-- MS Computer Science：**6–12%**
-- MS ECE（Non-Thesis）：**10–18%**
+
+* MS Computer Science：**5–10%**
+* MS ECE（Non-Thesis）：**10–18%**
 
 **UT Austin**
-- ECE MSE – Software Engineering & Systems：**5–12%**
-- MS Information Technology & Management：**20–35%**
-- MS Information Studies：**22–38%**
+
+* ECE MSE – Software Engineering & Systems：**6–12%**
+* MS Business Technology & Artificial Intelligence：**20–35%**
 
 **University of Washington**
-- ECE Professional Master's Program：**16–28%**
+
+* ECE Professional Master's Program：**18–30%**
 
 **University of Michigan–Ann Arbor**
-- MS/MSE Computer Science & Engineering：**5–10%**
+
+* MS/MSE Computer Science & Engineering：**5–10%**
 
 **University of Maryland, College Park**
-- MS Artificial Intelligence：**24–38%**
-- MS Applied Machine Learning：**20–35%**
-- MEng Engineering Artificial Intelligence：**25–40%**
+
+* MS Artificial Intelligence：**22–35%**
+* MEng Software Engineering：**30–45%**
+* MS Applied Machine Learning：**20–35%**
 
 **Purdue**
-- MS Computer Science：**8–15%**
-- MS Software Engineering（Residential）：**15–25%**
+
+* MS Computer Science：**8–15%**
+* MS Software Engineering（Indianapolis）：**15–25%**
 
 **University of Wisconsin–Madison**
-- Professional MS in Computer Sciences：**12–22%**
+
+* Professional MS in Computer Sciences：**15–25%**
 
 **UMass Amherst**
-- MS Electrical & Computer Engineering：**28–45%**
+
+* MS Computer Science：**15–25%**
+
+**UC Irvine**
+
+* Master of Computer Science (MCS)：**25–40%**
 
 **Texas A&M**
-- MEng Computer Engineering：**28–45%**
-- MS Artificial Intelligence：**22–38%**
-- Master of Computer Science (MCS)：**16–30%**
+
+* Master of Computer Science (MCS)：**20–35%**
+* MS Artificial Intelligence：**20–35%**
+* MEng Computer Engineering：**28–45%**
 
 **UNC Chapel Hill**
-- MS Computer Science：**5–10%**
 
-##### 2026/08/10
+* MS Computer Science：**5–10%**
+
+**University of Virginia**
+
+* Master of Computer Science (MCS)：**25–40%**
+
+**CU Boulder**
+
+* Professional MS Computer Science：**40–55%**
+
+
+##### 2026/08/21
 
 # 問教授的問題
 
