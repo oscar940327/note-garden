@@ -1,24 +1,18 @@
 ---
-title: VideoNote Knowledge Garden
-description: 從技術影片整理而成的公開學習筆記與知識連結。
+title: Oscar's Knowledge Garden
+description: Oscar 的學習筆記與知識整理。
 tags:
   - knowledge-garden
 ---
 
-# VideoNote Knowledge Garden
+# Oscar's Knowledge Garden
 
-這裡收錄由 VideoNote 從 YouTube 與 Bilibili 技術影片整理、人工校訂後發布的學習筆記。
+這裡整理我的程式學習、技術研究與個人規劃筆記。
 
-## 探索主題
+## 筆記分類
 
-- [[AI Agents]]
-- [[RAG]]
-- [[LLM Engineering]]
-- [[Inbox]]
+- [[LeetCode/index|LeetCode]]：演算法題目與解題紀錄
+- [[AI Agents/index|AI Agents]]：AI Agent 架構與應用
+- [[Plans for studying abroad|留學規劃]]：出國留學的準備與想法
 
-> [!note] 內容狀態
-> 筆記會持續更新。影片來源、語言與建立時間會保留在每篇筆記的 Frontmatter。
-
-## 關於這個網站
-
-Markdown 儲存在 Obsidian Vault，以 Git 追蹤版本，並由 Quartz 建置成公開知識網站。
+內容會隨著學習進度持續更新。
