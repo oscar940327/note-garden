@@ -6,7 +6,6 @@ tags:
 difficulty: Medium
 status: reviewing
 ---
-
 🔗 [**題目連結**](https://leetcode.com/problems/remove-nth-node-from-end-of-list/)
 
 ### 📘 先嘗試自己寫
