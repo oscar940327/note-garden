@@ -3,14 +3,10 @@ title: LeetCode
 tags:
   - leetcode
 ---
-
 # LeetCode
 
 整理 LeetCode 與 KamaCoder 的演算法練習筆記。
-
-## 學習路線
-
-- [[00-Roadmap|LeetCode Roadmap]]
+#### **刷題順序、影片解法來源**：代碼隨想錄 ([Github]([代碼隨想錄](https://github.com/youngyangyang04/leetcode-master))、[官網]([代码随想录題單](https://programmercarl.com/qita/12.list.html)))
 
 ## Array
 
@@ -36,3 +32,4 @@ tags:
 
 - [[0242-Valid-Anagram|242. Valid Anagram]]
 - [[0349-Intersection-of-Two-Arrays|349. Intersection of Two Array]]
+- [[1002-Find-Common-Characters|1002. Find Common Characters]]
