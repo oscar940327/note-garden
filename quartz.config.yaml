@@ -178,6 +178,8 @@ plugins:
         nodeSizeScale: 1.15
         hubMinLinks: 4
         hubColor: "#e76f51"
+        hitAreaScale: 0.4
+        minHitRadius: 3
         showTags: false
         focusOnHover: false
         enableRadial: false
@@ -192,6 +194,8 @@ plugins:
         nodeSizeScale: 1.25
         hubMinLinks: 4
         hubColor: "#e76f51"
+        hitAreaScale: 0.4
+        minHitRadius: 3
         showTags: false
         focusOnHover: true
         enableRadial: true

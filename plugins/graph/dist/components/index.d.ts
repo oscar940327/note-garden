@@ -13,6 +13,8 @@ interface D3Config {
     nodeSizeScale: number;
     hubMinLinks: number;
     hubColor: string;
+    hitAreaScale: number;
+    minHitRadius: number;
     removeTags: string[];
     showTags: boolean;
     focusOnHover?: boolean;

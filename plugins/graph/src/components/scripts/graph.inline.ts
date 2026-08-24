@@ -110,6 +110,8 @@ import {
       var nodeSizeScale = config.nodeSizeScale || 1;
       var hubMinLinks = config.hubMinLinks ?? 4;
       var hubColorValue = config.hubColor || "#e76f51";
+      var hitAreaScale = config.hitAreaScale ?? 0.4;
+      var minHitRadius = config.minHitRadius ?? 3;
       var removeTags = config.removeTags || [];
       var showTags = config.showTags;
       var focusOnHover = config.focusOnHover;
@@ -297,6 +299,10 @@ import {
         return (2.5 + Math.pow(numLinks, 0.68) * 1.35) * nodeSizeScale;
       }
 
+      function nodeHitRadius(d) {
+        return Math.max(minHitRadius, nodeRadius(d) * hitAreaScale);
+      }
+
       function nodeColor(d) {
         var isCurrent = d.id === slug;
         if (isCurrent) {
@@ -420,6 +426,7 @@ import {
         }
 
         gfx.eventMode = "static";
+        gfx.hitArea = new PIXI.Circle(0, 0, nodeHitRadius(node));
         gfx.cursor = "pointer";
         gfx.label = nodeId;
 
@@ -479,8 +486,8 @@ import {
             var dx = mouseX - n.x - width / 2;
             var dy = mouseY - n.y - height / 2;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            var rad = nodeRadius(n);
-            if (dist < rad + 5) {
+            var rad = nodeHitRadius(n);
+            if (dist < rad) {
               return n;
             }
           }
