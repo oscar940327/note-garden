@@ -160,7 +160,9 @@ plugins:
     layout:
       position: left
       priority: 50
-  - source: github:quartz-community/graph
+  - source:
+      name: graph
+      repo: ./plugins/graph
     # Keep the always-visible local graph intentionally small. The full graph is
     # still available on demand from the expand button in the graph header.
     enabled: true
@@ -173,6 +175,9 @@ plugins:
         linkDistance: 30
         fontSize: 0.6
         opacityScale: 1
+        nodeSizeScale: 1.15
+        hubMinLinks: 4
+        hubColor: "#e76f51"
         showTags: false
         focusOnHover: false
         enableRadial: false
@@ -184,6 +189,9 @@ plugins:
         linkDistance: 30
         fontSize: 0.6
         opacityScale: 1
+        nodeSizeScale: 1.25
+        hubMinLinks: 4
+        hubColor: "#e76f51"
         showTags: false
         focusOnHover: true
         enableRadial: true

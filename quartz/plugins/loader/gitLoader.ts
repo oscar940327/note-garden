@@ -459,7 +459,11 @@ export async function installPlugin(
       console.log(styleText("cyan", `→`), `Linking ${spec.name} from ${spec.repo}...`)
     }
 
-    fs.symlinkSync(spec.repo, pluginDir, "dir")
+    if (process.platform === "win32") {
+      fs.cpSync(spec.repo, pluginDir, { recursive: true })
+    } else {
+      fs.symlinkSync(spec.repo, pluginDir, "dir")
+    }
 
     if (options.verbose) {
       console.log(styleText("green", `✓`), `Linked ${spec.name}`)
