@@ -34,3 +34,4 @@ tags:
 - [[0349-Intersection-of-Two-Arrays|349. Intersection of Two Array]]
 - [[1002-Find-Common-Characters|1002. Find Common Characters]]
 - [[0202-Happy-Number|202. Happy Number]]
+- [[0001-Two-Sum||1. Two Sum]]
