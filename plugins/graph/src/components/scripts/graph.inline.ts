@@ -110,8 +110,10 @@ import {
       var nodeSizeScale = config.nodeSizeScale || 1;
       var hubMinLinks = config.hubMinLinks ?? 4;
       var hubColorValue = config.hubColor || "#e76f51";
-      var hitAreaScale = config.hitAreaScale ?? 0.4;
-      var minHitRadius = config.minHitRadius ?? 3;
+      var hitAreaScale = config.hitAreaScale ?? 1.2;
+      var minHitRadius = config.minHitRadius ?? 6;
+      var dragMoveThreshold = config.dragMoveThreshold ?? 6;
+      var dragClickMaxDuration = config.dragClickMaxDuration ?? 400;
       var removeTags = config.removeTags || [];
       var showTags = config.showTags;
       var focusOnHover = config.focusOnHover;
@@ -282,6 +284,9 @@ import {
       var hoveredNeighbours = new Set();
       var dragStartTime = 0;
       var dragging = false;
+      var dragMoved = false;
+      var dragStartX = 0;
+      var dragStartY = 0;
       var currentTransform = d3.zoomIdentity;
 
       function nodeDegree(d) {
@@ -397,6 +402,69 @@ import {
         renderLabels();
       }
 
+      // Pixi's pointerover event can be skipped when D3 is also listening on
+      // the canvas. Use the same hit-test as dragging for a reliable cursor
+      // and hover state while the pointer moves across the canvas.
+      function nodeAtCanvasPoint(canvasX, canvasY) {
+        var mouseX = (canvasX - currentTransform.x) / currentTransform.k;
+        var mouseY = (canvasY - currentTransform.y) / currentTransform.k;
+        var closestNode = null;
+        var closestDistance = Infinity;
+
+        for (var i = 0; i < nodes.length; i++) {
+          var node = nodes[i];
+          var dx = mouseX - node.x - width / 2;
+          var dy = mouseY - node.y - height / 2;
+          var distance = Math.sqrt(dx * dx + dy * dy);
+          var radius = nodeHitRadius(node);
+          if (distance <= radius && distance < closestDistance) {
+            closestNode = node;
+            closestDistance = distance;
+          }
+        }
+
+        return closestNode;
+      }
+
+      function canvasPointFromPointerEvent(event) {
+        var rect = app.canvas.getBoundingClientRect();
+        return {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+        };
+      }
+
+      function updatePointerState(canvasX, canvasY) {
+        if (dragging) {
+          app.canvas.style.cursor = "grabbing";
+          return;
+        }
+
+        var node = nodeAtCanvasPoint(canvasX, canvasY);
+        app.canvas.style.cursor = node ? "pointer" : "default";
+
+        var nextHoveredId = node ? node.id : null;
+        if (nextHoveredId !== hoveredNodeId) {
+          updateHoverInfo(nextHoveredId);
+          renderPixiFromD3();
+        }
+      }
+
+      app.canvas.addEventListener("pointermove", function (event) {
+        var point = canvasPointFromPointerEvent(event);
+        updatePointerState(point.x, point.y);
+      });
+
+      app.canvas.addEventListener("pointerleave", function () {
+        if (!dragging) {
+          app.canvas.style.cursor = "default";
+          if (hoveredNodeId !== null) {
+            updateHoverInfo(null);
+            renderPixiFromD3();
+          }
+        }
+      });
+
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
         var nodeId = node.id;
@@ -430,25 +498,6 @@ import {
         gfx.cursor = "pointer";
         gfx.label = nodeId;
 
-        (function (n, g, labelRef) {
-          var oldLabelOpacity = 0;
-          g.on("pointerover", function (e) {
-            updateHoverInfo(n.id);
-            oldLabelOpacity = labelRef.alpha;
-            if (!dragging) {
-              renderPixiFromD3();
-            }
-          });
-
-          g.on("pointerleave", function () {
-            updateHoverInfo(null);
-            labelRef.alpha = oldLabelOpacity;
-            if (!dragging) {
-              renderPixiFromD3();
-            }
-          });
-        })(node, gfx, label);
-
         nodesContainer.addChild(gfx);
 
         nodeRenderData.push({
@@ -478,20 +527,7 @@ import {
 
       if (enableDrag) {
         var dragSubject = function (event) {
-          var mouseX = (event.x - currentTransform.x) / currentTransform.k;
-          var mouseY = (event.y - currentTransform.y) / currentTransform.k;
-
-          for (var i = 0; i < nodes.length; i++) {
-            var n = nodes[i];
-            var dx = mouseX - n.x - width / 2;
-            var dy = mouseY - n.y - height / 2;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            var rad = nodeHitRadius(n);
-            if (dist < rad) {
-              return n;
-            }
-          }
-          return null;
+          return nodeAtCanvasPoint(event.x, event.y);
         };
 
         var dragStarted = function (event) {
@@ -505,11 +541,20 @@ import {
             y: mouseSimY - event.subject.y,
           };
           dragStartTime = Date.now();
+          dragStartX = event.x;
+          dragStartY = event.y;
+          dragMoved = false;
           dragging = true;
+          app.canvas.style.cursor = "grabbing";
           hoveredNodeId = event.subject.id;
         };
 
         var dragDragged = function (event) {
+          var deltaX = event.x - dragStartX;
+          var deltaY = event.y - dragStartY;
+          if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > dragMoveThreshold) {
+            dragMoved = true;
+          }
           var mouseSimX = (event.x - currentTransform.x) / currentTransform.k - width / 2;
           var mouseSimY = (event.y - currentTransform.y) / currentTransform.k - height / 2;
           event.subject.fx = mouseSimX - event.subject.__dragOffset.x;
@@ -521,10 +566,12 @@ import {
           event.subject.fx = null;
           event.subject.fy = null;
           dragging = false;
+          updatePointerState(event.x, event.y);
           updateHoverInfo(null);
           renderPixiFromD3();
 
-          if (Date.now() - dragStartTime < 500) {
+          var clickDuration = Date.now() - dragStartTime;
+          if (!dragMoved && clickDuration <= dragClickMaxDuration) {
             var target = resolveBasePath(event.subject.id);
             window.location.href = target;
           }

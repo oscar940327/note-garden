@@ -178,10 +178,12 @@ plugins:
         nodeSizeScale: 1.15
         hubMinLinks: 4
         hubColor: "#e76f51"
-        hitAreaScale: 0.4
-        minHitRadius: 3
+        hitAreaScale: 1.2
+        minHitRadius: 6
+        dragMoveThreshold: 6
+        dragClickMaxDuration: 400
         showTags: false
-        focusOnHover: false
+        focusOnHover: true
         enableRadial: false
       globalGraph:
         depth: 4
@@ -194,8 +196,10 @@ plugins:
         nodeSizeScale: 1.25
         hubMinLinks: 4
         hubColor: "#e76f51"
-        hitAreaScale: 0.4
-        minHitRadius: 3
+        hitAreaScale: 1.2
+        minHitRadius: 6
+        dragMoveThreshold: 6
+        dragClickMaxDuration: 400
         showTags: false
         focusOnHover: true
         enableRadial: true
