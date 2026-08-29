@@ -38,3 +38,4 @@ tags:
 - [[0454-4Sum-II|454. 4Sum II]]
 - [[0383-Ransom-Note|383. Ransom Note]]
 - [[0015-3Sum|15. 3Sum]]
+- [[0018-4Sum|18. 4Sum]]
