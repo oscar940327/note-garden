@@ -14,6 +14,6 @@ tags:
 - [[LeetCode/index|LeetCode]]：演算法題目與解題紀錄
 - [[AI Agents/index|AI Agents]]：AI Agent 架構與應用
 - [[internship/index|實習筆記]]：工作日誌、任務與技術概念
-- [[Plans for studying abroad|留學規劃]]：出國留學的準備與想法
+- [[Study Abroad Plan|留學規劃]]：出國留學的準備與想法
 
 內容會隨著學習進度持續更新。
