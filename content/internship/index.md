@@ -1,5 +1,5 @@
 ---
-title: 實習筆記
+title: Internship
 description: 實習期間的工作日誌、任務、技術概念與人物紀錄。
 tags:
   - 實習

@@ -112,6 +112,7 @@ import {
       var hubColorValue = config.hubColor || "#e76f51";
       var hitAreaScale = config.hitAreaScale ?? 1.2;
       var minHitRadius = config.minHitRadius ?? 6;
+      var labelMinLinks = config.labelMinLinks ?? 4;
       var dragMoveThreshold = config.dragMoveThreshold ?? 6;
       var dragClickMaxDuration = config.dragClickMaxDuration ?? 400;
       var removeTags = config.removeTags || [];
@@ -304,6 +305,10 @@ import {
         return (2.5 + Math.pow(numLinks, 0.68) * 1.35) * nodeSizeScale;
       }
 
+      function shouldShowLabel(d) {
+        return !d.id.startsWith("tags/") && nodeDegree(d) >= labelMinLinks;
+      }
+
       function nodeHitRadius(d) {
         return Math.max(minHitRadius, nodeRadius(d) * hitAreaScale);
       }
@@ -373,11 +378,16 @@ import {
       function renderLabels() {
         var defaultScale = 1 / scale;
         var activeScale = defaultScale * 1.1;
+        var zoomOpacity = Math.max((currentTransform.k * opacityScale - 1) / 3.75, 0);
 
         for (var i = 0; i < nodeRenderData.length; i++) {
           var nodeData = nodeRenderData[i];
-          if (hoveredNodeId === nodeData.simulationData.id) {
-            nodeData.label.alpha = 1;
+          var isHovered = hoveredNodeId === nodeData.simulationData.id;
+          var isProminent = shouldShowLabel(nodeData.simulationData);
+          // Keep the original zoom-to-reveal behavior for larger nodes. Small
+          // nodes remain hidden until the pointer is directly over them.
+          nodeData.label.alpha = isHovered ? 1 : isProminent ? zoomOpacity : 0;
+          if (isHovered) {
             nodeData.label.scale.set(activeScale);
           } else {
             nodeData.label.scale.set(defaultScale);
@@ -602,23 +612,7 @@ import {
           currentTransform = event.transform;
           stage.scale.set(currentTransform.k, currentTransform.k);
           stage.position.set(currentTransform.x, currentTransform.y);
-
-          var newScale = currentTransform.k * opacityScale;
-          var scaleOpacity = Math.max((newScale - 1) / 3.75, 0);
-
-          var activeLabels = [];
-          for (var i = 0; i < nodeRenderData.length; i++) {
-            if (nodeRenderData[i].active) {
-              activeLabels.push(nodeRenderData[i].label);
-            }
-          }
-
-          for (var i = 0; i < labelsContainer.children.length; i++) {
-            var label = labelsContainer.children[i];
-            if (activeLabels.indexOf(label) === -1) {
-              label.alpha = scaleOpacity;
-            }
-          }
+          renderLabels();
         };
 
         var zoom = d3

@@ -180,6 +180,7 @@ plugins:
         hubColor: "#e76f51"
         hitAreaScale: 1.2
         minHitRadius: 6
+        labelMinLinks: 4 # default label appears when a node has at least 4 links
         dragMoveThreshold: 6
         dragClickMaxDuration: 400
         showTags: false
@@ -198,6 +199,7 @@ plugins:
         hubColor: "#e76f51"
         hitAreaScale: 1.2
         minHitRadius: 6
+        labelMinLinks: 4 # default label appears when a node has at least 4 links
         dragMoveThreshold: 6
         dragClickMaxDuration: 400
         showTags: false

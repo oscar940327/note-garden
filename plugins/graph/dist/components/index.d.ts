@@ -15,6 +15,7 @@ interface D3Config {
     hubColor: string;
     hitAreaScale: number;
     minHitRadius: number;
+    labelMinLinks: number;
     dragMoveThreshold: number;
     dragClickMaxDuration: number;
     removeTags: string[];
