@@ -18,11 +18,16 @@ tags:
 - [[work-log/2026-08-18|2026-08-18]]
 - [[work-log/2026-08-19|2026-08-19]]
 - [[work-log/2026-08-24|2026-08-24]]
+- [[2026-08-25]]
+- [[2026-08-26]]
+- [[2026-08-31]]
+- [[2026-09-01]]
 
 ## 任務
 
 - [[tasks/firebase-hosting-liff|Firebase Hosting + LINE LIFF 整合]]
 - [[tasks/astrazeneca-hcp-invite-excel-api|AstraZeneca HCP Invite Excel API]]
+- [[AZ_crestcode]]
 
 ## 技術概念
 
