@@ -1,4 +1,4 @@
----
+ ---
 title: 27. Remove Element
 tags:
   - leetcode

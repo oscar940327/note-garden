@@ -44,3 +44,4 @@ tags:
 
 - [[0344-Reverse-String|344. Reserve String]]
 - [[0541-Reverse-String-II|541. Reverse String II]]
+- [[KamaCoder-0054-Replace-Number|54. Replace Number]]
