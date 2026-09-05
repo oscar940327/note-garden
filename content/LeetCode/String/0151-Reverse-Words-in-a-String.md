@@ -52,11 +52,11 @@ public:
     
     void RemoveExtraSpace(string& s){
         int slow = 0;
-        for(int fast = 0 ; fast < s.size() ; fast++){
-            if(s[fast] != ' '){
-                if(slow != 0){s[slow++] = ' ';} // 跳到蝦一個單詞之間的空格
-                while(fast < s.size() && s[fast] != ' '){ // 處理一個單詞
-                    s[slow++] = s[fast++];
+        for(int i = 0 ; i < s.size() ; i++){
+            if(s[i] != ' '){ // 遇到不是空格
+                if(slow != 0){s[slow++] = ' ';} // 遇到不是第一個單詞的第一個字母
+                while(i < s.size() && s[i] != ' '){ // 處理一個單詞
+                    s[slow++] = s[i++];
                 }
             }
         }
