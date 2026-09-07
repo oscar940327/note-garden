@@ -26,7 +26,7 @@ tags:
 - [[0024-Swap-Nodes-in-Pairs|24. Swap Nodes in Pairs]]
 - [[0019-Remove-Nth-Node-From-End-of-list|19. Remove Nth Node From End of List]]
 - [[0160-Intersection-of-Two-Linked-Lists|160. Intersection of Two Linked Lists]]
-- [[0142-Linked-List-Cycle-II|142. Linked List Cycle II]]
+- [[0142-Linked-List-Cycle-II|142. Linked List Cycle II]] *
 
 ## Hash Table
 
@@ -35,9 +35,9 @@ tags:
 - [[1002-Find-Common-Characters|1002. Find Common Characters]]
 - [[0202-Happy-Number|202. Happy Number]]
 - [[0001-Two-Sum|1. Two Sum]]
-- [[0454-4Sum-II|454. 4Sum II]]
+- [[0454-4Sum-II|454. 4Sum II]] *
 - [[0383-Ransom-Note|383. Ransom Note]]
-- [[0015-3Sum|15. 3Sum]]
+- [[0015-3Sum|15. 3Sum]] *
 - [[0018-4Sum|18. 4Sum]]
 
 ## String
@@ -45,4 +45,4 @@ tags:
 - [[0344-Reverse-String|344. Reserve String]]
 - [[0541-Reverse-String-II|541. Reverse String II]]
 - [[0151-Reverse-Words-in-a-String|151. Reverse Words in a String]]
-- [[KamaCoder-0054-Replace-Number|54. Replace Number]]
+- [[KamaCoder-0054-Replace-Number|54. Replace Number]] *
