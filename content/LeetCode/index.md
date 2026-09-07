@@ -45,4 +45,5 @@ tags:
 - [[0344-Reverse-String|344. Reserve String]]
 - [[0541-Reverse-String-II|541. Reverse String II]]
 - [[0151-Reverse-Words-in-a-String|151. Reverse Words in a String]]
-- [[KamaCoder-0054-Replace-Number|54. Replace Number]] *
+- [[KamaCoder-0054-Replace-Number|KamaCoder 54. Replace Number]] *
+- [[KamaCoder-0055-Right-Rotate-String|KamaCoder 55. Right Rotate String]]
