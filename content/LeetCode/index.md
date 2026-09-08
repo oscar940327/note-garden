@@ -47,3 +47,7 @@ tags:
 - [[0151-Reverse-Words-in-a-String|151. Reverse Words in a String]]
 - [[KamaCoder-0054-Replace-Number|KamaCoder 54. Replace Number]] *
 - [[KamaCoder-0055-Right-Rotate-String|KamaCoder 55. Right Rotate String]]
+
+#### Concepts
+
+- [[Concepts/KMP Algorithm|KMP Algorithm]]
