@@ -10,7 +10,7 @@ status: reviewing
 
 > [!info] 📚 學習資源
 > - **必須先看過這個：**[油管阿三哥讲KMP查找算法](https://www.bilibili.com/video/BV18k4y1m7Ar?spm_id_from=333.788.videopod.episodes&vd_source=bb283fe9a0ba97424605c7c49c5bb4d7)
-> - 再把其他兩部看完：[帮你把KMP算法学个通透！（理论篇）](https://www.bilibili.com/video/BV1PD4y1o7nd?spm_id_from=333.788.videopod.sections&vd_source=bb283fe9a0ba97424605c7c49c5bb4d7)，[帮你把KMP算法学个通透！（求next数组代码篇）](https://www.bilibili.com/video/BV1M5411j7Xx?spm_id_from=333.788.videopod.sections&vd_source=bb283fe9a0ba97424605c7c49c5bb4d7)
+> - 再把其他兩部看完：[帮你把KMP算法学个通透！（理论篇）](https://www.youtube.com/watch?v=S3ckBIJG6fo)，[帮你把KMP算法学个通透！（求next数组代码篇）](https://www.youtube.com/watch?v=t6xa2p6fFS8)
 
 ## KMP 解決的問題
 
