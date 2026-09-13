@@ -13,7 +13,7 @@ status: reviewing
 
 大概有一點想法，有寫出來一點，但不知道為甚麼有邏輯錯誤的地方。
 
->[!example]- 自己寫的
+> [!example]- 自己寫的
 > ```cpp
 > /**
 >  * Definition for singly-linked list.

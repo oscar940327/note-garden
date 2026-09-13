@@ -13,55 +13,56 @@ status: reviewing
 
 思考了一下，但是沒有想法，看了[講解](https://programmercarl.com/%E9%9D%A2%E8%AF%95%E9%A2%9802.07.%E9%93%BE%E8%A1%A8%E7%9B%B8%E4%BA%A4.html#%E6%80%9D%E8%B7%AF)的思路自己寫出來。
 
-:::spoiler 自己寫的(看了講解)
-```cpp
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-class Solution {
-public:
-    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
-        ListNode* tempA = headA;
-        ListNode* tempB = headB;
-        int countA = 0, countB = 0;
-        while (tempA != nullptr) {
-            tempA = tempA->next;
-            countA++;
-        }
-        while (tempB != nullptr) {
-            tempB = tempB->next;
-            countB++;
-        }
-        int n = abs(countA - countB);
-
-        ListNode* curA = headA;
-        ListNode* curB = headB;
-        if (countA > countB) {
-            while (n--) {
-                curA = curA->next;
-            }
-        } else {
-            while (n--) {
-                curB = curB->next;
-            }
-        }
-
-        while (curA != nullptr && curB != nullptr) {
-            if (curA == curB) {
-                return curA;
-            }
-            curA = curA->next;
-            curB = curB->next;
-        }
-        return nullptr;
-    }
-};
-```
+> [!example]- 自己寫的(看了講解)
+>
+> ```cpp
+> /**
+>  * Definition for singly-linked list.
+>  * struct ListNode {
+>  *     int val;
+>  *     ListNode *next;
+>  *     ListNode(int x) : val(x), next(NULL) {}
+>  * };
+>  */
+> class Solution {
+> public:
+>     ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+>         ListNode* tempA = headA;
+>         ListNode* tempB = headB;
+>         int countA = 0, countB = 0;
+>         while (tempA != nullptr) {
+>             tempA = tempA->next;
+>             countA++;
+>         }
+>         while (tempB != nullptr) {
+>             tempB = tempB->next;
+>             countB++;
+>         }
+>         int n = abs(countA - countB);
+>
+>         ListNode* curA = headA;
+>         ListNode* curB = headB;
+>         if (countA > countB) {
+>             while (n--) {
+>                 curA = curA->next;
+>             }
+>         } else {
+>             while (n--) {
+>                 curB = curB->next;
+>             }
+>         }
+>
+>         while (curA != nullptr && curB != nullptr) {
+>             if (curA == curB) {
+>                 return curA;
+>             }
+>             curA = curA->next;
+>             curB = curB->next;
+>         }
+>         return nullptr;
+>     }
+> };
+> ```
 
 ---
 

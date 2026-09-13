@@ -38,30 +38,32 @@ status: reviewing
 - 沒看影片，我覺得這題不需要看
 ![[0344.gif]]
 
-[!example]- **解法實作**
-他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函示可以用)
-```cpp
-class Solution {
-public:
-    void reverseString(vector<char>& s) {
-        for (int i = 0, j = s.size() - 1; i < s.size()/2; i++, j--) {
-            swap(s[i],s[j]);
-        }
-    }
-};
-```
+> [!example]- **解法實作**
+> 他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函示可以用)
+>
+> ```cpp
+> class Solution {
+> public:
+>     void reverseString(vector<char>& s) {
+>         for (int i = 0, j = s.size() - 1; i < s.size()/2; i++, j--) {
+>             swap(s[i],s[j]);
+>         }
+>     }
+> };
+> ```
 
-[!example]- **解法實作 (2026/08/31)**
-他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函示可以用)
-```cpp
-class Solution {
-public:
-    void reverseString(vector<char>& s) {
-        for(int i = 0, j = s.size()-1; i < s.size()/2; i++, j--){
-            int temp = s[i];
-            s[i] = s[j];
-            s[j] = temp;
-        }
-    }
-};
-```
+> [!example]- **解法實作 (2026/08/31)**
+> 他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函示可以用)
+>
+> ```cpp
+> class Solution {
+> public:
+>     void reverseString(vector<char>& s) {
+>         for(int i = 0, j = s.size()-1; i < s.size()/2; i++, j--){
+>             int temp = s[i];
+>             s[i] = s[j];
+>             s[j] = temp;
+>         }
+>     }
+> };
+> ```
