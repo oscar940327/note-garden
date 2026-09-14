@@ -27,7 +27,7 @@ tags:
 
 - [[tasks/firebase-hosting-liff|Firebase Hosting + LINE LIFF 整合]]
 - [[tasks/astrazeneca-hcp-invite-excel-api|AstraZeneca HCP Invite Excel API]]
-- [[AZ_crestcode_V2]]
+- [[AZ_crestcode_V2-1]]
 
 ## 技術概念
 
