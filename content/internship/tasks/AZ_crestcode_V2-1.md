@@ -2,7 +2,7 @@
 title: AZTW CRESTCODE 遊戲使用流程改版
 status: in-progress
 start_date: 2026-08-25
-updated_date: 2026-09-08
+updated_date: 2026-09-15
 assigned_by: AZ
 tags:
   - 實習
@@ -24,6 +24,13 @@ tags:
 根據 AZTW CRESTCODE 0630 改版的 BRD、PRD 與 2026-08-25 起始會議簡報，整理成可供開發、測試與後續追蹤使用的任務文件。
 
 本次改版將舊版「兩題制」流程調整為「一題制＋影片頁」，新增家族樹案例入口，並依最新健保降血脂給付規定更新題目與解析。同時需要重新規劃 V2 報表與 Audit Log，讓 HCP 的遊玩、影片、簡報下載及 LINE 轉化歷程可以被追蹤。
+
+## 目前進度摘要（2026-09-15）
+
+- **實作狀態：** V2 前後端主要流程、六位角色、身份判定、題目內容、影片、完成頁、事件追蹤與每日報表已完成，並已部署過 Stage 版本。
+- **資料狀態：** 玩家紀錄使用 `sites/astrazeneca/hcpChallengeV2/{challengeId}`；題目版本使用 `sites/astrazeneca/hcpChallengeV2Scenarios/{scenarioVersionId}`。V2 不寫入 V1 collection。
+- **驗證證據：** 後端 `bun test` 為 230 pass、0 fail；前端 `npm run build-stage` 成功；已檢查一份實際 24 欄 Excel 報表。
+- **尚未結案：** production Firebase／scenario seed、目標手機與 LINE WebView 驗收、SendGrid 正式投遞、核准 BCC 名單，以及 V1／V2 主選單與報表切換仍需由團隊與 AZ 確認。
 
 ## 專案資訊
 
@@ -83,7 +90,8 @@ flowchart LR
     LIFF -->|Firebase ID token| API[Elysia / Bun API]
     API --> ID[HCP 身分與權限判定]
     API --> FLOW[V2 Session 狀態機]
-    API --> DB[(Firestore crestcodeV2)]
+    API --> DB[(Firestore hcpChallengeV2)]
+    API --> CONTENT[(Firestore hcpChallengeV2Scenarios)]
     LIFF --> VIDEO[Google Cloud Storage MP4]
     LIFF --> MATERIAL[AZ Box 教材]
 ```
@@ -92,25 +100,32 @@ flowchart LR
 
 ### Firestore bounded context
 
-公司資料庫的 `sites/astrazeneca` 底下還有許多既有產品資料，因此本次要求 V2 最多只能新增一個直接子 collection。我將 V2 資料集中在：
+公司資料庫的 `sites/astrazeneca` 底下還有許多既有產品資料，因此本次將 V2 的玩家資料與題目內容限制在明確的 V2 bounded context。玩家資料集中在：
 
 ```txt
-sites/astrazeneca/crestcodeV2/{recordType}__{logicalId}
+sites/astrazeneca/hcpChallengeV2/{challengeId}
 ```
 
-同一個 collection 以 `recordType` 與文件 ID prefix 區分類型：
+每一個 `challengeId` 是一位使用者的一筆遊玩文件，使用亂數文件 ID；同一份文件內嵌六位角色的進度與事件：
 
-| recordType | 用途 |
-| --- | --- |
-| `content` | 六位家族成員的題目、選項、解析、Reference、影片與教材設定 |
-| `session` | 單次角色挑戰的目前狀態與 pinned content version |
-| `start` | retry-safe 的開始遊戲／選角紀錄 |
-| `participant` | V2 參與者與參與時間 |
-| `activeSession` | 使用者目前可續玩的角色 session 指標 |
-| `profile` | 非已驗證 HCP 曾提交的基本資料狀態 |
-| `auditEvent` | 影片、教材、LINE CTA 等漏斗事件 |
+```txt
+sites/astrazeneca/hcpChallengeV2/{challengeId}
+  ├─ profile fields              # 非已驗證 HCP 填寫的基本資料
+  ├─ memberProgress              # 六位角色各自的狀態、答案、影片與完成時間
+  ├─ startRequests               # 開始遊戲的 idempotency 紀錄
+  ├─ events                      # 影片、教材、LINE CTA 等事件
+  └─ completion projection       # 完成六位角色後的統計投影
+```
 
-這項設計的目的不是單純減少 collection 數量，而是把 CRESTCODE V2 當成一個清楚的資料邊界：migration、seed、測試與日後清理都只操作 `crestcodeV2`，不碰 V1 與其他公司資料。
+題目與素材內容另由可管理的 scenario 文件保存：
+
+```txt
+sites/astrazeneca/hcpChallengeV2Scenarios/{scenarioVersionId}
+```
+
+`hcpChallengeV2Scenarios` 每一筆代表一個角色的題目版本，包含選項、正解、解析、Reference、影片／教材資源，以及 `published`、`approved`、`effectiveAt`、`expiresAt` 等上架控制欄位。執行環境以 Firestore 為優先來源；資料庫暫時不存在或只發布部分角色時，才使用程式碼內的六組核准內容作安全 fallback。V2 runtime 不再建立 `profile`、`participant`、`session`、`activeSession` 或 `auditEvent` 子 collection，也不修改 V1 或其他產品資料。
+
+這項設計的目的不是單純減少 collection 數量，而是把 CRESTCODE V2 當成一個清楚的資料邊界：玩家紀錄、題目版本、migration、seed、測試與日後清理都有明確範圍，不碰 V1 與其他公司資料。
 
 ### Session 狀態機
 
@@ -270,10 +285,11 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 
 - 建立 CRESTCODE V2 identity、content、session、answer、advance、track 與 report API。
 - 以 Firebase ID token 綁定玩家身分，阻擋 body identity spoofing、跨 site 與非 session owner 操作。
-- 將六位家族成員的正式題目內容 seed 到 Stage Firestore，公開 DTO 不包含正確答案與上架控制欄位。
-- 建立 `crestcodeV2` 單一 collection 的資料模型、migration script、seed script 與影片 URL 更新 script。
+- 將六位家族成員的正式題目內容寫入 `hcpChallengeV2Scenarios`；公開 DTO 不包含正確答案與上架控制欄位。
+- 建立 `hcpChallengeV2` 玩家文件與 `hcpChallengeV2Scenarios` 題目文件的資料模型、migration／rename script、seed script 與影片 URL 更新 script。
+- 實作 database-first content resolver：優先讀 Firestore；若本機／部署環境暫時沒有完整六組已核准內容，才回退至程式碼中的核准內容，避免空白題目頁。
 - 實作 server-side 狀態機、idempotency、concurrent answer protection、每角色獨立續玩及完成角色 projection。
-- 建立 V2 Audit Log 與報表聚合，能依日期、角色、業務與事件統計 unique participants、開始／完成次數及 CTA。
+- 建立 V2 事件追蹤與報表聚合，能依日期、角色、業務與事件統計 unique participants、開始／完成次數及 CTA；每日 Excel 報表固定 24 欄、每場遊玩一列，從最早有效 V2 紀錄累計至報表日期，不按月份重置。
 - 保留 V1 route 與既有資料，不以 V2 migration 修改或刪除非 V2 collection。
 
 主要檔案：
@@ -295,8 +311,11 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - 建立獨立的 `HcpChallengeV2Component`、module、model 與 API service，串接完整 V2 API。
 - 完成 profile、family、question、explanation、video、result、blocked 與 error 等畫面狀態。
 - 依 Figma 與實際截圖調整家族樹、題目、答案彈窗、影片頁與兩種身分結果頁。
+- 將題目頁整理為「案例背景／案例圖／臨床決策挑戰／題目」分格排版；依 Figma 在案例標題加入 HP／HP+GP 標記，並以角色及出現次數控制選擇性粗體。
+- 將非已驗證 HCP 的第一頁改為姓名、縣市、服務院所資料表單；服務院所支援下拉選擇與手填備註，提交資料寫入 V2 玩家文件並供報表回填。
 - 加入六位家族角色黑白／彩色素材與六張案例圖，完成圖片預載與 Material spinner。
 - 將影片改為 Google Cloud Storage 公開 MP4 搭配原生 mobile-friendly video player。
+- 結果頁依已驗證／待驗證與非已驗證 HCP 顯示兩種 Figma 版本；影片頁按鈕直接進入完成頁／簡報流程，不再產生重複的「下載簡報」中繼頁。
 - 修正角色狀態混用：未完成角色保持黑白，只有伺服器回傳 completed 的角色在重整後維持彩色。
 - 補上 component 與 API service unit tests，涵蓋續玩、跨角色隔離、解鎖、追蹤事件、結果頁與影片 CTA。
 
@@ -318,22 +337,26 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 | 選完角色後出現 `500 advance` 或 `409 select-member` | 前端畫面狀態、後端 session 狀態與重複 request 不一致 | 以後端狀態機限制合法轉移，所有 mutation 使用 idempotency key，錯誤時保留可追蹤的 HTTP status | Distributed state、idempotency、error contract |
 | A 角色到影片頁離開後，點 B 也直接進影片 | active session 只以使用者為單位，沒有正確綁定角色，stale pointer 被誤用 | session 與 active pointer 同時校驗 `familyMemberKey`；同角色續玩、不同角色建立／切換至自己的 session | Composite identity、state isolation |
 | 點選當下角色變彩色，但完成後或重整後狀態錯誤 | selected 與 completed 被當成同一種 UI 狀態 | selected 只控制高亮，unlocked 只接受後端 completed projection；以最後一頁作為完成標準 | Single source of truth、derived UI state |
-| `sites/astrazeneca` 底下出現多個 V2 collection | session、participant、event 等資料各自建立 collection，增加公司共用資料庫管理成本 | 收斂成 `crestcodeV2` 單一 collection，以 `recordType` 與 ID prefix 分類，並用 migration test 防止回歸 | Bounded context、schema governance |
+| `sites/astrazeneca` 底下出現多個 V2 collection | 早期設計把 session、participant、event 等資料各自建立 collection，增加公司共用資料庫管理成本 | 將玩家紀錄收斂成 `hcpChallengeV2` 單一隨機文件，並以獨立 `hcpChallengeV2Scenarios` 管理題目版本；runtime 不再寫入 profile／participant／session／auditEvent 子 collection，並以 layout test 防止回歸 | Bounded context、schema governance |
+| 本機啟動時查詢醫療院所出現 BigQuery 403 | 舊版院所查詢依賴所有開發者都無權限的跨專案 BigQuery view | V2 profile 改以同 site 的 Firestore `medicalInstitution` 文件驗證選擇的院所 key；報表查詢 HCP view 失敗時則回退 V2 profile，讓未驗證 HCP 仍能留下可用資料 | Least privilege、graceful degradation、data provenance |
+| 題目頁與 Figma 的標題／粗體不一致 | API 只提供 plain text，無法直接表達每個角色不同的字詞與出現次數 | 保留後端文案契約，在前端以角色、段落與 occurrence 設定控制 HP／HP+GP 標記及選擇性粗體，並以測試固定六組案例文案 | Presentation metadata、regression testing |
 | Box 影片桌面可播、手機 LIFF 無法觸控 | iframe 與 Box viewer 在行動 WebView 的相容性不足，分享網址也不是原始 video resource | 將 MP4 放到 Google Cloud Storage，使用原生 `<video controls playsinline>`，保留外部連結 fallback | Mobile WebView、media delivery、progressive fallback |
 | 題目頁先出現但圖片尚未載好 | SPA route 已切換，browser image request 還沒完成 | 在切換題目 phase 前預載圖片，以 spinner 呈現等待狀態 | Perceived performance、asset preloading |
 | BRD、PRD、Figma 與舊版行為互相衝突 | 文件時間與目的不同，部分需求仍是待確認或舊版遺留 | 先整理規格差異與風險，再以較新會議／設計決議落地；未確認項目明確留在驗收清單 | Requirements traceability、decision log |
 
 ## 驗證與可量化成果
 
-截至 2026-09-07：
+截至 2026-09-15：
 
 - 支援 4 種 HCP 身分、6 位家族成員、6 個 server-controlled session 狀態與 11 個 V2 API endpoint。
-- 六組案例內容可由 Stage Firestore 讀取，並透過 schedule、published 與 approved 條件 fail closed。
-- 後端執行 `bun test`：**217 pass、0 fail、652 assertions**。
+- 六組案例內容以 `hcpChallengeV2Scenarios` 為資料庫優先來源，並透過 `published`、`approved`、`effectiveAt` 與 `expiresAt` 條件 fail closed；資料庫內容不完整時才回退程式碼 registry。
+- 後端執行 `bun test`：**230 pass、0 fail、698 expect() calls，24 個 test files**。
 - 後端測試涵蓋 auth、content、contract、Firestore layout、identity、session、analytics、route 與 error envelope。
-- 前端執行 `npm run build -- --configuration=development` 成功；只有既有 CommonJS optimization warnings。
+- 前端執行 `npm run build-stage` 成功（2026-09-15）；只有既有 CommonJS optimization warnings，未發生 TypeScript／bundle build error。
 - 前端已建立 component、asset config 與 API service 的自動化測試，關鍵角色續玩與 UI 狀態都有 regression case。
-- 後端 Stage tag：`s1.3.123`；前端 Stage tag：`s1.7.55-55`。
+- 已完成 Stage release tag：後端 `s1.3.133`、前端 `s1.7.65-65`；目前開發分支仍有後續測試收件人與 Figma 樣式修正，尚未代表 production 上線。
+- 已產出並人工檢查 `AZ_TW_CREST_CODE_HCP_Daily_Log_20260914_20260915.xlsx`：24 欄、4 筆 V2 session 明細；3 筆到達完成頁標記 `Y`，1 筆未完成標記 `N`。報表明細按遊玩 session 一列，邀請頁的醫師人數則另以 LINE user ID 去重。
+- 已以 Stage API 實際觸發每日報表 endpoint；郵件收件清單、SendGrid 實際投遞與正式 BCC 名單仍需最終環境驗收。
 - 後端 Draft PR：[#90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90)。
 - 前端 Draft PR：[#52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52)。
 
@@ -352,8 +375,11 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - [x] 結果頁已依身分顯示不同 CTA 與「再玩一次」。
 - [ ] 非已驗證 HCP 的官方 LINE 綁定完成 Stage 端到端驗收。
 - [x] V2 Audit Log 與 report service 已能追蹤身分、入口、家族成員、作答、影片、簡報與 LINE CTA。
+- [x] V2 Excel 報表已依 AZ 範例固定 24 欄，並驗證跨月份從最早有效遊玩紀錄累計至報表日期、不以每月 1 號重置。
+- [ ] 每日報表以正式核准收件清單完成實際 SendGrid 投遞驗收；本機沒有 SendGrid API key 時只能驗證 API／附件產製。
 - [ ] V1 報表已結束，V2 報表與部署／切換時間已與 AZ 約定。
 - [ ] Sales 邀請畫面的參與人數規則完成確認並通過測試。
+- [ ] production Firebase 專案、V2 scenario seed 與 LIFF 主選單切換完成正式環境驗收。
 
 ## 成功指標
 
@@ -373,6 +399,8 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - **LIFF 入口尚未定案**：新 LIFF URL 需在上線前由客戶提供，並完成不同身份與邀請來源測試。
 - **完整簡報取得方式待確認**：BRD 風險對策建議完整版可能需完成 LINE 綁定後再發送，需確認是否影響本頁直接下載的需求。
 - **CMS 範圍待確認**：案例上下架與資源管理屬本次邊界；完整文案動態編輯在 BRD 中為 Nice-to-have。
+- **每日報表投遞尚未完成正式驗收**：Stage API 已能產製 Excel，但本機缺少 SendGrid API key，且測試收件人／BCC 與正式核准清單不同；上線前需確認實際郵件投遞與附件內容。
+- **production 題目資料需先完成 seed**：database-first resolver 可在資料缺失時回退程式碼內容，但正式環境仍應建立並核准六組 `hcpChallengeV2Scenarios`，避免長期依賴 fallback。
 
 ## 我的學習與反思
 
@@ -388,7 +416,7 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 
 ### 資料設計會直接影響維運成本
 
-把所有 V2 collection 集中到 `crestcodeV2` 的過程，讓我理解資料庫設計不只是在決定「資料放哪裡」。在公司共用的 multi-tenant Firestore 中，命名、邊界、migration 範圍、文件生命週期與不影響舊資料的能力，都會影響未來維護與風險。透過 `recordType`、文件 prefix 與 layout test，我把口頭上的「不要動到 V2 以外資料」變成程式可以驗證的限制。
+把 V2 玩家資料整理到 `hcpChallengeV2`、再把題目版本獨立到 `hcpChallengeV2Scenarios` 的過程，讓我理解資料庫設計不只是在決定「資料放哪裡」。在公司共用的 multi-tenant Firestore 中，命名、邊界、migration 範圍、文件生命週期與不影響舊資料的能力，都會影響未來維護與風險。透過單一玩家文件、嵌入式 `memberProgress`／`events` 與 layout test，我把口頭上的「不要動到 V2 以外資料」變成程式可以驗證的限制。
 
 ### 使用 AI 開發仍需要由工程師負責驗證
 
@@ -400,19 +428,19 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 
 - **Situation**：既有醫療行銷 LIFF 遊戲要從兩題制改為家族案例一題制，需求分散在多份文件與 Figma，且需同時相容四種 HCP 身分、六位角色、舊版資料與手機 LINE WebView。
 - **Task**：在不影響 V1 與公司共用 Firestore 其他資料的前提下，完成 V2 前後端流程、動態內容、狀態續玩、媒體播放、Audit Log 與可交接文件。
-- **Action**：整理 BRD／PRD／Figma 為可測試規格；設計單一 `crestcodeV2` bounded context 與 server-side session state machine；以 Firebase token、ownership check 與 idempotency 保護 API；完成 Angular LIFF、圖片預載、原生手機影片與每角色獨立續玩；建立自動化測試與 Stage release 流程。
-- **Result**：完成 11 個 V2 API、6 位角色與六組案例的整合；後端 217 個測試全數通過，前端 build 成功；前後端分別發布 Stage tag 並建立 Draft PR 送審。
+- **Action**：整理 BRD／PRD／Figma 為可測試規格；設計 `hcpChallengeV2` 單一玩家文件、`hcpChallengeV2Scenarios` 題目版本與 server-side session state machine；以 Firebase token、ownership check 與 idempotency 保護 API；完成 Angular LIFF、圖片預載、原生手機影片與每角色獨立續玩；建立自動化測試與 Stage release 流程。
+- **Result**：完成 11 個 V2 API、6 位角色與六組案例的整合；後端 230 個測試全數通過，前端 Stage build 成功；前後端分別發布 Stage tag 並建立 Draft PR 送審，另以實際 Excel 檔驗證報表欄位與完成狀態。
 
 ### 備審自述草稿
 
-在 AstraZeneca HCP 平台實習期間，我參與一個橫跨 Angular LINE LIFF、Bun／Elysia API、Firebase Authentication 與 Firestore 的遊戲流程改版。這個專案讓我第一次面對真實軟體系統中的需求衝突、舊版相容、使用者身分、跨裝置媒體相容與持久化狀態問題。我將分散的 BRD、PRD、Figma 與既有程式整理成可驗證的規格，並把六位角色的遊玩流程建模為後端控制的狀態機。為避免角色之間錯誤共用進度，我重新定義 session identity 與 active pointer；為避免影響公司既有資料，我把 V2 設計成單一 Firestore bounded context，並以 migration test 固化資料邊界。最終後端 217 個自動化測試全數通過，前端也完成建置與 Stage 整合。這段經驗使我對分散式狀態一致性、資料建模、需求工程與人機互動產生更具體的興趣，也讓我理解工程成果必須同時具備可驗證性、可維護性與清楚的責任邊界。
+在 AstraZeneca HCP 平台實習期間，我參與一個橫跨 Angular LINE LIFF、Bun／Elysia API、Firebase Authentication 與 Firestore 的遊戲流程改版。這個專案讓我第一次面對真實軟體系統中的需求衝突、舊版相容、使用者身分、跨裝置媒體相容與持久化狀態問題。我將分散的 BRD、PRD、Figma 與既有程式整理成可驗證的規格，並把六位角色的遊玩流程建模為後端控制的狀態機。為避免角色之間錯誤共用進度，我把每次遊玩收斂成一份玩家文件並在其中嵌入各角色進度與事件；為避免影響公司既有資料，我以 `hcpChallengeV2`／`hcpChallengeV2Scenarios` bounded context 與 layout test 固化資料邊界。最終後端 230 個自動化測試全數通過，前端 Stage build 成功，並以實際報表檔驗證跨月份累計與完成標記。這段經驗使我對分散式狀態一致性、資料建模、需求工程與人機互動產生更具體的興趣，也讓我理解工程成果必須同時具備可驗證性、可維護性與清楚的責任邊界。
 
 ### 履歷條列草稿
 
 - 參與跨國藥廠 HCP LINE LIFF 遊戲改版，整合 Angular、Bun／Elysia、Firebase Authentication、Firestore 與 Google Cloud Storage，完成六角色的一題制案例流程。
 - 設計 server-side session state machine、idempotent API 與 per-member session isolation，修正跨角色錯誤續玩及完成狀態不一致問題。
-- 將 V2 資料收斂為單一 Firestore bounded context，建立 migration／seed／layout tests，在不修改 V1 與其他產品資料的前提下完成資料整理。
-- 建立 V2 identity、content、answer、analytics 與 report API；後端 217 個自動化測試全數通過，前端 Angular build 成功並完成 Stage PR 交付。
+- 將 V2 玩家資料與題目版本收斂到 site-scoped Firestore bounded context，建立 migration／rename／seed／layout tests，在不修改 V1 與其他產品資料的前提下完成資料整理。
+- 建立 V2 identity、content、answer、analytics 與 report API；後端 230 個自動化測試全數通過，前端 Angular Stage build 成功並完成 Stage PR 交付。
 
 > 對外申請時若受 NDA 或公司規範限制，可將「AstraZeneca」改寫為「跨國藥廠客戶」，移除內部 URL、資料路徑、tag、PR 編號與未公開醫療文案，只保留技術問題、方法與可公開成果。
 
@@ -449,13 +477,35 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 - 將載入文字改為 Angular Material spinner，並加入題目圖片預載。
 - 修正每位角色 session 隔離與 completed 才解鎖的邏輯。
 - 將影片從 Box iframe 改為 Google Cloud Storage MP4 與原生 video player。
-- 完成前後端測試、Stage merge 與 tag：API `s1.3.123`、LIFF `s1.7.55-55`。
+- 完成第一輪前後端測試、Stage merge 與 tag：API `s1.3.123`、LIFF `s1.7.55-55`；後續迭代已更新至 API `s1.3.133`、LIFF `s1.7.65-65`。
 - 建立 API Draft PR #90 與 LIFF Draft PR #52，目標分支皆為 `main`。
 
 ### 2026-09-08
 
 - 將需求規格、系統設計、個人貢獻、問題解法、驗證證據與學習反思整理至本筆記。
 - 目前程式已送 Draft PR review；production 上線、Medical／Compliance 核決及剩餘 Stage 手動驗收尚未完成。
+
+### 2026-09-09
+
+- 完成業務邀請頁的 V2 連結邏輯：QR Code 與分享連結都帶入 `site` 與 `medSalesKey`，並導向 `/hcp-challenge/v2`；原有 invite 路由與 V1 流程保留。
+- 完成 V2 邀請頁的今日／累計完成數 API 與業務醫師進度查詢；完成條件為同一 LINE 使用者完成六位角色，統計時以 LINE user ID 去重。
+- 完成每日 Excel 報表 endpoint 的 Stage API 測試，確認可由指定日期產出 24 欄報表與 `rowCount`；實際 SendGrid 投遞仍受環境 API key 與正式收件清單控制。
+- 釐清 Cloud Run、Firebase 與本機設定的差異：Stage／production 不允許 `medSalesKey=test` bypass，本機 UAT 才能明確開啟測試 key。
+
+### 2026-09-14
+
+- 依照 V1 的資料閱讀方式重新整理 V2：一個隨機 `challengeId` 文件代表一位使用者的一筆遊玩紀錄，文件內嵌 `memberProgress`、profile、startRequests、events 與六角色完成 projection；不再建立 `profile`、`participant`、`session`、`activeSession`、`auditEvent` 子 collection。
+- 將玩家資料正式命名為 `sites/astrazeneca/hcpChallengeV2`，題目／素材版本獨立存於 `sites/astrazeneca/hcpChallengeV2Scenarios`；建立 rename／migration、seed 與 layout regression tests，且 migration 範圍不包含 V1 或其他產品 collection。
+- 調整 content resolver 為 database-first：優先讀取 Firestore 中已發布且核准的題目；本機或資料庫尚未完整建立時，使用程式碼 registry 作安全 fallback，避免正式流程出現空白題目。
+- 修正本機服務院所查詢的跨專案 BigQuery 權限問題：V2 profile 儲存時改以同 site 的 Firestore `medicalInstitution` 文件驗證院所 key；報表 HCP 查詢失敗時仍可回填 V2 profile。
+
+### 2026-09-15
+
+- 依 Figma 完成題目與解析頁的最後一輪文案呈現：左上統一顯示「案例背景」、標題補上 HP／HP+GP、只對指定角色／指定出現次數加粗，並移除不應出現的黑色粗體段落。
+- 完成前端 `npm run build-stage`；後端 `bun test` 結果為 **230 pass、0 fail、698 expect() calls（24 個 test files）**。測試中仍會看到本機 Redis DNS warning，但不影響測試通過。
+- 實際檢查 `AZ_TW_CREST_CODE_HCP_Daily_Log_20260914_20260915.xlsx`：報表有 24 欄、4 筆 V2 session 明細，3 筆完成標記 `Y`、1 筆未完成標記 `N`；確認跨月份從最早有效 V2 遊玩紀錄累計，且明細不以醫師去重。
+- 後端與前端目前都切回 `feature/hcp-challenge-dynamic-scenarios`；本地分支保留 Stage release 後的報表收件人與 Figma 樣式修正，尚未 push／合併至 production。
+- 目前剩餘正式上線前工作：確認 production Firebase 專案與 scenario seed、完成目標手機／LINE WebView 驗收、確認 SendGrid 核准收件與 BCC、以及與 AZ 約定 V1／V2 報表與主選單切換時間。
 
 ## 相關人物與角色
 
