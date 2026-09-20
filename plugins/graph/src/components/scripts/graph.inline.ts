@@ -132,6 +132,10 @@ import {
         return function () {};
       }
 
+      if (renderGeneration !== undefined && renderGeneration !== currentRenderGeneration) {
+        return function () {};
+      }
+
       var width = graph.offsetWidth;
       var height = Math.max(graph.offsetHeight, 250);
 
@@ -700,6 +704,7 @@ import {
     var documentClickHandler = null;
     var documentKeydownHandler = null;
     var iconClickHandler = null;
+    var resizeTimer = null;
 
     function hideGlobalGraph() {
       cleanupGlobal();
@@ -776,6 +781,22 @@ import {
         })(localContainers[i]);
       }
     }
+
+    // Recreate the Pixi canvas after a breakpoint/orientation change. The
+    // graph dimensions are measured only when it is rendered, so keeping the
+    // old canvas would leave the graph clipped after a rotation or resize.
+    window.addEventListener("resize", function () {
+      if (resizeTimer !== null) {
+        clearTimeout(resizeTimer);
+      }
+      resizeTimer = setTimeout(function () {
+        var globalWasActive = anyGlobalGraphActive();
+        renderLocal();
+        if (globalWasActive) {
+          showGlobalGraph();
+        }
+      }, 180);
+    });
 
     function handleNav(e) {
       var slug = e.detail ? e.detail.url : getSlugFromUrl();

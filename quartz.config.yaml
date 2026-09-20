@@ -208,7 +208,7 @@ plugins:
     layout:
       position: right
       priority: 10
-      display: desktop-only
+      display: all
   - source: github:quartz-community/search
     enabled: true
     layout:

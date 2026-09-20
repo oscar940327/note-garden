@@ -26,3 +26,24 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+// Tablet and phone controls need a comfortable touch target. Keep this
+// limited to navigation/toolbars so normal inline links retain their rhythm.
+@media (max-width: 1200px) {
+  .page .sidebar.left button,
+  .page .sidebar.left [role="button"] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .page article {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .callout-title {
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+}
