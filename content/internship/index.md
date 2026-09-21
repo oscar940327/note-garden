@@ -29,6 +29,7 @@ tags:
 - [[work-log/2026-09-14|2026-09-14]]
 - [[work-log/2026-09-15|2026-09-15]]
 - [[work-log/2026-09-16|2026-09-16]]
+- [[work-log/2026-09-21|2026-09-21]]
 
 ## 任務
 
@@ -41,6 +42,8 @@ tags:
 
 - [[concepts/SDD|SDD：OpenSpec 與 Spec Kit]]
 - [[concepts/Git Graph|Git 與 Git Graph]]
+- [[concepts/workflow|Codex + OpenSpec 工作流程]]
+- [[concepts/Prompts|常用 Prompts]]
 
 ## 人物
 
