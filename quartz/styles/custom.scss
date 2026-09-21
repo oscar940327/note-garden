@@ -47,3 +47,74 @@
     box-sizing: border-box;
   }
 }
+
+// Keep the tablet toolbar compact and open Explorer as an overlay instead of
+// letting its file tree increase the grid row height and push the page down.
+@media (min-width: 701px) and (max-width: 1199px) {
+  // Reader mode does not add value on the landing page and its book icon takes
+  // up limited toolbar space on tablets.
+  body[data-slug="index"] .sidebar.left .readermode {
+    display: none;
+  }
+
+  .page > #quartz-body > .sidebar.left:has(.explorer) {
+    position: relative;
+    z-index: 20;
+    min-height: 44px;
+    padding: 1rem 0 0;
+    margin: 0;
+    background-color: transparent;
+  }
+
+  // Explorer's narrow-screen default slides the rest of the page sideways.
+  // On tablets, keep the page stationary and layer the navigation above it.
+  .page > #quartz-body.lock-scroll > :not(.sidebar.left:has(.explorer)) {
+    transform: none;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer,
+  .page > #quartz-body > .sidebar.left .explorer.collapsed,
+  .page > #quartz-body > .sidebar.left .explorer:not(.collapsed) {
+    flex: 0 0 auto;
+    min-height: 44px;
+    overflow: visible;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer > .explorer-content {
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 100;
+    top: 4.75rem;
+    left: max(1rem, env(safe-area-inset-left));
+    width: min(22rem, calc(100vw - 2rem));
+    height: auto;
+    max-height: calc(100dvh - 5.75rem);
+    margin: 0;
+    padding: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background-color: var(--light);
+    border: 1px solid var(--lightgray);
+    border-radius: 0.75rem;
+    box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 18%);
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease,
+      visibility 160ms ease;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer.collapsed > .explorer-content {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-0.5rem);
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer:not(.collapsed) > .explorer-content {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
