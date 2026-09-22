@@ -41,19 +41,10 @@
   }
 }
 
-@media (max-width: 700px) {
-  .callout-title {
-    min-height: 44px;
-    box-sizing: border-box;
-  }
-}
-
-// Keep the tablet toolbar compact and open Explorer as an overlay instead of
-// letting its file tree increase the grid row height and push the page down.
-@media (min-width: 701px) and (max-width: 1199px) {
-  // Reader mode does not add value on the landing page and its book icon takes
-  // up limited toolbar space on tablets.
-  body[data-slug="index"] .sidebar.left .readermode {
+// Phones and tablets share one overlay Explorer. This avoids Quartz's default
+// narrow-screen drawer moving the page and keeps the responsive states aligned.
+@media (max-width: 1199px) {
+  .page > #quartz-body > .sidebar.left .readermode {
     display: none;
   }
 
@@ -61,13 +52,10 @@
     position: relative;
     z-index: 20;
     min-height: 44px;
-    padding: 1rem 0 0;
     margin: 0;
     background-color: transparent;
   }
 
-  // Explorer's narrow-screen default slides the rest of the page sideways.
-  // On tablets, keep the page stationary and layer the navigation above it.
   .page > #quartz-body.lock-scroll > :not(.sidebar.left:has(.explorer)) {
     transform: none;
   }
@@ -78,6 +66,35 @@
     flex: 0 0 auto;
     min-height: 44px;
     overflow: visible;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer {
+    display: flex;
+    width: auto;
+    align-items: center;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer.hide-until-loaded {
+    display: none;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.desktop-explorer {
+    display: none;
+  }
+
+  .page
+    > #quartz-body
+    > .sidebar.left
+    .explorer
+    .mobile-explorer.hide-until-loaded
+    ~ .explorer-content {
+    display: none;
   }
 
   .page > #quartz-body > .sidebar.left .explorer > .explorer-content {
@@ -116,5 +133,200 @@
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
+  }
+}
+
+// Tablet header: Explorer stays at the top-left while the site title and tools
+// remain centered. Only the text-and-arrow control is shown at this size.
+@media (min-width: 701px) and (max-width: 1199px) {
+  .page > #quartz-body > .sidebar.left:has(.explorer) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.75rem;
+    padding: 1rem 4rem 0;
+  }
+
+  .page > #quartz-body > .sidebar.left > .page-title {
+    grid-column: 2;
+    grid-row: 1;
+    width: clamp(11rem, 30vw, 18rem);
+    min-width: 0;
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    white-space: nowrap;
+  }
+
+  .page > #quartz-body > .sidebar.left > .page-title > a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .page > #quartz-body > .sidebar.left > .flex-component {
+    grid-column: 3;
+    grid-row: 1;
+    width: clamp(12rem, 32vw, 22rem);
+    min-width: 0;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer {
+    gap: 0.4rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer::after {
+    content: "探索";
+    order: 2;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer::before {
+    content: "›";
+    order: 1;
+    font-size: 1.7rem;
+    line-height: 1;
+    margin-right: 0.3rem;
+    transform: rotate(0deg);
+    transition: transform 250ms ease;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer > svg {
+    display: none;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer:not(.collapsed) button.mobile-explorer::before {
+    transform: rotate(90deg);
+  }
+}
+
+// Phone header: keep the animated hamburger on the first row and give the
+// search/theme toolbar its own flexible row so controls never overlap.
+@media (max-width: 700px) {
+  .callout-title {
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  .page > #quartz-body > .sidebar.left:has(.explorer) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    padding-top: 0.75rem;
+  }
+
+  .page > #quartz-body > .sidebar.left > .mobile-only {
+    display: none;
+  }
+
+  .page > #quartz-body > .sidebar.left > .page-title {
+    grid-column: 1;
+    grid-row: 1;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding-inline: 3.5rem;
+    font-size: clamp(1rem, 5vw, 1.25rem);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .page > #quartz-body > .sidebar.left > .page-title > a {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .page > #quartz-body > .sidebar.left > .flex-component {
+    grid-column: 1;
+    grid-row: 2;
+    width: min(100%, 24rem);
+    min-width: 0;
+    margin-inline: auto;
+    align-items: center;
+  }
+
+  .page > #quartz-body > .sidebar.left > .flex-component > div {
+    min-width: 0;
+  }
+
+  .page > #quartz-body > .sidebar.left > .flex-component > div:first-child {
+    flex: 1 1 0 !important;
+  }
+
+  .page > #quartz-body > .sidebar.left .search {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer {
+    top: 0.75rem;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer {
+    justify-content: center;
+    margin: 0;
+    padding: 0.35rem;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer::before,
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer::after {
+    content: none;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer > svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+    overflow: visible;
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer button.mobile-explorer > svg > line {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      transform 250ms ease,
+      opacity 180ms ease;
+  }
+
+  .page
+    > #quartz-body
+    > .sidebar.left
+    .explorer:not(.collapsed)
+    button.mobile-explorer
+    > svg
+    > line:nth-child(1) {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
+
+  .page
+    > #quartz-body
+    > .sidebar.left
+    .explorer:not(.collapsed)
+    button.mobile-explorer
+    > svg
+    > line:nth-child(2) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .page
+    > #quartz-body
+    > .sidebar.left
+    .explorer:not(.collapsed)
+    button.mobile-explorer
+    > svg
+    > line:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .page > #quartz-body > .sidebar.left .explorer > .explorer-content {
+    top: 6.5rem;
+    max-height: calc(100dvh - 7.5rem);
   }
 }
