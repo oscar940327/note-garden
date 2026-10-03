@@ -360,6 +360,14 @@ https://docs.google.com/document/d/1kkCEH9ymuHw8Gf8XtSeiFk8eVpd2DFORzT8ziKkZKdA/
 
 家教考慮一下 byron
 
+---
+
+# 可參考選校文章
+
+1. https://github.com/oscar940327/note-garden.git
+
+---
+
 # ＜轉讓＞ 大碩資工所課程及教材
 
 ##### 2026/03/12
@@ -393,3 +401,4 @@ https://docs.google.com/document/d/1kkCEH9ymuHw8Gf8XtSeiFk8eVpd2DFORzT8ziKkZKdA/
 交易方式：站內私訊我之後再加 line 討論
 
 ##### 2026/03/26
+
