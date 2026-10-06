@@ -20,10 +20,10 @@ status: reviewing
 
 ### 🧠 核心思路
 
-這題主要分成三個步驟，主要是操作複雜
-1. 移除多於空格："the sky is blue" 
-2. 字符串反轉："eulb si yks eht"
-3. 單詞反轉："blue is sky the"
+解題分成三個步驟，主要操作如下：
+1. 移除多餘空格：`"the sky is blue"`
+2. 字串反轉：`"eulb si yks eht"`
+3. 單字反轉：`"blue is sky the"`
 
 ```cpp
 只有移除空格的pseudocode，雖然也只有這個沒學過

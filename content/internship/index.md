@@ -30,6 +30,11 @@ tags:
 - [[work-log/2026-09-15|2026-09-15]]
 - [[work-log/2026-09-16|2026-09-16]]
 - [[work-log/2026-09-21|2026-09-21]]
+- [[work-log/2026-09-22|2026-09-22]]
+- [[work-log/2026-09-23|2026-09-23]]
+- [[work-log/2026-09-29|2026-09-29]]
+- [[work-log/2026-09-30|2026-09-30]]
+- [[work-log/2026-10-05|2026-10-05]]
 
 ## 任務
 
@@ -37,6 +42,9 @@ tags:
 - [[tasks/astrazeneca-hcp-invite-excel-api|AstraZeneca HCP Invite Excel API]]
 - [[tasks/AZ_crestcode_V2-1|AZTW CRESTCODE 遊戲使用流程改版]]
 - [[tasks/AZ_crestcode_V2-2|AZTW CRESTCODE V2-2 卡牌收藏與每日抽卡功能]]
+- [[tasks/Awiqli-HCP-Learning-Game-UI|Awiqli HCP Learning Game UI]]
+- [[tasks/awiqli-dose-converter-ui|Awiqli 劑量轉換器 UI Prototype]]
+- [[tasks/engineer-training-week2|工程師訓練第二週]]
 
 ## 技術概念
 
@@ -48,6 +56,7 @@ tags:
 ## 人物
 
 - [[people/Bryant|Bryant]]
+- [[people/Carlos|Carlos]]
 - [[people/Jeff|Jeff]]
 - [[people/Jessie|Jessie]]
 - [[people/Julie|Julie]]

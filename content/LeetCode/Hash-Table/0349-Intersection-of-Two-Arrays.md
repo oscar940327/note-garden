@@ -37,7 +37,7 @@ status: reviewing
     return vector(result);
     ```
 
-2. 數組解法
+2. 陣列解法
     ```cpp
     int hash[1001] = {0};
     unordered_set result;
@@ -71,7 +71,7 @@ status: reviewing
 > };
 > ```
 > 
-> 2. 數組解法
+> 2. 陣列解法
 > ```cpp
 > class Solution {
 > public:

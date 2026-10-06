@@ -63,7 +63,7 @@ status: reviewing
 >             }
 >         }
 > 
->         // 計算新數組的大小
+>         // 計算新陣列的大小
 >         s.resize(s.size() + count*5);
 >         int newIndex = s.size() - 1;
 >         while(oldIndex >= 0){

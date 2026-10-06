@@ -90,7 +90,7 @@ Evaluation 依業務需求判斷 final answer 是否成功。影片中的評估�
 Reflector given evaluation feedback
 write one short improvement strategy
 The agent should apply on the next attempt
-最大就是20个字符
+最多 20 個字元
 focus on tool choice format constraints missing steps
 do not repeat the answer
 reply with a single line

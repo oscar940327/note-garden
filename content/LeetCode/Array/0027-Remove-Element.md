@@ -45,7 +45,7 @@ slow=0;
 for(fast = 0 ; fast < nums.size ; fast++){
     if(nums[fast] != val){ // 當快指針不等於目標值時
         nums[slow] = nums[fast]; // 將快指針的值給慢指針
-        slow++; // 因為慢指針是新的數組，所以會慢慢加
+        slow++; // 因為慢指標指向新的陣列，所以會逐步增加
     }
 }
 ```
