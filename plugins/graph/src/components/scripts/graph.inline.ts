@@ -6,16 +6,15 @@ import {
   simplifySlug,
   resolveBasePath,
 } from "@quartz-community/utils";
+import { resolveGraphSlug } from "./graph.helpers";
 
 (function () {
   function getSlugFromUrl() {
-    var slug = getFullSlugFromUrl();
-    var base = getBasePath();
-    if (base && slug.startsWith(base.replace(/^\//, ""))) {
-      slug = slug.slice(base.replace(/^\//, "").length);
-      if (slug.startsWith("/")) slug = slug.slice(1);
-    }
-    return slug;
+    return resolveGraphSlug(
+      document.body?.dataset?.slug,
+      getFullSlugFromUrl(),
+      getBasePath(),
+    );
   }
 
   function loadScript(src) {

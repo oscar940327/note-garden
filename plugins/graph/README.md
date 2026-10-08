@@ -44,6 +44,8 @@ ExternalPlugin.Graph({
     drag: true,
     zoom: true,
     depth: -1,
+    maxNodes: 50,
+    showTags: false,
   },
 });
 ```
@@ -58,6 +60,8 @@ interface D3Config {
   zoom: boolean;
   /** Depth of connections to show (-1 for all) */
   depth: number;
+  /** Maximum displayed nodes (-1 for no limit; global default is 50) */
+  maxNodes?: number;
   /** Graph scale factor */
   scale: number;
   /** Force repelling strength */
@@ -104,6 +108,8 @@ By default, the local graph:
 By default, the global graph:
 
 - Shows all connections (depth: -1)
+- Shows up to 50 nodes, prioritizing the most connected notes
+- Hides tag nodes
 - Opens in fullscreen modal when clicking the graph icon
 - Keyboard shortcut: `Ctrl/Cmd + G`
 - Focus on hover enabled (dims non-connected nodes)
