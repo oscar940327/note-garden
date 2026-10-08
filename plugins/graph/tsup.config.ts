@@ -1,4 +1,4 @@
-import type { Plugin } from "esbuild";
+import type { BuildOptions, Plugin } from "esbuild";
 import path from "path";
 
 const inlineScriptPlugin: Plugin = {
@@ -72,7 +72,7 @@ export default {
   external: SINGLETON_EXTERNALS,
   outDir: "dist",
   platform: "node",
-  esbuildOptions(options) {
+  esbuildOptions(options: BuildOptions) {
     options.jsx = "automatic";
     options.jsxImportSource = "preact";
   },

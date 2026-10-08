@@ -6,15 +6,18 @@ import {
   simplifySlug,
   resolveBasePath,
 } from "@quartz-community/utils";
-import { resolveGraphSlug } from "./graph.helpers";
-
+import {
+  countGraphDegrees,
+  filterGraphEdges,
+  resolveGraphMaxNodes,
+  resolveGraphSlug,
+  selectGraphNodeIds,
+  shouldIncludeGraphNode,
+  shouldShowGraphLabel,
+} from "./graph.helpers";
 (function () {
   function getSlugFromUrl() {
-    return resolveGraphSlug(
-      document.body?.dataset?.slug,
-      getFullSlugFromUrl(),
-      getBasePath(),
-    );
+    return resolveGraphSlug(document.body?.dataset?.slug, getFullSlugFromUrl(), getBasePath());
   }
 
   function loadScript(src) {
@@ -100,12 +103,12 @@ import { resolveGraphSlug } from "./graph.helpers";
       var enableDrag = config.drag;
       var enableZoom = config.zoom;
       var depth = config.depth;
+      var maxNodes = resolveGraphMaxNodes(config.maxNodes);
       var scale = config.scale || 1;
       var repelForce = config.repelForce || 0.5;
       var centerForce = config.centerForce || 0.3;
       var linkDistance = config.linkDistance || 30;
       var fontSize = config.fontSize || 0.6;
-      var opacityScale = config.opacityScale || 1;
       var nodeSizeScale = config.nodeSizeScale || 1;
       var hubMinLinks = config.hubMinLinks ?? 4;
       var hubColorValue = config.hubColor || "#e76f51";
@@ -140,9 +143,15 @@ import { resolveGraphSlug } from "./graph.helpers";
 
       var links = [];
       var allTags = [];
-      var validLinks = new Set(data.keys());
+      var validLinks = new Set(
+        Array.from(data.keys()).filter(function (id) {
+          return shouldIncludeGraphNode(id, showTags);
+        }),
+      );
 
       data.forEach(function (details, source) {
+        if (!validLinks.has(source)) return;
+
         var outgoing = details.links || [];
         for (var i = 0; i < outgoing.length; i++) {
           var dest = simplifySlug(outgoing[i]);
@@ -198,9 +207,21 @@ import { resolveGraphSlug } from "./graph.helpers";
         }
       }
 
+      var candidateNodeIds = Array.from(neighbourhood);
+      var candidateNodeIdSet = new Set(candidateNodeIds);
+      var candidateLinks = links.filter(function (link) {
+        return candidateNodeIdSet.has(link.source) && candidateNodeIdSet.has(link.target);
+      });
+      var labelLinks = candidateLinks.filter(function (link) {
+        return !link.source.startsWith("tags/") && !link.target.startsWith("tags/");
+      });
+      var labelDegrees = countGraphDegrees(candidateNodeIds, labelLinks);
+      var selectedNodeIds = selectGraphNodeIds(candidateNodeIds, candidateLinks, slug, maxNodes);
+      var selectedNodeIdSet = new Set(selectedNodeIds);
+
       var nodes = [];
       var nodeMap = new Map();
-      neighbourhood.forEach(function (url) {
+      selectedNodeIds.forEach(function (url) {
         var isTag = url.startsWith("tags/");
         var text = isTag ? "#" + url.substring(5) : data.get(url)?.title || url;
         var nodeTags = isTag ? [] : data.get(url)?.tags || [];
@@ -218,14 +239,13 @@ import { resolveGraphSlug } from "./graph.helpers";
       });
 
       var graphLinks = [];
-      for (var i = 0; i < links.length; i++) {
-        var link = links[i];
-        if (neighbourhood.has(link.source) && neighbourhood.has(link.target)) {
-          var sourceNode = nodeMap.get(link.source);
-          var targetNode = nodeMap.get(link.target);
-          if (sourceNode && targetNode) {
-            graphLinks.push({ source: sourceNode, target: targetNode });
-          }
+      var visibleLinks = filterGraphEdges(candidateLinks, selectedNodeIdSet);
+      for (var i = 0; i < visibleLinks.length; i++) {
+        var link = visibleLinks[i];
+        var sourceNode = nodeMap.get(link.source);
+        var targetNode = nodeMap.get(link.target);
+        if (sourceNode && targetNode) {
+          graphLinks.push({ source: sourceNode, target: targetNode });
         }
       }
 
@@ -309,7 +329,12 @@ import { resolveGraphSlug } from "./graph.helpers";
       }
 
       function shouldShowLabel(d) {
-        return !d.id.startsWith("tags/") && nodeDegree(d) >= labelMinLinks;
+        return shouldShowGraphLabel(
+          d.id,
+          labelDegrees.get(d.id) ?? 0,
+          labelMinLinks,
+          hoveredNodeId,
+        );
       }
 
       function nodeHitRadius(d) {
@@ -381,15 +406,11 @@ import { resolveGraphSlug } from "./graph.helpers";
       function renderLabels() {
         var defaultScale = 1 / scale;
         var activeScale = defaultScale * 1.1;
-        var zoomOpacity = Math.max((currentTransform.k * opacityScale - 1) / 3.75, 0);
 
         for (var i = 0; i < nodeRenderData.length; i++) {
           var nodeData = nodeRenderData[i];
           var isHovered = hoveredNodeId === nodeData.simulationData.id;
-          var isProminent = shouldShowLabel(nodeData.simulationData);
-          // Keep the original zoom-to-reveal behavior for larger nodes. Small
-          // nodes remain hidden until the pointer is directly over them.
-          nodeData.label.alpha = isHovered ? 1 : isProminent ? zoomOpacity : 0;
+          nodeData.label.alpha = shouldShowLabel(nodeData.simulationData) ? 1 : 0;
           if (isHovered) {
             nodeData.label.scale.set(activeScale);
           } else {
