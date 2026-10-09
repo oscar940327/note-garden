@@ -272,7 +272,7 @@ import {
       await app.init({
         width: width,
         height: height,
-        antialias: true,
+        antialias: false,
         backgroundAlpha: 0,
         resolution: window.devicePixelRatio || 1,
         autoDensity: true,
