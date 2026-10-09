@@ -14,7 +14,8 @@ interface D3Config {
     opacityScale: number;
     nodeSizeScale: number;
     hubMinLinks: number;
-    hubColor: string;
+    /** Optional hub color override; otherwise follows the theme's grayscale palette. */
+    hubColor?: string;
     hitAreaScale: number;
     minHitRadius: number;
     dragMoveThreshold: number;

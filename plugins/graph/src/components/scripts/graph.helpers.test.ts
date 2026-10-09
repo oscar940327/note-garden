@@ -4,6 +4,8 @@ import {
   createGraphRenderScheduler,
   filterGraphEdges,
   getGraphNodeAppearance,
+  getGraphNodePalette,
+  getGraphNoteSlugs,
   resolveGlobalGraphMaxNodes,
   resolveGraphMaxNodes,
   resolveGraphSlug,
@@ -13,6 +15,38 @@ import {
   shouldShowGraphLabel,
   type GraphEdge,
 } from "./graph.helpers";
+
+describe("getGraphNoteSlugs", () => {
+  it("keeps source notes and handwritten indexes while excluding virtual pages", () => {
+    const files = [
+      { slug: "index", filePath: "content/index.md" },
+      { slug: "topics/index", filePath: "content/topics/index.md" },
+      { slug: "isolated", filePath: "content/isolated.md" },
+      { slug: "new-folder/note", filePath: "content/new-folder/note.MD" },
+      { slug: "new-folder/index", relativePath: "new-folder/index.md" },
+      { slug: "tags/topic", relativePath: "tags/topic.md" },
+      { slug: "image", filePath: "content/image.png" },
+    ];
+    expect(getGraphNoteSlugs(files)).toEqual([
+      "index",
+      "topics/index",
+      "isolated",
+      "new-folder/note",
+    ]);
+  });
+
+  it("ignores missing metadata and duplicate source entries", () => {
+    expect(
+      getGraphNoteSlugs([
+        {},
+        { slug: "virtual" },
+        { filePath: "content/note.md" },
+        { slug: "note", filePath: "content/note.md" },
+        { slug: "note", filePath: "content/note.md" },
+      ]),
+    ).toEqual(["note"]);
+  });
+});
 
 describe("resolveGraphSlug", () => {
   it("prefers the canonical page slug under a nested base path", () => {
@@ -252,8 +286,53 @@ describe("graph render scheduler", () => {
 describe("graph edge and label behavior", () => {
   it("excludes tag-page nodes when tag nodes are disabled", () => {
     expect(shouldIncludeGraphNode("projects/graph", false)).toBe(true);
+    expect(shouldIncludeGraphNode("notes/#plan-and-execute", false)).toBe(true);
     expect(shouldIncludeGraphNode("tags/ai", false)).toBe(false);
     expect(shouldIncludeGraphNode("tags/ai", true)).toBe(true);
+  });
+
+  it("preserves non-tag nodes and calculates their degree without tag links", () => {
+    const ids = ["index", "note", "isolated", "folder/", "tags/ai"];
+    const edges = [
+      { source: "index", target: "note" },
+      { source: "note", target: "tags/ai" },
+      { source: "isolated", target: "tags/ai" },
+    ];
+    const remainingIds = ids.filter((id) => shouldIncludeGraphNode(id, false));
+    const remainingEdges = filterGraphEdges(edges, new Set(remainingIds));
+    expect(selectGlobalGraphNodeIds(remainingIds, remainingEdges, "index", -1)).toEqual([
+      "index",
+      "note",
+      "isolated",
+      "folder/",
+    ]);
+    expect([...countGraphDegrees(remainingIds, remainingEdges)]).toEqual([
+      ["index", 1],
+      ["note", 1],
+      ["isolated", 0],
+      ["folder/", 0],
+    ]);
+  });
+
+  it.each(["light", "dark"])("uses four consistent grayscale tiers in the %s theme", (theme) => {
+    const palette = getGraphNodePalette(theme);
+    const boundaries = [0, 1, 2, 3, 4, 7, 8, 9];
+    const appearances = boundaries.map((degree) =>
+      getGraphNodeAppearance(degree, 1.25, 4, palette),
+    );
+    for (let i = 0; i < appearances.length; i += 2) {
+      expect(appearances[i]).toEqual(appearances[i + 1]);
+      const [, red, green, blue] = appearances[i]!.color.match(/^#(..)(..)(..)$/)!;
+      expect(red).toBe(green);
+      expect(green).toBe(blue);
+    }
+    const levels = Object.values(palette).map((color) => parseInt(color.slice(1, 3), 16));
+    for (let i = 1; i < levels.length; i++) {
+      expect(theme === "dark" ? levels[i]! > levels[i - 1]! : levels[i]! < levels[i - 1]!).toBe(
+        true,
+      );
+    }
+    expect(new Set(appearances.map(({ radius }) => radius)).size).toBe(4);
   });
 
   it("counts candidate links for each node", () => {

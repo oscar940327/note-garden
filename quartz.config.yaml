@@ -177,7 +177,6 @@ plugins:
         opacityScale: 1
         nodeSizeScale: 1.15
         hubMinLinks: 4
-        hubColor: "#e76f51"
         hitAreaScale: 1.2
         minHitRadius: 6
         dragMoveThreshold: 6
@@ -196,12 +195,11 @@ plugins:
         opacityScale: 1
         nodeSizeScale: 1.25
         hubMinLinks: 4
-        hubColor: "#e76f51"
         hitAreaScale: 1.2
         minHitRadius: 6
         dragMoveThreshold: 6
         dragClickMaxDuration: 400
-        showTags: true
+        showTags: false
         focusOnHover: false
         enableRadial: true
     layout:

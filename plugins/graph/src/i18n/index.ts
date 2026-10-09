@@ -29,7 +29,13 @@ import viVN from "./locales/vi-VN";
 import zhCN from "./locales/zh-CN";
 import zhTW from "./locales/zh-TW";
 
-const locales: Record<string, typeof enUS> = {
+type GraphLocale = {
+  components: {
+    graph: { title: string; close?: string };
+  };
+};
+
+const locales: Record<string, GraphLocale> = {
   "en-US": enUS,
   "en-GB": enGB,
   "ar-SA": arSA,

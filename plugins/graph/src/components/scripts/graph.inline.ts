@@ -11,6 +11,7 @@ import {
   createGraphRenderScheduler,
   filterGraphEdges,
   getGraphNodeAppearance,
+  getGraphNodePalette,
   selectGlobalGraphNodeIds,
   resolveGraphMaxNodes,
   resolveGraphSlug,
@@ -80,11 +81,16 @@ import {
     }
 
     async function renderGraph(graph, fullSlug, renderGeneration, graphScope) {
+      function isStaleRender() {
+        var generation = graphScope === "global" ? globalRenderGeneration : currentRenderGeneration;
+        return renderGeneration !== undefined && renderGeneration !== generation;
+      }
+
       var slug = simplifySlug(fullSlug);
       if (slug === "") slug = "index";
       removeAllChildren(graph);
 
-      if (renderGeneration !== undefined && renderGeneration !== currentRenderGeneration) {
+      if (isStaleRender()) {
         console.log("[Graph] Stale render, skipping");
         return function () {};
       }
@@ -101,7 +107,7 @@ import {
       var fontSize = config.fontSize || 0.6;
       var nodeSizeScale = config.nodeSizeScale || 1;
       var hubMinLinks = config.hubMinLinks ?? 4;
-      var hubColorValue = config.hubColor || "#e76f51";
+      var hubColorValue = config.hubColor;
       var hitAreaScale = config.hitAreaScale ?? 1.2;
       var minHitRadius = config.minHitRadius ?? 6;
       var dragMoveThreshold = config.dragMoveThreshold ?? 6;
@@ -123,7 +129,7 @@ import {
         return function () {};
       }
 
-      if (renderGeneration !== undefined && renderGeneration !== currentRenderGeneration) {
+      if (isStaleRender()) {
         return function () {};
       }
 
@@ -132,9 +138,13 @@ import {
 
       var links = [];
       var allTags = [];
+      var noteSlugs = JSON.parse(graph.closest(".graph")?.dataset.noteSlugs || "[]");
+      var noteIds = new Set(noteSlugs.map(simplifySlug));
       var validLinks = new Set(
         Array.from(data.keys()).filter(function (id) {
-          return shouldIncludeGraphNode(id, showTags);
+          return (
+            shouldIncludeGraphNode(id, showTags) && (noteIds.has(id) || id.startsWith("tags/"))
+          );
         }),
       );
 
@@ -166,8 +176,8 @@ import {
 
       var neighbourhood = new Set();
       if (depth >= 0) {
-        var queue = [slug];
-        var seen = new Set([slug]);
+        var queue = validLinks.has(slug) ? [slug] : [];
+        var seen = new Set(queue);
         for (var d = 0; d <= depth && queue.length > 0; d++) {
           var nextQueue = [];
           for (var qi = 0; qi < queue.length; qi++) {
@@ -239,12 +249,13 @@ import {
       }
 
       var styles = getComputedStyle(document.documentElement);
-      var secondary = resolveColor(styles.getPropertyValue("--secondary").trim(), "#c792ea");
-      var tertiary = resolveColor(styles.getPropertyValue("--tertiary").trim(), "#82aaff");
       var gray = resolveColor(styles.getPropertyValue("--gray").trim(), "#6c6c6c");
       var lightgray = resolveColor(styles.getPropertyValue("--lightgray").trim(), "#d4d4d4");
       var dark = resolveColor(styles.getPropertyValue("--dark").trim(), "#1a1a1a");
-      var hubColor = resolveColor(hubColorValue, "#e76f51");
+      var nodePalette = getGraphNodePalette(document.documentElement.getAttribute("saved-theme"));
+      if (hubColorValue) {
+        nodePalette.hub = resolveColor(hubColorValue, nodePalette.hub);
+      }
       var bodyFont = styles.getPropertyValue("--bodyFont").trim() || "inherit";
 
       var app = new PIXI.Application();
@@ -258,6 +269,11 @@ import {
         autoStart: false,
         eventMode: "static",
       });
+
+      if (isStaleRender()) {
+        app.destroy(true);
+        return function () {};
+      }
 
       graph.appendChild(app.canvas);
 
@@ -306,12 +322,12 @@ import {
       var pendingPointerPoint = null;
 
       function nodeAppearance(d) {
-        return getGraphNodeAppearance(candidateDegrees.get(d.id) ?? 0, nodeSizeScale, hubMinLinks, {
-          low: gray,
-          medium: secondary,
-          connected: tertiary,
-          hub: hubColor,
-        });
+        return getGraphNodeAppearance(
+          candidateDegrees.get(d.id) ?? 0,
+          nodeSizeScale,
+          hubMinLinks,
+          nodePalette,
+        );
       }
 
       function nodeRadius(d) {
@@ -686,6 +702,7 @@ import {
 
     var localCleanups = [];
     var globalCleanups = [];
+    var globalRenderGeneration = 0;
     var currentRenderGeneration = 0;
 
     function cleanupLocal() {
@@ -696,6 +713,7 @@ import {
     }
 
     function cleanupGlobal() {
+      globalRenderGeneration++;
       for (var i = 0; i < globalCleanups.length; i++) {
         globalCleanups[i]();
       }
@@ -710,6 +728,7 @@ import {
     var resizeTimer = null;
 
     function hideGlobalGraph() {
+      var wasActive = anyGlobalGraphActive();
       cleanupGlobal();
       for (var i = 0; i < globalContainers.length; i++) {
         globalContainers[i].classList.remove("active");
@@ -717,6 +736,9 @@ import {
         if (sidebar) {
           sidebar.style.zIndex = "";
         }
+      }
+      if (wasActive && globalIcons[0]) {
+        globalIcons[0].focus({ preventScroll: true });
       }
     }
 
@@ -731,21 +753,28 @@ import {
 
     function showGlobalGraph() {
       cleanupGlobal();
+      var thisGeneration = globalRenderGeneration;
       var currentSlug = getSlugFromUrl();
       for (var i = 0; i < globalContainers.length; i++) {
         var container = globalContainers[i];
         container.classList.add("active");
         var sidebar = container.closest(".sidebar");
         if (sidebar) {
-          sidebar.style.zIndex = "1";
+          sidebar.style.zIndex = "9999";
         }
+        var closeButton = container.querySelector(".global-graph-close");
+        if (closeButton) closeButton.focus({ preventScroll: true });
 
         var graphContainer = container.querySelector(".global-graph-container");
         if (graphContainer) {
           (function (gc) {
-            renderGraph(gc, currentSlug, undefined, "global")
+            renderGraph(gc, currentSlug, thisGeneration, "global")
               .then(function (cleanup) {
-                globalCleanups.push(cleanup);
+                if (thisGeneration === globalRenderGeneration && gc.isConnected) {
+                  globalCleanups.push(cleanup);
+                } else {
+                  cleanup();
+                }
               })
               .catch(function (err) {
                 console.error("[Graph] Global render error:", err);
@@ -824,7 +853,11 @@ import {
       }
       documentClickHandler = function (e) {
         if (anyGlobalGraphActive()) {
-          var inContainer = e.target.closest(".global-graph-container");
+          if (e.target.closest(".global-graph-close")) {
+            hideGlobalGraph();
+            return;
+          }
+          var inContainer = e.target.closest(".global-graph-panel");
           var inIcon = e.target.closest(".global-graph-icon");
           if (!inContainer && !inIcon) {
             hideGlobalGraph();

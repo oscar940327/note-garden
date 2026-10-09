@@ -8,6 +8,7 @@ import { i18n } from "../i18n";
 import style from "./styles/graph.scss";
 // @ts-expect-error - inline script imported as string by esbuild loader
 import script from "./scripts/graph.inline.ts";
+import { getGraphNoteSlugs } from "./scripts/graph.helpers";
 
 export interface D3Config {
   drag: boolean;
@@ -23,7 +24,8 @@ export interface D3Config {
   opacityScale: number;
   nodeSizeScale: number;
   hubMinLinks: number;
-  hubColor: string;
+  /** Optional hub color override; otherwise follows the theme's grayscale palette. */
+  hubColor?: string;
   hitAreaScale: number;
   minHitRadius: number;
   dragMoveThreshold: number;
@@ -53,12 +55,11 @@ const defaultOptions: GraphOptions = {
     opacityScale: 1,
     nodeSizeScale: 1.15,
     hubMinLinks: 4,
-    hubColor: "#e76f51",
     hitAreaScale: 1.2,
     minHitRadius: 6,
     dragMoveThreshold: 6,
     dragClickMaxDuration: 400,
-    showTags: true,
+    showTags: false,
     removeTags: [],
     focusOnHover: true,
     enableRadial: false,
@@ -76,12 +77,11 @@ const defaultOptions: GraphOptions = {
     opacityScale: 1,
     nodeSizeScale: 1.25,
     hubMinLinks: 4,
-    hubColor: "#e76f51",
     hitAreaScale: 1.2,
     minHitRadius: 6,
     dragMoveThreshold: 6,
     dragClickMaxDuration: 400,
-    showTags: true,
+    showTags: false,
     removeTags: [],
     focusOnHover: false,
     enableRadial: true,
@@ -89,12 +89,16 @@ const defaultOptions: GraphOptions = {
 };
 
 export default ((userOpts?: Partial<GraphOptions>) => {
-  const Graph: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
+  const Graph: QuartzComponent = ({ displayClass, cfg, allFiles }: QuartzComponentProps) => {
     const localGraph = { ...defaultOptions.localGraph, ...userOpts?.localGraph };
     const globalGraph = { ...defaultOptions.globalGraph, ...userOpts?.globalGraph };
+    const closeLabel = i18n(cfg.locale ?? "en-US").components.graph.close ?? "Close graph";
 
     return (
-      <div class={classNames(displayClass, "graph")}>
+      <div
+        class={classNames(displayClass, "graph")}
+        data-note-slugs={JSON.stringify(getGraphNoteSlugs(allFiles))}
+      >
         <h3>{i18n(cfg.locale ?? "en-US").components.graph.title}</h3>
         <div class="graph-outer">
           <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
@@ -126,7 +130,28 @@ export default ((userOpts?: Partial<GraphOptions>) => {
           </button>
         </div>
         <div class="global-graph-outer">
-          <div class="global-graph-container" data-cfg={JSON.stringify(globalGraph)}></div>
+          <div class="global-graph-panel">
+            <div class="global-graph-container" data-cfg={JSON.stringify(globalGraph)}></div>
+            <button
+              type="button"
+              class="global-graph-close"
+              aria-label={closeLabel}
+              title={closeLabel}
+            >
+              <svg
+                aria-hidden="true"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M6 6L18 18M18 6L6 18" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     );

@@ -1,5 +1,11 @@
 @use "./variables.scss" as *;
 
+// DefaultFrame nests its header inside .center, so both grid rows belong
+// to the center content instead of leaving an empty header row above it.
+.page[data-frame="default"] > #quartz-body > .center {
+  grid-row: grid-header-start / grid-center-end;
+}
+
 // Keep interaction feedback short and predictable. Avoid broad `transition: all`
 // rules because Quartz components change layout across responsive breakpoints.
 :where(a, button, input, summary) {

@@ -20,6 +20,19 @@ export type GraphEdge = {
   target: string;
 };
 
+export function getGraphNoteSlugs(
+  files: readonly { slug?: string; filePath?: string }[],
+): string[] {
+  const slugs = new Set<string>();
+  for (const file of files) {
+    // Parsed Markdown has a source filePath; virtual pages only have relativePath.
+    if (file.slug && file.filePath && /\.md$/i.test(file.filePath)) {
+      slugs.add(file.slug);
+    }
+  }
+  return [...slugs];
+}
+
 export const DEFAULT_GRAPH_MAX_NODES = 50;
 export const GLOBAL_GRAPH_MAX_NODES = 50;
 export const GLOBAL_GRAPH_MIN_NODE_LINKS = 4;
@@ -196,6 +209,12 @@ export type GraphNodePalette = {
   connected: string;
   hub: string;
 };
+
+export function getGraphNodePalette(theme: string | null): GraphNodePalette {
+  return theme === "dark"
+    ? { low: "#777777", medium: "#999999", connected: "#bbbbbb", hub: "#e5e5e5" }
+    : { low: "#999999", medium: "#737373", connected: "#4d4d4d", hub: "#262626" };
+}
 
 export type GraphNodeAppearance = {
   radius: number;

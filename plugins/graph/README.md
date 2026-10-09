@@ -44,7 +44,7 @@ ExternalPlugin.Graph({
     zoom: true,
     depth: -1,
     maxNodes: -1,
-    showTags: true,
+    showTags: false,
   },
 });
 ```
@@ -73,6 +73,8 @@ interface D3Config {
   fontSize: number;
   /** Opacity multiplier */
   opacityScale: number;
+  /** Optional hub color override; defaults to a theme-aware grayscale color */
+  hubColor?: string;
   /** Tags to exclude */
   removeTags: string[];
   /** Show tags as nodes */
@@ -98,7 +100,7 @@ By default, the local graph:
 - Shows 1 level of connections (direct links only)
 - Dragging enabled
 - Zoom enabled
-- Tags shown as nodes
+- Tag nodes and their connections hidden
 - 250px height
 - Displays on the right side of pages
 
@@ -107,12 +109,31 @@ By default, the local graph:
 By default, the global graph:
 
 - Shows all connections (depth: -1)
-- Shows all notes and tags by default
+- Shows all source Markdown notes, including handwritten index pages and isolated notes
+- Hides automatically generated folder pages and their connections
 - Opens in fullscreen modal when clicking the graph icon
 - Keyboard shortcut: `Ctrl/Cmd + G`
 - Hovering any node shows its label
 - Radial layout enabled
-- Click outside or press Escape to close
+- Close with the top-right button (44px touch target), click outside, or press Escape
+
+Both graphs use four node sizes based on links between the remaining nodes:
+
+| Links | Base radius (multiplied by nodeSizeScale) | Light theme | Dark theme |
+| ----- | ----------------------------------------- | ----------- | ---------- |
+| 0–1   | 3.5                                       | `#999999`   | `#777777`  |
+| 2–3   | 5                                         | `#737373`   | `#999999`  |
+| 4–7   | 6.5                                       | `#4d4d4d`   | `#bbbbbb`  |
+| 8+    | 8                                         | `#262626`   | `#e5e5e5`  |
+
+The thresholds above use the default `hubMinLinks: 4`. An explicit `hubColor`
+overrides the highest tier only. Labels remain hidden until their node is hovered.
+
+Both graphs identify source notes from Quartz's build-time `allFiles` metadata.
+Parsed Markdown files have a source `filePath`; generated folder pages only have
+a synthetic `relativePath`. The Graph component passes the source slugs to the
+browser, so newly added notes and folders require no manual exclusion list. A
+generated folder page's local graph does not add the folder itself as a node.
 
 ## How It Works
 
