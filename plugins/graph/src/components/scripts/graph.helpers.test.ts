@@ -1,9 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   countGraphDegrees,
+  createGraphRenderScheduler,
   filterGraphEdges,
+  resolveGlobalGraphMaxNodes,
   resolveGraphMaxNodes,
   resolveGraphSlug,
+  selectGlobalGraphNodeIds,
   selectGraphNodeIds,
   shouldIncludeGraphNode,
   shouldShowGraphLabel,
@@ -103,6 +106,139 @@ describe("selectGraphNodeIds", () => {
 
     expect(selected).toHaveLength(50);
     expect(selected).toContain("node-50");
+  });
+});
+
+describe("global graph selection", () => {
+  it("uses a hard limit of 50 while allowing a smaller configured limit", () => {
+    expect(resolveGlobalGraphMaxNodes(12)).toBe(12);
+    expect(resolveGlobalGraphMaxNodes(80)).toBe(50);
+    expect(resolveGlobalGraphMaxNodes(-1)).toBe(50);
+    expect(resolveGlobalGraphMaxNodes(0)).toBe(50);
+    expect(resolveGlobalGraphMaxNodes(undefined)).toBe(50);
+  });
+
+  it("keeps the current note and its direct neighbor, then only notes with four links", () => {
+    const nodes = ["low", "hub", "current", "direct", "a", "b", "c", "d"];
+    const edges: GraphEdge[] = [
+      { source: "current", target: "direct" },
+      { source: "hub", target: "a" },
+      { source: "hub", target: "b" },
+      { source: "hub", target: "c" },
+      { source: "hub", target: "d" },
+      { source: "low", target: "a" },
+    ];
+
+    expect(selectGlobalGraphNodeIds(nodes, edges, "current", 50)).toEqual([
+      "current",
+      "direct",
+      "hub",
+    ]);
+  });
+
+  it("keeps the current note and chooses direct neighbors by slug when they exceed 50", () => {
+    const neighbours = Array.from(
+      { length: 55 },
+      (_, index) => `note-${String(index).padStart(2, "0")}`,
+    );
+    const nodes = [...neighbours].reverse().concat("current");
+    const edges = neighbours.map((target) => ({ source: "current", target }));
+    const selected = selectGlobalGraphNodeIds(nodes, edges, "current", -1);
+
+    expect(selected).toHaveLength(50);
+    expect(selected[0]).toBe("current");
+    expect(selected.slice(1)).toEqual(neighbours.slice(0, 49));
+  });
+
+  it("ranks qualifying notes by full candidate degree and then slug", () => {
+    const edges: GraphEdge[] = [
+      { source: "current", target: "direct" },
+      { source: "alpha", target: "a1" },
+      { source: "alpha", target: "a2" },
+      { source: "alpha", target: "a3" },
+      { source: "alpha", target: "a4" },
+      { source: "beta", target: "b1" },
+      { source: "beta", target: "b2" },
+      { source: "beta", target: "b3" },
+      { source: "beta", target: "b4" },
+      { source: "beta", target: "b5" },
+      { source: "zeta", target: "z1" },
+      { source: "zeta", target: "z2" },
+      { source: "zeta", target: "z3" },
+      { source: "zeta", target: "z4" },
+      { source: "zeta", target: "z5" },
+    ];
+    const nodes = [...new Set(edges.flatMap(({ source, target }) => [source, target]))];
+
+    expect(selectGlobalGraphNodeIds(nodes, edges, "current", 3)).toEqual([
+      "current",
+      "direct",
+      "beta",
+    ]);
+  });
+
+  it("does not count tag edges toward a note's four-link threshold", () => {
+    const nodes = ["current", "note", "tags/shared", "other"];
+    const edges: GraphEdge[] = [
+      { source: "note", target: "tags/shared" },
+      { source: "note", target: "other" },
+      { source: "note", target: "tags/shared" },
+      { source: "note", target: "tags/shared" },
+    ];
+
+    expect(selectGlobalGraphNodeIds(nodes, edges, "current", 50)).toEqual(["current"]);
+  });
+});
+
+describe("graph render scheduler", () => {
+  it("coalesces invalidations to one render per animation frame and does not loop while idle", () => {
+    let nextId = 0;
+    const callbacks = new Map<number, FrameRequestCallback>();
+    const requestFrame = vi.fn((callback: FrameRequestCallback) => {
+      const id = ++nextId;
+      callbacks.set(id, callback);
+      return id;
+    });
+    const cancelFrame = vi.fn((id: number) => callbacks.delete(id));
+    const render = vi.fn();
+    const scheduler = createGraphRenderScheduler(render, requestFrame, cancelFrame);
+
+    scheduler.invalidate();
+    scheduler.invalidate();
+    scheduler.invalidate();
+    expect(requestFrame).toHaveBeenCalledTimes(1);
+
+    callbacks.get(1)?.(16);
+    callbacks.delete(1);
+    expect(render).toHaveBeenCalledTimes(1);
+    expect(requestFrame).toHaveBeenCalledTimes(1);
+
+    scheduler.invalidate();
+    expect(requestFrame).toHaveBeenCalledTimes(2);
+    callbacks.get(2)?.(32);
+    expect(render).toHaveBeenCalledTimes(2);
+  });
+
+  it("cancels pending work and ignores invalidations after cleanup", () => {
+    let scheduledCallback: FrameRequestCallback | undefined;
+    const cancelFrame = vi.fn();
+    const render = vi.fn();
+    const scheduler = createGraphRenderScheduler(
+      render,
+      (callback) => {
+        scheduledCallback = callback;
+        return 7;
+      },
+      cancelFrame,
+    );
+
+    scheduler.invalidate();
+    scheduler.cancel();
+    scheduledCallback?.(16);
+    scheduler.invalidate();
+
+    expect(cancelFrame).toHaveBeenCalledWith(7);
+    expect(render).not.toHaveBeenCalled();
   });
 });
 

@@ -8,7 +8,9 @@ import {
 } from "@quartz-community/utils";
 import {
   countGraphDegrees,
+  createGraphRenderScheduler,
   filterGraphEdges,
+  selectGlobalGraphNodeIds,
   resolveGraphMaxNodes,
   resolveGraphSlug,
   selectGraphNodeIds,
@@ -88,7 +90,7 @@ import {
       return resolved || fallback;
     }
 
-    async function renderGraph(graph, fullSlug, renderGeneration) {
+    async function renderGraph(graph, fullSlug, renderGeneration, graphScope) {
       var slug = simplifySlug(fullSlug);
       if (slug === "") slug = "index";
       var visited = getVisited();
@@ -215,8 +217,15 @@ import {
       var labelLinks = candidateLinks.filter(function (link) {
         return !link.source.startsWith("tags/") && !link.target.startsWith("tags/");
       });
-      var labelDegrees = countGraphDegrees(candidateNodeIds, labelLinks);
-      var selectedNodeIds = selectGraphNodeIds(candidateNodeIds, candidateLinks, slug, maxNodes);
+      var noteNodeIds = candidateNodeIds.filter(function (id) {
+        return !id.startsWith("tags/");
+      });
+      var labelDegrees = countGraphDegrees(noteNodeIds, labelLinks);
+      var candidateDegrees = countGraphDegrees(candidateNodeIds, candidateLinks);
+      var selectedNodeIds =
+        graphScope === "global"
+          ? selectGlobalGraphNodeIds(candidateNodeIds, candidateLinks, slug, maxNodes)
+          : selectGraphNodeIds(candidateNodeIds, candidateLinks, slug, maxNodes);
       var selectedNodeIdSet = new Set(selectedNodeIds);
 
       var nodes = [];
@@ -267,6 +276,7 @@ import {
         backgroundAlpha: 0,
         resolution: window.devicePixelRatio || 1,
         autoDensity: true,
+        autoStart: false,
         eventMode: "static",
       });
 
@@ -312,15 +322,13 @@ import {
       var dragStartX = 0;
       var dragStartY = 0;
       var currentTransform = d3.zoomIdentity;
+      var renderScheduler = null;
+      var pendingPointerUpdate = false;
+      var pendingPointerPoint = null;
 
       function nodeDegree(d) {
-        var numLinks = 0;
-        for (var i = 0; i < graphLinks.length; i++) {
-          if (graphLinks[i].source.id === d.id || graphLinks[i].target.id === d.id) {
-            numLinks++;
-          }
-        }
-        return numLinks;
+        var degrees = d.id.startsWith("tags/") ? candidateDegrees : labelDegrees;
+        return degrees.get(d.id) ?? 0;
       }
 
       function nodeRadius(d) {
@@ -480,22 +488,20 @@ import {
         var nextHoveredId = node ? node.id : null;
         if (nextHoveredId !== hoveredNodeId) {
           updateHoverInfo(nextHoveredId);
-          renderPixiFromD3();
         }
       }
 
       app.canvas.addEventListener("pointermove", function (event) {
-        var point = canvasPointFromPointerEvent(event);
-        updatePointerState(point.x, point.y);
+        pendingPointerPoint = canvasPointFromPointerEvent(event);
+        pendingPointerUpdate = true;
+        if (renderScheduler) renderScheduler.invalidate();
       });
 
       app.canvas.addEventListener("pointerleave", function () {
         if (!dragging) {
-          app.canvas.style.cursor = "default";
-          if (hoveredNodeId !== null) {
-            updateHoverInfo(null);
-            renderPixiFromD3();
-          }
+          pendingPointerPoint = null;
+          pendingPointerUpdate = true;
+          if (renderScheduler) renderScheduler.invalidate();
         }
       });
 
@@ -580,7 +586,8 @@ import {
           dragMoved = false;
           dragging = true;
           app.canvas.style.cursor = "grabbing";
-          hoveredNodeId = event.subject.id;
+          updateHoverInfo(event.subject.id);
+          if (renderScheduler) renderScheduler.invalidate();
         };
 
         var dragDragged = function (event) {
@@ -593,6 +600,7 @@ import {
           var mouseSimY = (event.y - currentTransform.y) / currentTransform.k - height / 2;
           event.subject.fx = mouseSimX - event.subject.__dragOffset.x;
           event.subject.fy = mouseSimY - event.subject.__dragOffset.y;
+          if (renderScheduler) renderScheduler.invalidate();
         };
 
         var dragEnded = function (event) {
@@ -600,9 +608,8 @@ import {
           event.subject.fx = null;
           event.subject.fy = null;
           dragging = false;
-          updatePointerState(event.x, event.y);
           updateHoverInfo(null);
-          renderPixiFromD3();
+          if (renderScheduler) renderScheduler.invalidate();
 
           var clickDuration = Date.now() - dragStartTime;
           if (!dragMoved && clickDuration <= dragClickMaxDuration) {
@@ -637,6 +644,7 @@ import {
           stage.scale.set(currentTransform.k, currentTransform.k);
           stage.position.set(currentTransform.x, currentTransform.y);
           renderLabels();
+          if (renderScheduler) renderScheduler.invalidate();
         };
 
         var zoom = d3
@@ -651,9 +659,16 @@ import {
         d3.select(app.canvas).call(zoom);
       }
 
-      var stopAnimation = false;
-      function animate() {
-        if (stopAnimation) return;
+      function renderFrame() {
+        if (pendingPointerUpdate) {
+          pendingPointerUpdate = false;
+          if (pendingPointerPoint) {
+            updatePointerState(pendingPointerPoint.x, pendingPointerPoint.y);
+          } else if (!dragging) {
+            app.canvas.style.cursor = "default";
+            if (hoveredNodeId !== null) updateHoverInfo(null);
+          }
+        }
 
         for (var i = 0; i < nodeRenderData.length; i++) {
           var n = nodeRenderData[i];
@@ -682,18 +697,22 @@ import {
           }
         }
 
-        requestAnimationFrame(animate);
+        renderPixiFromD3();
+        app.render();
       }
 
-      simulation.on("tick", function () {});
+      renderScheduler = createGraphRenderScheduler(renderFrame);
+      simulation.on("tick", function () {
+        renderScheduler.invalidate();
+      });
       simulation.restart();
-      renderPixiFromD3();
-      animate();
+      renderScheduler.invalidate();
 
       return function () {
-        stopAnimation = true;
+        renderScheduler.cancel();
         simulation.stop();
         try {
+          app.stop();
           app.destroy(true);
         } catch (_) {
           // PixiJS may throw if WebGL context was already lost.
@@ -760,7 +779,7 @@ import {
         var graphContainer = container.querySelector(".global-graph-container");
         if (graphContainer) {
           (function (gc) {
-            renderGraph(gc, currentSlug, undefined)
+            renderGraph(gc, currentSlug, undefined, "global")
               .then(function (cleanup) {
                 globalCleanups.push(cleanup);
               })
@@ -789,7 +808,7 @@ import {
       var localContainers = document.querySelectorAll(".graph-container");
       for (var i = 0; i < localContainers.length; i++) {
         (function (container) {
-          renderGraph(container, slug, thisGeneration)
+          renderGraph(container, slug, thisGeneration, "local")
             .then(function (cleanup) {
               if (thisGeneration === currentRenderGeneration) {
                 localCleanups.push(cleanup);
