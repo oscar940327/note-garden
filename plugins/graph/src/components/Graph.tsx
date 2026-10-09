@@ -26,7 +26,6 @@ export interface D3Config {
   hubColor: string;
   hitAreaScale: number;
   minHitRadius: number;
-  labelMinLinks: number;
   dragMoveThreshold: number;
   dragClickMaxDuration: number;
   removeTags: string[];
@@ -57,7 +56,6 @@ const defaultOptions: GraphOptions = {
     hubColor: "#e76f51",
     hitAreaScale: 1.2,
     minHitRadius: 6,
-    labelMinLinks: 4,
     dragMoveThreshold: 6,
     dragClickMaxDuration: 400,
     showTags: true,
@@ -69,7 +67,7 @@ const defaultOptions: GraphOptions = {
     drag: true,
     zoom: true,
     depth: -1,
-    maxNodes: 50,
+    maxNodes: -1,
     scale: 0.9,
     repelForce: 0.5,
     centerForce: 0.2,
@@ -81,12 +79,11 @@ const defaultOptions: GraphOptions = {
     hubColor: "#e76f51",
     hitAreaScale: 1.2,
     minHitRadius: 6,
-    labelMinLinks: 4,
     dragMoveThreshold: 6,
     dragClickMaxDuration: 400,
-    showTags: false,
+    showTags: true,
     removeTags: [],
-    focusOnHover: true,
+    focusOnHover: false,
     enableRadial: true,
   },
 };

@@ -63,6 +63,7 @@ export function resolveGraphMaxNodes(value: unknown): number {
 }
 
 export function resolveGlobalGraphMaxNodes(value: unknown): number {
+  if (value === -1) return -1;
   if (typeof value !== "number" || !Number.isInteger(value) || value <= 0) {
     return GLOBAL_GRAPH_MAX_NODES;
   }
@@ -130,6 +131,8 @@ export function selectGlobalGraphNodeIds(
   const uniqueNodeIds = [...new Set(nodeIds)];
   const candidateIds = new Set(uniqueNodeIds);
   const limit = resolveGlobalGraphMaxNodes(maxNodes);
+  if (limit === -1) return uniqueNodeIds;
+
   const noteIds = uniqueNodeIds.filter((id) => !id.startsWith("tags/"));
   const noteIdSet = new Set(noteIds);
   const noteEdges = edges.filter(
@@ -187,17 +190,34 @@ export function filterGraphEdges(
   return edges.filter((edge) => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target));
 }
 
+export type GraphNodePalette = {
+  low: string;
+  medium: string;
+  connected: string;
+  hub: string;
+};
+
+export type GraphNodeAppearance = {
+  radius: number;
+  color: string;
+};
+
+export function getGraphNodeAppearance(
+  degree: number,
+  nodeSizeScale: number,
+  hubMinLinks: number,
+  palette: GraphNodePalette,
+): GraphNodeAppearance {
+  if (degree >= hubMinLinks * 2) return { radius: 8 * nodeSizeScale, color: palette.hub };
+  if (degree >= hubMinLinks) return { radius: 6.5 * nodeSizeScale, color: palette.connected };
+  if (degree >= 2) return { radius: 5 * nodeSizeScale, color: palette.medium };
+  return { radius: 3.5 * nodeSizeScale, color: palette.low };
+}
+
 export function shouldIncludeGraphNode(nodeId: string, showTags: boolean): boolean {
   return showTags || !nodeId.startsWith("tags/");
 }
 
-export function shouldShowGraphLabel(
-  nodeId: string,
-  fullGraphDegree: number,
-  labelMinLinks: number,
-  hoveredNodeId: string | null,
-): boolean {
-  return (
-    !nodeId.startsWith("tags/") && fullGraphDegree >= labelMinLinks && hoveredNodeId === nodeId
-  );
+export function shouldShowGraphLabel(nodeId: string, hoveredNodeId: string | null): boolean {
+  return hoveredNodeId === nodeId;
 }

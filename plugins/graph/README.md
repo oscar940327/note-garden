@@ -9,7 +9,6 @@ The Graph View component for Quartz - visualize your digital garden as an intera
 - ⚡ **Smooth Animations** - Built with D3 force simulation and PixiJS rendering
 - 🏷️ **Tag Support** - Visualize tags as nodes in the graph
 - 🖱️ **Interactive Controls** - Drag, zoom, and pan around the graph
-- 💾 **Visited Tracking** - Highlights pages you've already visited
 - ⌨️ **Keyboard Shortcuts** - Press `Ctrl/Cmd + G` to toggle the global graph
 
 ## Installation
@@ -44,8 +43,8 @@ ExternalPlugin.Graph({
     drag: true,
     zoom: true,
     depth: -1,
-    maxNodes: 50,
-    showTags: false,
+    maxNodes: -1,
+    showTags: true,
   },
 });
 ```
@@ -60,7 +59,7 @@ interface D3Config {
   zoom: boolean;
   /** Depth of connections to show (-1 for all) */
   depth: number;
-  /** Maximum displayed nodes (-1 for no limit; global default is 50) */
+  /** Maximum displayed nodes (-1 for no limit; global default is unlimited) */
   maxNodes?: number;
   /** Graph scale factor */
   scale: number;
@@ -108,11 +107,10 @@ By default, the local graph:
 By default, the global graph:
 
 - Shows all connections (depth: -1)
-- Shows up to 50 nodes, prioritizing the most connected notes
-- Hides tag nodes
+- Shows all notes and tags by default
 - Opens in fullscreen modal when clicking the graph icon
 - Keyboard shortcut: `Ctrl/Cmd + G`
-- Focus on hover enabled (dims non-connected nodes)
+- Hovering any node shows its label
 - Radial layout enabled
 - Click outside or press Escape to close
 

@@ -10,6 +10,7 @@ import {
   countGraphDegrees,
   createGraphRenderScheduler,
   filterGraphEdges,
+  getGraphNodeAppearance,
   selectGlobalGraphNodeIds,
   resolveGraphMaxNodes,
   resolveGraphSlug,
@@ -64,18 +65,6 @@ import {
       return;
     }
 
-    var localStorageKey = "graph-visited";
-
-    function getVisited() {
-      return new Set(JSON.parse(localStorage.getItem(localStorageKey) || "[]"));
-    }
-
-    function addToVisited(slug) {
-      var visited = getVisited();
-      visited.add(slug);
-      localStorage.setItem(localStorageKey, JSON.stringify(Array.from(visited)));
-    }
-
     // Resolves CSS color values containing calc()/var() that PixiJS cannot parse.
     // Uses a temp DOM element so the browser's CSS engine evaluates the expression.
     function resolveColor(value, fallback) {
@@ -93,7 +82,6 @@ import {
     async function renderGraph(graph, fullSlug, renderGeneration, graphScope) {
       var slug = simplifySlug(fullSlug);
       if (slug === "") slug = "index";
-      var visited = getVisited();
       removeAllChildren(graph);
 
       if (renderGeneration !== undefined && renderGeneration !== currentRenderGeneration) {
@@ -116,7 +104,6 @@ import {
       var hubColorValue = config.hubColor || "#e76f51";
       var hitAreaScale = config.hitAreaScale ?? 1.2;
       var minHitRadius = config.minHitRadius ?? 6;
-      var labelMinLinks = config.labelMinLinks ?? 4;
       var dragMoveThreshold = config.dragMoveThreshold ?? 6;
       var dragClickMaxDuration = config.dragClickMaxDuration ?? 400;
       var removeTags = config.removeTags || [];
@@ -214,13 +201,6 @@ import {
       var candidateLinks = links.filter(function (link) {
         return candidateNodeIdSet.has(link.source) && candidateNodeIdSet.has(link.target);
       });
-      var labelLinks = candidateLinks.filter(function (link) {
-        return !link.source.startsWith("tags/") && !link.target.startsWith("tags/");
-      });
-      var noteNodeIds = candidateNodeIds.filter(function (id) {
-        return !id.startsWith("tags/");
-      });
-      var labelDegrees = countGraphDegrees(noteNodeIds, labelLinks);
       var candidateDegrees = countGraphDegrees(candidateNodeIds, candidateLinks);
       var selectedNodeIds =
         graphScope === "global"
@@ -264,7 +244,6 @@ import {
       var gray = resolveColor(styles.getPropertyValue("--gray").trim(), "#6c6c6c");
       var lightgray = resolveColor(styles.getPropertyValue("--lightgray").trim(), "#d4d4d4");
       var dark = resolveColor(styles.getPropertyValue("--dark").trim(), "#1a1a1a");
-      var light = resolveColor(styles.getPropertyValue("--light").trim(), "#f5f5f5");
       var hubColor = resolveColor(hubColorValue, "#e76f51");
       var bodyFont = styles.getPropertyValue("--bodyFont").trim() || "inherit";
 
@@ -326,23 +305,21 @@ import {
       var pendingPointerUpdate = false;
       var pendingPointerPoint = null;
 
-      function nodeDegree(d) {
-        var degrees = d.id.startsWith("tags/") ? candidateDegrees : labelDegrees;
-        return degrees.get(d.id) ?? 0;
+      function nodeAppearance(d) {
+        return getGraphNodeAppearance(candidateDegrees.get(d.id) ?? 0, nodeSizeScale, hubMinLinks, {
+          low: gray,
+          medium: secondary,
+          connected: tertiary,
+          hub: hubColor,
+        });
       }
 
       function nodeRadius(d) {
-        var numLinks = nodeDegree(d);
-        return (2.5 + Math.pow(numLinks, 0.68) * 1.35) * nodeSizeScale;
+        return nodeAppearance(d).radius;
       }
 
       function shouldShowLabel(d) {
-        return shouldShowGraphLabel(
-          d.id,
-          labelDegrees.get(d.id) ?? 0,
-          labelMinLinks,
-          hoveredNodeId,
-        );
+        return shouldShowGraphLabel(d.id, hoveredNodeId);
       }
 
       function nodeHitRadius(d) {
@@ -350,16 +327,7 @@ import {
       }
 
       function nodeColor(d) {
-        var isCurrent = d.id === slug;
-        if (isCurrent) {
-          return secondary;
-        } else if (nodeDegree(d) >= hubMinLinks) {
-          return hubColor;
-        } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
-          return tertiary;
-        } else {
-          return gray;
-        }
+        return nodeAppearance(d).color;
       }
 
       function updateHoverInfo(newHoveredId) {
@@ -508,7 +476,6 @@ import {
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
         var nodeId = node.id;
-        var isTagNode = nodeId.startsWith("tags/");
         var radius = nodeRadius(node);
         var color = nodeColor(node);
 
@@ -528,10 +495,7 @@ import {
 
         var gfx = new PIXI.Graphics();
         gfx.circle(0, 0, radius);
-        gfx.fill({ color: isTagNode ? light : color });
-        if (isTagNode) {
-          gfx.stroke({ width: 2, color: tertiary });
-        }
+        gfx.fill({ color: color });
 
         gfx.eventMode = "static";
         gfx.hitArea = new PIXI.Circle(0, 0, nodeHitRadius(node));
@@ -803,7 +767,6 @@ import {
       cleanupLocal();
       var thisGeneration = ++currentRenderGeneration;
       var slug = getSlugFromUrl();
-      addToVisited(slug);
 
       var localContainers = document.querySelectorAll(".graph-container");
       for (var i = 0; i < localContainers.length; i++) {
@@ -837,10 +800,7 @@ import {
       }, 180);
     });
 
-    function handleNav(e) {
-      var slug = e.detail ? e.detail.url : getSlugFromUrl();
-      addToVisited(simplifySlug(slug));
-
+    function handleNav() {
       renderLocal();
 
       globalContainers = Array.from(document.querySelectorAll(".global-graph-outer"));

@@ -180,14 +180,14 @@ plugins:
         hubColor: "#e76f51"
         hitAreaScale: 1.2
         minHitRadius: 6
-        labelMinLinks: 4 # default label appears when a node has at least 4 links
         dragMoveThreshold: 6
         dragClickMaxDuration: 400
         showTags: false
         focusOnHover: true
         enableRadial: false
       globalGraph:
-        depth: 4
+        depth: -1
+        maxNodes: -1
         scale: 0.9
         repelForce: 0.5
         centerForce: 0.2
@@ -199,11 +199,10 @@ plugins:
         hubColor: "#e76f51"
         hitAreaScale: 1.2
         minHitRadius: 6
-        labelMinLinks: 4 # default label appears when a node has at least 4 links
         dragMoveThreshold: 6
         dragClickMaxDuration: 400
-        showTags: false
-        focusOnHover: true
+        showTags: true
+        focusOnHover: false
         enableRadial: true
     layout:
       position: right

@@ -3,6 +3,7 @@ import {
   countGraphDegrees,
   createGraphRenderScheduler,
   filterGraphEdges,
+  getGraphNodeAppearance,
   resolveGlobalGraphMaxNodes,
   resolveGraphMaxNodes,
   resolveGraphSlug,
@@ -110,10 +111,10 @@ describe("selectGraphNodeIds", () => {
 });
 
 describe("global graph selection", () => {
-  it("uses a hard limit of 50 while allowing a smaller configured limit", () => {
+  it("allows unlimited nodes while capping positive limits at 50", () => {
     expect(resolveGlobalGraphMaxNodes(12)).toBe(12);
     expect(resolveGlobalGraphMaxNodes(80)).toBe(50);
-    expect(resolveGlobalGraphMaxNodes(-1)).toBe(50);
+    expect(resolveGlobalGraphMaxNodes(-1)).toBe(-1);
     expect(resolveGlobalGraphMaxNodes(0)).toBe(50);
     expect(resolveGlobalGraphMaxNodes(undefined)).toBe(50);
   });
@@ -136,7 +137,7 @@ describe("global graph selection", () => {
     ]);
   });
 
-  it("keeps the current note and chooses direct neighbors by slug when they exceed 50", () => {
+  it("keeps every candidate when the global graph limit is -1", () => {
     const neighbours = Array.from(
       { length: 55 },
       (_, index) => `note-${String(index).padStart(2, "0")}`,
@@ -145,9 +146,15 @@ describe("global graph selection", () => {
     const edges = neighbours.map((target) => ({ source: "current", target }));
     const selected = selectGlobalGraphNodeIds(nodes, edges, "current", -1);
 
-    expect(selected).toHaveLength(50);
-    expect(selected[0]).toBe("current");
-    expect(selected.slice(1)).toEqual(neighbours.slice(0, 49));
+    expect(selected).toHaveLength(56);
+    expect(selected).toEqual(nodes);
+  });
+
+  it("keeps all note and tag candidates when unlimited", () => {
+    const nodes = ["current", "isolated", "tags/topic"];
+    const edges: GraphEdge[] = [{ source: "current", target: "tags/topic" }];
+
+    expect(selectGlobalGraphNodeIds(nodes, edges, "current", -1)).toEqual(nodes);
   });
 
   it("ranks qualifying notes by full candidate degree and then slug", () => {
@@ -291,17 +298,26 @@ describe("graph edge and label behavior", () => {
     expect(selectGraphNodeIds(nodes, edges, "missing", 1)).toEqual(["tags/common"]);
   });
 
-  it("never shows small-node labels, including while hovered", () => {
-    expect(shouldShowGraphLabel("small", 3, 4, "small")).toBe(false);
+  it("shows labels for every hovered node, including small notes and tags", () => {
+    expect(shouldShowGraphLabel("small", "small")).toBe(true);
+    expect(shouldShowGraphLabel("tags/ai", "tags/ai")).toBe(true);
+    expect(shouldShowGraphLabel("small", null)).toBe(false);
   });
 
-  it("keeps prominent labels hidden until their node is hovered at every zoom", () => {
-    // Zoom is intentionally not an input to label visibility.
-    expect(shouldShowGraphLabel("hub", 8, 4, null)).toBe(false);
-    expect(shouldShowGraphLabel("hub", 8, 4, "hub")).toBe(true);
+  it("uses matching size and color tiers for nodes with the same link count", () => {
+    const palette = { low: "gray", medium: "blue", connected: "teal", hub: "orange" };
+    const appearance = (degree: number) => getGraphNodeAppearance(degree, 1, 4, palette);
+    const tiers = [appearance(0), appearance(2), appearance(4), appearance(8)];
+
+    expect(appearance(1)).toEqual(tiers[0]);
+    expect(appearance(3)).toEqual(tiers[1]);
+    expect(appearance(7)).toEqual(tiers[2]);
+    expect(appearance(9)).toEqual(tiers[3]);
+    expect(new Set(tiers.map(({ radius }) => radius)).size).toBe(tiers.length);
+    expect(new Set(tiers.map(({ color }) => color)).size).toBe(tiers.length);
   });
 
-  it("uses full-candidate degree after neighbor nodes have been pruned", () => {
+  it("still allows a hovered node label when its links are not visible", () => {
     const nodes = ["hub", "a", "b", "c", "d"];
     const fullLinks: GraphEdge[] = [
       { source: "hub", target: "a" },
@@ -311,13 +327,7 @@ describe("graph edge and label behavior", () => {
     ];
     const selected = selectGraphNodeIds(nodes, fullLinks, "hub", 1);
     const visibleLinks = filterGraphEdges(fullLinks, new Set(selected));
-    const fullDegree = countGraphDegrees(nodes, fullLinks).get("hub");
-
     expect(visibleLinks).toEqual([]);
-    expect(shouldShowGraphLabel("hub", fullDegree!, 4, "hub")).toBe(true);
-  });
-
-  it("never shows tag-node labels", () => {
-    expect(shouldShowGraphLabel("tags/ai", 20, 4, "tags/ai")).toBe(false);
+    expect(shouldShowGraphLabel("hub", "hub")).toBe(true);
   });
 });
