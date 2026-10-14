@@ -6,7 +6,7 @@ tags:
   - 實習
   - 任務
   - API
-  - MongoDB
+  - Firestore
   - Cloud Run
   - Angular
   - LIFF
@@ -14,226 +14,116 @@ tags:
 
 # 工程師訓練第三週：Todo API 與測試環境部署
 
-## 任務目標
+## 任務目標與依據
 
-承接第二週的團隊 TODO LIST 練習，在 API repo 實作待辦事項 CRUD，部署至測試環境 Cloud Run，讓前端透過 API 操作資料。開發時同步練習讀取瀏覽器 Network request，並能用自己的話說明從畫面操作、HTTP 呼叫、後端處理、資料庫異動到畫面更新的完整流程。
+把第二週的 Todo Mock 換成真正的 API；後端用 Elysia/Bun 操作 Firestore，前端用 Angular + LIFF 呼叫 API，並用 `s*` tag 部署到自己的 GCP 專案。除了功能可用，也要能從瀏覽器 Network 指出每個請求，並說明從畫面到資料庫、再回到畫面的程式流程。
 
-這是教育訓練練習，不是上線產品規格，也不對應客戶專案。
+這是教育訓練練習，不是上線產品或客戶專案。依據：[第三週課綱](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/week-3-api-deploy.md)、[Todo 題目](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/training-assignment.md)、[三週實作流程](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/how-it-runs.md)。這些 wiki 頁面目前是 `draft`、有 AI `generated` 標記；2026-10-13 的課綱已把資料層改為 Firestore，並要求部署到受訓者私人 GCP 專案。
 
-## 專案資訊
+## 專案與目前狀態（2026-10-14）
 
-- API repo：/Users/oscar/Documents/Oscar-api-demo
-- 前端 repo：/Users/oscar/Documents/Oscar-liff-demo
-- 第三週課綱：[第三週：API 開發與部署](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/week-3-api-deploy.md)
-- 題目規格：[練習題：團隊 TODO LIST 機器人](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/training-assignment.md)
-- 流程說明：[三週實作制怎麼跑](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/how-it-runs.md)
-- API 慣例：[API 回應與錯誤處理慣例](https://github.com/Aiii-Developers/aiii-wiki/blob/main/engineering/standards/api-response-and-error-convention.md)
-
-兩份訓練文件目前都標示 draft；第三週課綱也註明內容尚未經人工查證。若課綱與訓練 repo 的實際設定不同，先在 Issue 或訓練會議確認，不自行補定未決規格。
-
-## 範圍與非目標
-
-| 項目 | 本週範圍 |
+| 項目 | 目前狀態 |
 | --- | --- |
-| 後端 API | 使用 Elysia/Bun 實作 Todo 的查詢、新增、修改與刪除 |
-| 資料庫 | 使用 MongoDB；MongoDB 連線資訊由負責人提供並安全注入 |
-| 前端 | 改由前端呼叫已部署的 API，操作結果由 API 回應 |
-| 部署 | 只部署到測試環境 Cloud Run；不碰正式環境 |
-| 學習驗收 | 使用 DevTools Network 說明 API request/response，並能解釋程式流程 |
+| 後端 | [Oscar-api-demo](https://github.com/Aiii-Developers/Oscar-api-demo) 的 `feat/todo-list-api` 已實作 `GET`、`POST`、`PATCH`、`DELETE /api/todos`，Todo 資料存在 Firestore `todos` collection。 |
+| 前端 | [Oscar-liff-demo](https://github.com/Aiii-Developers/Oscar-liff-demo) 的 Todo service 已用 `HttpClient` 呼叫 API，請求附上 LINE ID token；Todo 畫面執行時不再切換到 Mock。 |
+| 前端網站 | [Firebase Hosting Todo 頁面](https://oscar-todo-list.web.app/todo-list)。使用者先前回報 LINE 重新登入成功；本次文件更新未重新做瀏覽器端完整 CRUD 驗收。 |
+| 後端部署 | `s0.1.2` 已部署至個人 GCP 專案 `oscar-todo-list`、`asia-east1` 的 Cloud Run 服務 `oscar-todo-api`。最新就緒 revision `oscar-todo-api-00004-pf7` 承接 100% 流量。 |
+| API 網址 | `https://oscar-todo-api-by6af26kva-de.a.run.app/api` |
+| 流程 | stage 分支已建立並下 `s0.1.2` tag；這次部署設定是直接推到 stage，沒有 stage PR。後端 main PR #2 仍是 draft，前端 main PR #1 仍開啟。 |
 
-Webhook、LINE Bot 對話、身分稽核、多團隊隔離、搜尋、排序、分頁、標籤與期限不屬於本週必要範圍。需要延伸時另開 Issue。
+### 已確認的部署證據
 
-本週前端操作以 API 作為實際資料來源，不做 Mock 與 API 雙寫。題目 PRD 另要求完成支線時仍能獨立驗收 Mock 主線；是否保留單獨的 local Mock 驗收模式，需先向任務負責人確認，再決定是否移除現有 Mock service 與 file replacement。
+- [GitHub Actions：`s0.1.2`](https://github.com/Aiii-Developers/Oscar-api-demo/actions/runs/38365016302) 第 3 次執行成功：建置 image、推送 Artifact Registry、部署 Cloud Run 都通過。
+- Cloud Run 顯示使用 `asia-east1-docker.pkg.dev/oscar-todo-list/cloud-run-source-deploy/oscar-todo-api:s0.1.2`，流量 100% 指向上述 revision。
+- 實際呼叫 `GET /api/` 回 `200 OK`；不帶 LINE token 呼叫 `GET /api/todos` 回 `401`、`AUTH_001`、`請先登入 LINE。`。健康端點只證明服務有回應，不證明 Firestore 讀寫成功。
+- 2026-10-12 曾在本機操作 Firestore Todo；使用者提供的新增與修改結果顯示 `id` 不變、`createdAt` 不變、`isCompleted` 與 `updatedAt` 已更新。部署後帶有效 LINE token 的 CRUD 尚未在此紀錄完整驗證。
 
-## Todo 資料規格
+## 實際資料與 API 設計
 
-欄位依題目 PRD：
+後端的 `src/models/todo.ts` 定義 Todo 型別；`src/services/firestore.ts` 使用 Firestore 預設資料庫的 `todos` collection，每筆文件的 **document ID 等於 Todo 的 `id`**。Todo 新增時由後端產生 UUID 與 ISO 8601 時間；修改只動指定欄位、`updatedAt`、`updatedBy`，保留 `id`、`createdAt`、`createdBy`。
 
-| 欄位 | 型別 | 規則 |
-| --- | --- | --- |
-| id | string | 每筆唯一；建立後不可因編輯而改變 |
-| title | string | 必填；不得為空字串或只有空白 |
-| isCompleted | boolean | 新增時預設 false |
-| createdAt | string | ISO 8601；建立後不可因編輯而改變 |
-| updatedAt | string | ISO 8601；新增時與 createdAt 相同，修改時更新 |
-| createdBy | string | 選填；真實身分紀錄屬後續支線 |
-| updatedBy | string | 選填；真實身分紀錄屬後續支線 |
-
-API endpoint、request/response DTO、資料庫 collection 名稱、認證方式與錯誤格式尚待和 SE 確認。確認後同步更新前端的 docs/tech/api-contract.md 與 API 的 public/openapi.yaml，不將 TBD 自行寫成正式契約。
-
-## 目前程式狀態（2026-10-07）
-
-### API repo
-
-- src/index.ts 仍註冊範例 GET /hello 和 POST /user/:id，base path 是 /demo，尚無 Todo CRUD。
-- src/services/mongodb.ts 使用範例資料庫 sample_mflix/users；src/functions/user.ts 同時呼叫 MongoDB 與 Firestore 範例。
-- public/openapi.yaml 描述範例 User API，且與目前實際路由方法不一致。
-- package.json 的套件及映像名稱仍是 template-api-elysia。
-- .github/workflows/deploy-to-stage-on-push-tag.yml 會由 s* tag 觸發，但目前仍部署範例服務與映像；GitHub Environment 名稱為 production，部署命令未看到 MONGODB_URI 的 runtime 注入。
-- 第三週課綱記載 template-api-elysia 的 Actions 尚無執行紀錄，因此不能把範本 workflow 當成已驗證部署流程。
-
-### 前端 repo
-
-- src/app/features/todo-list/todo-list.mock.service.ts 已有 in-memory CRUD、初始三筆資料、空白標題拒絕及不存在 id 回報失敗。
-- angular.json 的 local configuration 以 file replacement 使用 Mock service；目前 API service 尚未串接，方法會回報 TODO(api) 錯誤。
-- docs/tech/api-contract.md 中 Todo endpoints 與 API 欄位仍為 TBD。
-- TodoItem model 使用 completed；題目 PRD 使用 isCompleted。開始串接前，先把前端模型與 API 契約對齊，或明確記錄 service mapper 如何轉換。
-
-以上是程式碼盤點，尚不代表已完成第三週 API、部署或瀏覽器 Network 驗收。
-
-## 工作順序
-
-### 1. 立即確認前置與未定事項
-
-先向 SE／運維確認負責人與提供時間；缺少的設定不可猜測或自行尋找替代值。
-
-| 待確認項目 | 要確認的內容 |
+| 欄位 | 目前規則 |
 | --- | --- |
-| 訓練 repo | Oscar-api-demo 與 Oscar-liff-demo 是否就是本梯實際訓練 repo，或需改在 SE 建立的 private training repo 作業 |
-| API 契約 | endpoint、HTTP method、DTO 欄位、成功回應、錯誤狀態碼及錯誤格式 |
-| 認證與 CORS | 前端如何呼叫 API；不可把共享 API key 寫入瀏覽器程式 |
-| MongoDB | MongoDB URI 由誰提供、collection/schema 如何命名，以及 Cloud Run 如何安全取得連線資訊 |
-| GCP 部署 | 測試 Cloud Run service、project、service account、GitHub secrets 與 workflow 的負責人 |
-| Workflow | 請 SE 先在訓練 repo 跑通 stage workflow，確認實際部署目標與 runtime 設定 |
-| 分支流程 | 第三週課綱寫 main 與 stage 各開 PR；分支與 PR 規範寫 PR 只開往預設分支、進 stage 直接合併。請 SE 指定訓練 repo 採用哪一套 |
-| Mock 驗收 | 題目 PRD 要求完成支線後仍可獨立驗收 Mock；本任務要求前端用 API、不做 Mock/API 雙寫。確認是否保留獨立 local Mock 模式 |
+| `id` | 後端產生的唯一字串；建立後不變。 |
+| `title` | 必填；前後空白會去除，不接受空白標題。 |
+| `isCompleted` | boolean；新增時預設 `false`。前端畫面模型叫 `completed`，由 service 轉換。 |
+| `createdAt`、`updatedAt` | ISO 8601；新增時相同，修改時只更新 `updatedAt`。 |
+| `createdBy`、`updatedBy` | 型別維持選填以容納舊資料；現在的新增會填入後端驗證過的 LINE 使用者 ID，修改會更新 `updatedBy`。 |
 
-MONGODB_URI、服務帳號金鑰與其他部署憑證只由負責人放入核准的 secrets/runtime 設定，不提交到 repo、不貼在 Issue、PR 或聊天訊息。執行部署前依課綱再與 CTO 對一次。
-
-### 2. 實作後端 CRUD
-
-1. 先建立符合 Todo 規格的型別、驗證與資料庫操作，再替換範例路由。
-2. 提供查詢清單、新增、更新標題或完成狀態、刪除等操作；路徑與 method 依已確認的 API 契約實作。
-3. 新增時產生唯一 id；設定 isCompleted=false，createdAt 與 updatedAt 為當下 ISO 8601 時間。
-4. 修改時只更新指定欄位與 updatedAt，保留原 id 及 createdAt。
-5. 空白 title 回報驗證錯誤；找不到 id 的修改或刪除回報明確錯誤，不回報成功。
-6. 使用 MongoDB；移除 Todo API 路徑上的範例 User、sample_mflix 與 Firestore 邏輯。
-7. 更新 OpenAPI 文件，記錄 request、response、狀態碼與錯誤情境。
-
-### 3. 前端改接 API
-
-- 依確認後的契約實作 TodoListService，使用 Angular HttpClient 呼叫 API。
-- API 回應轉成前端共用 Todo model；如果 API 欄位與 UI 欄位不同，在 service mapper 轉換。
-- API 回應成功後，以回傳資料更新 signal，讓畫面反映伺服器結果；失敗時保留目前畫面資料並顯示錯誤。
-- 不在前端存放共享密鑰或 MongoDB 連線字串。
-- 確認畫面只有一個作用中的資料來源，不對 Mock 與 API 同時送出同一操作。
-- 每完成一種操作就同步更新 docs/tech/api-contract.md 與程式導覽，不把 Network 與程式解說留到最後。
-
-### 4. 部署至測試環境並驗 runtime
-
-- 等 SE 確認 service、workflow、secrets 與 MongoDB runtime 設定已就緒，再部署。
-- 使用課綱要求的 stage tag 流程；tag 只能放在核准的分支，僅部署測試環境，不建立或推送正式 v* tag。
-- Actions 成功後確認 Cloud Run 實際接收流量的 revision 是本次部署版本。
-- 對部署後的 API 實際呼叫查詢、新增、修改、刪除；記錄 URL、method、狀態碼及回應，確認資料真的寫入並可讀回。
-- 只看到 workflow 綠燈不算完成。
-
-## 邊做邊練：Network 與程式解說
-
-每一種畫面操作完成後就立刻練習，不等到最後一天。至少記錄新增操作；查詢、修改、刪除也要能指出各自的 request。
-
-| 操作 | 前端入口 | Network 要指出的內容 |
+| 方法與路徑 | Request body | 成功回應 |
 | --- | --- | --- |
-| 查詢 | component 載入時的 loadTodos() | request URL、method、response status 與清單 response |
-| 新增 | HTML submit → component addTodo() → service addTodo() | URL、method、送出的 JSON、status、回應中的 Todo |
-| 編輯標題 | component saveEdit() → service updateTodoTitle() | URL、method、更新欄位、status、更新後資料 |
-| 切換完成 | component toggleCompletion() → service setTodoCompleted() | URL、method、完成狀態欄位、status、回應值 |
-| 刪除 | component deleteTodo() → service deleteTodo() | URL、method、status、response body |
+| `GET /api/todos` | 無 | Todo 陣列 |
+| `POST /api/todos` | `{ "title": "內容" }` | 新增的 Todo |
+| `PATCH /api/todos/:id` | `{ "title": "新內容" }` 或 `{ "isCompleted": true }` | 修改後的 Todo |
+| `DELETE /api/todos/:id` | 無 | `{}` |
 
-每次在瀏覽器 DevTools 的 Network 選取實際 request，並用自己的話回答：
+四個路由都要求 `Authorization: Bearer <LINE ID token>`。後端向 LINE 驗證 token 和 Channel ID，再取得使用者 ID；沒有 token 的請求會在讀寫 Firestore 前被拒絕。OpenAPI 在 `public/openapi.yaml`，前端契約在 `Oscar-liff-demo/docs/tech/api-contract.md`。
 
-- Request URL 是什麼？包含哪些 path 或 query？
-- HTTP method 是什麼？為什麼該操作使用這個 method？
-- Request body／headers 傳了什麼？
-- Response status 和 response body 是什麼？
-- 前端在哪個函式處理成功或失敗回應？
-- 後端哪個 route／handler 收到請求？它呼叫哪個 MongoDB 操作？
+## 程式閱讀路線
 
-可在此記錄新增操作的實測結果：
-
-| 欄位 | 實測值 |
+| 步驟 | 檔案與要看的函式 |
 | --- | --- |
-| URL | 待填 |
-| Method | 待填 |
-| Request body | 待填 |
-| Status | 待填 |
-| Response body | 待填 |
+| 使用者按鈕／表單 | 前端 `todo-list.component.html` 的事件綁定，接到 `todo-list.component.ts` 的 `addTodo()`、`saveEdit()`、`toggleCompletion()`、`deleteTodo()`。 |
+| 前端發送請求 | 前端 `todo-list.service.ts` 的 `loadTodos()`、`addTodo()`、`updateTodo()`、`deleteTodo()`；`getAuthHeaders()` 加 LINE token，`getTodosUrl()` 組網址。 |
+| 後端收請求 | 後端 `src/index.ts` 的 Todo 路由先呼叫 `requireLineUser()`，再呼叫 `src/functions/todo.ts`。 |
+| 資料庫 | `src/services/firestore.ts` 的 `findTodos()`、`insertTodo()`、`updateTodoById()`、`deleteTodoById()`；修改和刪除使用 transaction。 |
+| 回應與畫面 | 後端 `src/plugins/error-handler.ts` 轉換錯誤；前端 `sendRequest()` 處理 HTTP 失敗，`toTodoItem()` 將 `isCompleted` 轉成 `completed`，更新 `todosState` signal 後畫面重繪。 |
 
-## 程式閱讀與口頭說明
+練習說明新增的完整路徑：在輸入框打標題並送出 → component `addTodo()` → service `addTodo()` 發 `POST /api/todos` → `src/index.ts` 驗證 LINE token → `createTodo()` 產生 ID、時間與操作者 → Firestore `insertTodo()` 寫入 `todos/{id}` → API 回傳 Todo → service 更新 signal → Angular 清單多一筆。每個 `if` 都要能指出它擋掉什麼情況，以及失敗時為何不更新畫面。
 
-對新增、查詢、修改、刪除逐一從畫面追到資料庫，再追回血統更新。每個操作都能在 codebase 找到實際 function；每個 if、錯誤分支與 signal 更新都要說明判斷原因。
+## 部署經過與目前設定
 
-預期流程如下，實際函式名稱以實作完成後的程式為準：
+1. `s0.1.0` 使用舊範本 workflow，Docker 建置失敗：`Dockerfile.development` 要複製不存在的 `bun.lock`，`.npmrc` 也不在 Docker build context。
+2. 更新 workflow，改用目前的 `Dockerfile`、`bun.lockb`、個人專案的 Artifact Registry 和 `oscar-todo-api` 服務。`s0.1.1` 成功建置，但 image 上傳被拒絕。
+3. `s0.1.2` 確認既有 GitHub Secret 使用 `github-action-ci-cd@aiii-developer.iam.gserviceaccount.com`。先在個人專案的單一 Artifact Registry 儲存庫授予 Writer；重跑後發現 Cloud Run 權限不足，再在單一 Cloud Run 服務授予 Developer、在執行帳號授予 Service Account User。第 3 次執行完成部署。
 
-1. 使用者在 todo-list.component.html 按下按鈕或送出表單。
-2. Angular event 綁定呼叫 todo-list.component.ts 對應方法，例如 addTodo()、saveEdit()、toggleCompletion() 或 deleteTodo()。
-3. component 呼叫 TodoListService 的語意化方法，不直接修改資料陣列或呼叫資料庫。
-4. service 使用 HttpClient 發出 request，處理 DTO 轉換及錯誤。
-5. Elysia route 驗證 request，呼叫 Todo handler/service。
-6. 後端透過 MongoDB service 讀寫指定 collection。
-7. 後端回傳成功資料或標準錯誤；前端 service 轉成 UI model。
-8. component/service 更新 signal；Angular template 讀取新值並重新呈現清單。
+**部署憑證仍需調整。** 現行 workflow 借用公司的 `GCP_SA_GKE_KEY_AIII_DEVELOPER` Secret，讓公司部署帳號跨專案部署到個人 GCP。這能跑通，但與 2026-10-13 [第三週課綱](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/week-3-api-deploy.md)要求「在自己的私人專案建立部署服務帳號與金鑰」不同。後續應換成個人專案專用的部署身分與 GitHub Secret，並撤銷目前授給公司帳號的三處 IAM binding。金鑰內容不可放入本文件、repo 或聊天。
 
-練習方式：先自己讀函式與呼叫點，再請 AI 解釋不懂的部分；關掉說明後，用自己的話重新講一次，並指出對應的檔案與 function。若仍找不到資料流或不理解某個 if/signal，就先記下問題並詢問，不把未理解的程式當成完成。
+此外，`package.json` 的名稱、`config.stageImage` 與手動部署 scripts 仍沿用範本；目前成功的是 GitHub Actions workflow，不能把舊的手動指令當作已驗證的部署方式。
 
-## Issue、分支、PR 與 review
+## 待完成的驗收
 
-- API 後端 CRUD、前端 API 串接、部署驗收各自有清楚的 Issue；支線工作依題目要求分開追蹤。
-- 依核准的 repo 分支流程建立 feature branch，不直接改推 main 或 stage。
-- PR 描述包含任務連結、目的、變更內容、驗證方式、變更檔案與預期結果。
-- PR 必須有 reviewer 並完成實際 review 往返；merge 時關閉對應 Issue。
-- 使用者指出 PR #1 目前沒有 reviewer；需確認 repo 與 PR URL 後補上 reviewer，並把 review 結果記入任務進度。
-- 每次 commit 前先檢查 git status，只 stage 本任務檔案；不要使用 git add -A。
+- [x] 後端有 Todo CRUD 路由、欄位驗證、Firestore `todos` 讀寫程式與 OpenAPI。
+- [x] 前端 Todo service 改呼叫 API，所有執行模式的 Todo 都不使用 Mock file replacement；Mock 檔案只供閱讀與既有測試。
+- [x] `s0.1.2` 部署至自己的 Cloud Run，確認最新 revision 承接 100% 流量且 `GET /api/` 回 `200`。
+- [x] 不帶 LINE token 的 Todo 請求回 `401`，不會匿名讀取資料。
+- [x] 在已部署的 LIFF 網頁，以有效 LINE 登入實際完成新增、查詢、修改、刪除；重新整理後確認資料仍從 Firestore 讀回，並記錄結果。
+- [x] 在 DevTools Network 記下「新增」請求的 URL、method、request body、response body、status；其餘三種操作也能指出對應請求。
+- [x] 用自己的話說明每個操作對應的前端 function、後端 route/function、Firestore 操作、錯誤分支與 signal 更新。
+- [x] 改用私人專案的部署身分與 Secret，撤銷公司部署帳號在個人專案上的授權；確認私人 Gmail 下的帳單、預算與警示設定。
+- [x] 完成 stage 與 main 各自的 PR、review、merge 流程；只在允許的分支下 tag。
 
-## 驗收條件
+### Network 實測紀錄（登入後待填）
 
-### 後端與前端整合
+| 操作 | URL 與 method | Request body | Status 與 response |
+| --- | --- | --- | --- |
+| 查詢 | `GET https://oscar-todo-api-by6af26kva-de.a.run.app/api/todos` | 無 | 待從 Network 記錄 |
+| 新增 | `POST https://oscar-todo-api-by6af26kva-de.a.run.app/api/todos` | 待記錄實際標題 | 待從 Network 記錄 |
+| 修改 | `PATCH https://oscar-todo-api-by6af26kva-de.a.run.app/api/todos/:id` | 待記錄實際欄位 | 待從 Network 記錄 |
+| 刪除 | `DELETE https://oscar-todo-api-by6af26kva-de.a.run.app/api/todos/:id` | 無 | 待從 Network 記錄 |
 
-- [ ] API 查詢、新增、修改、刪除皆按已確認契約運作。
-- [ ] 新增 Todo 的資料符合欄位規格；isCompleted 預設 false。
-- [ ] 修改不改變 id 與 createdAt，會更新 updatedAt。
-- [ ] 空白 title 與不存在 id 有明確錯誤回應。
-- [ ] 前端呼叫 API 並依 API 回應更新畫面；同一操作不雙寫 Mock 與 API。
-- [ ] 重新載入後資料由 API／MongoDB 讀回，而非仰賴前端記憶體陣列。
+不要在截圖或筆記中貼完整的 `Authorization` token。卡住超過 30 分鐘就回報做到哪裡、看到什麼錯誤、已試過什麼。
 
-### 部署與 Network
+## Issue、PR 與下一步
 
-- [ ] SE 確認測試環境 Cloud Run、service account、secrets、MongoDB runtime 連線與 workflow 已備妥。
-- [ ] stage workflow 執行完成，Cloud Run revision 確認為本次版本。
-- [ ] 部署後實際 CRUD request 成功，記錄 Network 的 URL、method、body、status 與 response。
-- [ ] 未對正式環境部署。
+- [後端 Issue #1](https://github.com/Aiii-Developers/Oscar-api-demo/issues/1) 仍開啟，標題還寫 MongoDB；應更新為已採用 Firestore 的實際範圍。
+- [後端 PR #2](https://github.com/Aiii-Developers/Oscar-api-demo/pull/2) 指向 main，目前是 draft；已請求 reviewer，但截至 2026-10-14 尚無提交的 review。
+- [前端 PR #1](https://github.com/Aiii-Developers/Oscar-liff-demo/pull/1) 指向 main，已請求 reviewer，但截至 2026-10-14 尚無提交的 review。
+- stage 分支 `stage/s0.0.0` 已有 `s0.1.2`，但這次是直接推送，沒有 stage PR；課綱要求的 stage PR 流程尚未完成。
 
-### 學習與流程
-
-- [ ] 每種 UI 操作都能找到並解釋從 event handler 到 MongoDB 再回到 signal/template 的流程。
-- [ ] 能說明主要 if 判斷、驗證與錯誤分支的用途。
-- [ ] 使用者能在 DevTools Network 指認新增 request 的 URL、method、內容、response 與 status。
-- [ ] Issue、分支、PR、review、merge 與 Issue 結案依核准流程完成；PR #1 已加入 reviewer。
-
-## 目前阻塞與需立即確認
-
-| 項目 | 目前狀態 | 要詢問 |
-| --- | --- | --- |
-| API 路徑、DTO、auth、錯誤格式 | 未定 | SE／API reviewer |
-| Cloud Run 測試 service 與 workflow | template 尚未驗通 | SE |
-| MONGODB_URI、服務帳號與 repo secrets | 未取得；不可自行填值 | SE／運維窗口，確認實際負責人 |
-| stage/main 的 PR 流程 | 週次課綱與一般分支規範文字不同 | SE，指定訓練 repo 規則 |
-| Mock 是否保留為獨立驗收模式 | 本任務要求 API-only 操作；題目 PRD 要求 Mock 主線仍可獨立驗收 | 任務負責人／SE，先確認再移除現有 Mock 替代設定 |
-| PR #1 reviewer | 使用者回報尚未設定 | 核對 PR URL 並加入指定 reviewer |
-
-卡住 30 分鐘就回報目前進度、已試的方法與需要誰提供的資訊，不等到驗收才提出。
-
-## 今日進度回報（2026-10-07）
-
-- 已完成：讀取第三週與題目 PRD，盤點前後端現況，列出 API、部署及流程上的待確認項目。
-- 尚未完成：Todo 後端 CRUD、Angular API 串接、stage 部署與 runtime 驗收。
-- 目前卡點：API 契約、MongoDB URI、Cloud Run 測試 service、部署 service account/secrets 與 workflow 負責人待確認。
-- 下一步：立即向 SE／運維確認上述前置，同時從 Todo 資料規格與後端 route/service 骨架開始；每完成一個操作就練 Network 與口頭流程說明。
-- Reviewer：PR #1 需補 reviewer；待核對 PR URL 與指定 reviewer。
+下一步先在 LIFF 網頁完成登入後的部署版 CRUD 與 Network 紀錄，再處理個人部署憑證、範本殘留與 PR review。完成訓練後依[第三週課綱的收尾順序](https://github.com/Aiii-Developers/aiii-wiki/blob/main/company/onboarding/engineer-training/week-3-api-deploy.md)停用帳單、清理專案與金鑰。
 
 ## Progress
 
 ### 2026-10-07
 
-- 依使用者任務指示建立第三週執行記錄。
-- 盤點時發現 API repo 仍是 Elysia 範本；前端 API service 仍為 stub。
-- 待 SE／任務負責人確認 API 契約、部署前置、branch/PR 規則，以及題目 PRD 的 Mock 獨立驗收要求如何與本週 API-only 指示對齊。
+- 建立第三週任務紀錄，盤點當時的 Elysia 範本、MongoDB 範例與前端 Mock。這是當日狀態，後續已改用 Firestore。
+
+### 2026-10-12 至 2026-10-13
+
+- 實作 Firestore Todo CRUD、LINE ID token 驗證與操作者欄位；前端改接 API，使用者回報重新登入成功。
+- 更新 stage workflow，推送 `s0.1.1`、`s0.1.2`。處理 Artifact Registry 與 Cloud Run 權限後，`s0.1.2` 的第 3 次 Actions 執行成功。
+
+### 2026-10-14
+
+- 重新核對程式碼、PR 狀態與 Cloud Run：`s0.1.2` 仍是最新就緒 revision，承接 100% 流量；本文件更新為實際現況與待驗收項目。
