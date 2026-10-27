@@ -1,8 +1,8 @@
 ---
-title: AZTW CRESTCODE 遊戲使用流程改版
+title: AZTW CRESTCODE 遊戲使用流程改版（V2-1）
 status: in-progress
 start_date: 2026-08-25
-updated_date: 2026-09-15
+updated_date: 2026-10-27
 assigned_by: AZ
 tags:
   - 實習
@@ -17,7 +17,11 @@ tags:
   - Firestore
   - Software Engineering
 ---
-# AZTW CRESTCODE 遊戲使用流程改版
+# AZTW CRESTCODE 遊戲使用流程改版（V2-1）
+
+## 文件範圍
+
+本文記錄 CRESTCODE V2-1 的需求、實作與驗證，進度截至 2026-09-22 的 V2-1 收尾修正；後續版本新增的功能不屬於本文範圍。
 
 ## 任務目標
 
@@ -25,26 +29,27 @@ tags:
 
 本次改版將舊版「兩題制」流程調整為「一題制＋影片頁」，新增家族樹案例入口，並依最新健保降血脂給付規定更新題目與解析。同時需要重新規劃 V2 報表與 Audit Log，讓 HCP 的遊玩、影片、簡報下載及 LINE 轉化歷程可以被追蹤。
 
-## 目前進度摘要（2026-09-15）
+## 目前進度摘要（V2-1，截至 2026-09-22）
 
-- **實作狀態：** V2 前後端主要流程、六位角色、身份判定、題目內容、影片、完成頁、事件追蹤與每日報表已完成，並已部署過 Stage 版本。
+- **實作狀態：** V2-1 前後端主要流程、六位角色、身份判定、題目內容、影片、完成頁、事件追蹤、邀請頁參與計數與每日報表已完成；9/15 後的 V2-1 修正已陸續合併至兩個 repo 的 `main`。
 - **資料狀態：** 玩家紀錄使用 `sites/astrazeneca/hcpChallengeV2/{challengeId}`；題目版本使用 `sites/astrazeneca/hcpChallengeV2Scenarios/{scenarioVersionId}`。V2 不寫入 V1 collection。
-- **驗證證據：** 後端 `bun test` 為 230 pass、0 fail；前端 `npm run build-stage` 成功；已檢查一份實際 24 欄 Excel 報表。
-- **尚未結案：** production Firebase／scenario seed、目標手機與 LINE WebView 驗收、SendGrid 正式投遞、核准 BCC 名單，以及 V1／V2 主選單與報表切換仍需由團隊與 AZ 確認。
+- **驗證證據：** 9/15 後端 `bun test` 為 230 pass、0 fail；前端 `npm run build-stage` 成功；已檢查一份 V2-1 的 24 欄 Excel 報表。9/16–9/22 的計數與報表修正以合併 PR 作為交付紀錄。
+- **V2-1 收尾時待驗收：** 正式環境的題目資料、目標手機與 LINE WebView 相容性、SendGrid 實際投遞，以及 V1／V2 主選單與報表切換仍需依當時正式驗收紀錄確認；本文不把 Stage 驗證等同正式站驗收。
 
 ## 專案資訊
 
 - 客戶：AstraZeneca Taiwan（AZTW），租戶代號 `astrazeneca`
 - 平台：LINE LIFF 前端＋LINE CRM／AZ-BOT Console 後台
-- 版本：0630 改版（V2）
+- 版本：0630 改版（V2-1）
 - 起始會議：2026-08-25
 - 需求文件作者：`abby@aiii.ai`
-- 首發案例：冠嬸
+- 首發案例：冠嬸婆
 - 前端入口：本版本使用全新的 LIFF 連結，正式 URL 由客戶上線前提供
 - 後端 Repository：<https://github.com/Aiii-Developers/astrazeneca-hcp-api>
 - 前端 Repository：<https://github.com/Aiii-Developers/astrazeneca-liff-med>
-- 後端 Draft PR：<https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90>
-- 前端 Draft PR：<https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52>
+- V2-1 後端合併 PR：[#105 計數口徑](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/105)、[#106 影片事件判定](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/106)、[#107 報表排序](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/107)、[#109 續玩與影片判定](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/109)。
+- V2-1 前端合併 PR：[#57 前端整合](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/57)、[#58 移除案例標題英文標示](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/58)、[#59 舊連結相容與影片追蹤](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/59)。
+- 早期 Draft PR [後端 #90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90) 與 [前端 #52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52) 已關閉且未合併；後續 V2-1 交付以以上合併 PR 為準。
 
 ## 我的角色與責任範圍
 
@@ -114,7 +119,7 @@ sites/astrazeneca/hcpChallengeV2/{challengeId}
   ├─ memberProgress              # 六位角色各自的狀態、答案、影片與完成時間
   ├─ startRequests               # 開始遊戲的 idempotency 紀錄
   ├─ events                      # 影片、教材、LINE CTA 等事件
-  └─ completion projection       # 完成六位角色後的統計投影
+  └─ completion projection       # firstMemberCompletedAt（首次完成一角、邀請頁計數）與 allMembersCompletedAt（六角全完成）
 ```
 
 題目與素材內容另由可管理的 scenario 文件保存：
@@ -141,13 +146,14 @@ family_selection → question → explanation → video → material → complet
 
 ### V2 API 契約
 
-本次建立或整合 11 個 V2 endpoint：
+本次建立或整合 12 個 V2-1 endpoint：
 
 | Endpoint | 用途 |
 | --- | --- |
 | `POST /hcp-challenge/v2/identity` | 判定 verified、pending、unregistered、revoked 與結果頁 CTA |
 | `POST /hcp-challenge/v2/family-members` | 取得六位成員及完成／可用狀態 |
 | `POST /hcp-challenge/v2/scenario-content` | 取得已上架且核准的公開題目內容 |
+| `POST /hcp-challenge/v2/medical-institutions` | 搜尋可選的服務院所資料 |
 | `POST /hcp-challenge/v2/start` | 建立家族選擇 shell 或以選角方式 retry-safe 開始 |
 | `POST /hcp-challenge/v2/profile-status` | 查詢非已驗證 HCP 是否已填過資料 |
 | `POST /hcp-challenge/v2/profile` | 儲存姓名、縣市與服務院所 |
@@ -208,38 +214,37 @@ family_selection → question → explanation → video → material → complet
 
 ## 家族樹解鎖機制
 
-- 家族成員：冠嬸、冠爺、冠媽、冠爸、冠叔、阿冠。
+- 家族成員：冠嬸婆、冠爺、冠媽、冠爸、冠叔、阿冠。
 - 預設所有成員以黑白 silhouette 剪影呈現，可直接任選一位挑戰。
 - 使用者完成挑戰後，不論答對或答錯，該成員即點亮解鎖。
 - 尚未解鎖的成員仍可任選挑戰；全部成員解鎖後仍可任選成員重複遊玩。
-- 首發案例為「冠嬸」；選取成員時需有彩色圖像與高亮狀態，並啟用下一步按鈕。
+- 首發案例為「冠嬸婆」；選取成員時需有彩色圖像與高亮狀態，並啟用下一步按鈕。
 
-## 首發案例：冠嬸
+## 首發案例：冠嬸婆
 
 ### 個案設定
 
 - 性別：女性
-- 年齡：55 歲
+- 年齡：65 歲
 - 共病：高血壓
-- 臨床情境：高血脂治療仍未達標，需要設定治療策略與防護標準。
+- 臨床情境：經 3 個月生活型態調整後，LDL-C 仍為 140 mg/dL，需要設定治療策略與防護標準。
 
 ### 一題制問答
 
-題目：根據最新《全民健康保險降血脂藥物給付規定》，冠嬸的 LDL-C 治療目標應設定為？
+題目：根據 2026 年《全民健康保險降血脂藥物給付規定》，冠嬸婆的 LDL-C 治療目標及後續治療策略應如何設定？
 
 選項：
 
-- A. `< 130 mg/dL`（正確答案）
-- B. `< 115 mg/dL`
-- C. `< 100 mg/dL`
-- D. `< 70 mg/dL`
+- A. `< 160 mg/dL`，低強度 statin
+- B. `< 130 mg/dL`，低強度 statin
+- C. `< 115 mg/dL`，中強度 statin（正確答案）
 
-解析需說明：冠嬸符合「女性年齡 >= 55 歲」與「高血壓」共 2 項危險因子，且始藥前已進行 3–6 個月飲食治療；若始藥前 LDL-C 仍 `>= 130 mg/dL`，藥物治療收案與降脂目標為 `< 130 mg/dL`。底部列出對應學術文獻 Reference。
+解析需說明：冠嬸婆符合「女性年紀 >= 55 歲」與「高血壓」共 2 項心血管風險因子，屬中度風險；LDL-C 目標為 `< 115 mg/dL`、non-HDL-C 目標為 `< 145 mg/dL`。依 V2-1 題庫，3–6 個月生活型態調整未達標時以中強度 statin 作為起始治療，並說明後續治療策略與 Reference。醫療內容仍以 AZ Medical／Compliance 核准版本為準。
 
 ### 素材規格
 
 - 影片：16:9、MP4 H.264、預計 60–90 秒；原需求預計使用 AZbox，Stage 實作因手機相容性改用 Google Cloud Storage 公開 MP4。
-- 簡報：`Crestor_血脂管理共識指引整理.pdf`，以 PDF 開啟／下載。
+- 簡報：`AmaZing News 降血脂藥物健保快訊`，V2-1 使用 [AZ Box 分享連結](https://az.box.com/s/uvnnigkxaa3bcat28by6d6s5l09hx671) 開啟／下載。
 - 文案、答案、解析、影片與簡報素材需經 AZ Medical／Compliance 核決後才能上線。
 
 ## Audit Log 與 V2 報表
@@ -253,7 +258,7 @@ family_selection → question → explanation → video → material → complet
 5. **下載簡報**：下載按鈕點擊次數，欄位可參考[既有 Google 試算表](https://docs.google.com/spreadsheets/d/10_wwgF35EIHMXketiMVLgtE6Gp_nAtek/edit?usp=sharing&ouid=116500601244804166322&rtpof=true&sd=true)。
 6. **LINE 轉化**：非已驗證 HCP 的官方 LINE 註冊按鈕點擊與成功綁定結果。
 
-後台需能以單一使用者／單次遊玩回填完整軌跡，例如：身份、進入時間、選擇「冠嬸」、作答、影片點擊、簡報下載與 LINE 註冊結果。
+後台需能以單一使用者／單次遊玩回填完整軌跡，例如：身份、進入時間、選擇「冠嬸婆」、作答、影片點擊、簡報下載與 LINE 註冊結果。
 
 ### 報表切換規則
 
@@ -289,7 +294,7 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - 建立 `hcpChallengeV2` 玩家文件與 `hcpChallengeV2Scenarios` 題目文件的資料模型、migration／rename script、seed script 與影片 URL 更新 script。
 - 實作 database-first content resolver：優先讀 Firestore；若本機／部署環境暫時沒有完整六組已核准內容，才回退至程式碼中的核准內容，避免空白題目頁。
 - 實作 server-side 狀態機、idempotency、concurrent answer protection、每角色獨立續玩及完成角色 projection。
-- 建立 V2 事件追蹤與報表聚合，能依日期、角色、業務與事件統計 unique participants、開始／完成次數及 CTA；每日 Excel 報表固定 24 欄、每場遊玩一列，從最早有效 V2 紀錄累計至報表日期，不按月份重置。
+- 建立 V2 事件追蹤與報表聚合，能依日期、角色、業務與事件統計 unique participants、開始／完成次數及 CTA；每日 Excel 報表固定 24 欄、每場遊玩一列，從最早有效 V2 紀錄累計至報表日期，不按月份重置。邀請頁參與人數在首次完成任一角色後計入，同一 LINE user ID 只計一次；六角色全數完成仍是完整通關指標。
 - 保留 V1 route 與既有資料，不以 V2 migration 修改或刪除非 V2 collection。
 
 主要檔案：
@@ -311,7 +316,7 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - 建立獨立的 `HcpChallengeV2Component`、module、model 與 API service，串接完整 V2 API。
 - 完成 profile、family、question、explanation、video、result、blocked 與 error 等畫面狀態。
 - 依 Figma 與實際截圖調整家族樹、題目、答案彈窗、影片頁與兩種身分結果頁。
-- 將題目頁整理為「案例背景／案例圖／臨床決策挑戰／題目」分格排版；依 Figma 在案例標題加入 HP／HP+GP 標記，並以角色及出現次數控制選擇性粗體。
+- 將題目頁整理為「案例背景／案例圖／臨床決策挑戰／題目」分格排版；左上統一顯示「案例背景」，依角色及文字出現次數控制指定粗體。後續前端調整移除案例標題中的英文 HP／HP+GP 標示。
 - 將非已驗證 HCP 的第一頁改為姓名、縣市、服務院所資料表單；服務院所支援下拉選擇與手填備註，提交資料寫入 V2 玩家文件並供報表回填。
 - 加入六位家族角色黑白／彩色素材與六張案例圖，完成圖片預載與 Material spinner。
 - 將影片改為 Google Cloud Storage 公開 MP4 搭配原生 mobile-friendly video player。
@@ -339,26 +344,26 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 | 點選當下角色變彩色，但完成後或重整後狀態錯誤 | selected 與 completed 被當成同一種 UI 狀態 | selected 只控制高亮，unlocked 只接受後端 completed projection；以最後一頁作為完成標準 | Single source of truth、derived UI state |
 | `sites/astrazeneca` 底下出現多個 V2 collection | 早期設計把 session、participant、event 等資料各自建立 collection，增加公司共用資料庫管理成本 | 將玩家紀錄收斂成 `hcpChallengeV2` 單一隨機文件，並以獨立 `hcpChallengeV2Scenarios` 管理題目版本；runtime 不再寫入 profile／participant／session／auditEvent 子 collection，並以 layout test 防止回歸 | Bounded context、schema governance |
 | 本機啟動時查詢醫療院所出現 BigQuery 403 | 舊版院所查詢依賴所有開發者都無權限的跨專案 BigQuery view | V2 profile 改以同 site 的 Firestore `medicalInstitution` 文件驗證選擇的院所 key；報表查詢 HCP view 失敗時則回退 V2 profile，讓未驗證 HCP 仍能留下可用資料 | Least privilege、graceful degradation、data provenance |
-| 題目頁與 Figma 的標題／粗體不一致 | API 只提供 plain text，無法直接表達每個角色不同的字詞與出現次數 | 保留後端文案契約，在前端以角色、段落與 occurrence 設定控制 HP／HP+GP 標記及選擇性粗體，並以測試固定六組案例文案 | Presentation metadata、regression testing |
+| 題目頁與 Figma 的標題／粗體不一致 | API 只提供 plain text，無法直接表達每個角色不同的字詞與出現次數 | 前端統一顯示「案例背景」，依角色、段落與 occurrence 設定控制選擇性粗體；後續移除案例標題中的英文 HP／HP+GP 標示，並以測試固定六組案例文案 | Presentation metadata、regression testing |
 | Box 影片桌面可播、手機 LIFF 無法觸控 | iframe 與 Box viewer 在行動 WebView 的相容性不足，分享網址也不是原始 video resource | 將 MP4 放到 Google Cloud Storage，使用原生 `<video controls playsinline>`，保留外部連結 fallback | Mobile WebView、media delivery、progressive fallback |
 | 題目頁先出現但圖片尚未載好 | SPA route 已切換，browser image request 還沒完成 | 在切換題目 phase 前預載圖片，以 spinner 呈現等待狀態 | Perceived performance、asset preloading |
 | BRD、PRD、Figma 與舊版行為互相衝突 | 文件時間與目的不同，部分需求仍是待確認或舊版遺留 | 先整理規格差異與風險，再以較新會議／設計決議落地；未確認項目明確留在驗收清單 | Requirements traceability、decision log |
 
 ## 驗證與可量化成果
 
-截至 2026-09-15：
+V2-1 驗證紀錄（自動化測試截至 2026-09-15；合併狀態更新至 2026-09-22）：
 
-- 支援 4 種 HCP 身分、6 位家族成員、6 個 server-controlled session 狀態與 11 個 V2 API endpoint。
+- 支援 4 種 HCP 身分、6 位家族成員、6 個 server-controlled session 狀態與 12 個 V2-1 API endpoint。
 - 六組案例內容以 `hcpChallengeV2Scenarios` 為資料庫優先來源，並透過 `published`、`approved`、`effectiveAt` 與 `expiresAt` 條件 fail closed；資料庫內容不完整時才回退程式碼 registry。
 - 後端執行 `bun test`：**230 pass、0 fail、698 expect() calls，24 個 test files**。
 - 後端測試涵蓋 auth、content、contract、Firestore layout、identity、session、analytics、route 與 error envelope。
 - 前端執行 `npm run build-stage` 成功（2026-09-15）；只有既有 CommonJS optimization warnings，未發生 TypeScript／bundle build error。
 - 前端已建立 component、asset config 與 API service 的自動化測試，關鍵角色續玩與 UI 狀態都有 regression case。
-- 已完成 Stage release tag：後端 `s1.3.133`、前端 `s1.7.65-65`；目前開發分支仍有後續測試收件人與 Figma 樣式修正，尚未代表 production 上線。
+- 9/15 當時記錄的 Stage tag 為後端 `s1.3.133`、前端 `s1.7.65-65`；這是當時的版本快照，不代表 production 上線。
 - 已產出並人工檢查 `AZ_TW_CREST_CODE_HCP_Daily_Log_20260914_20260915.xlsx`：24 欄、4 筆 V2 session 明細；3 筆到達完成頁標記 `Y`，1 筆未完成標記 `N`。報表明細按遊玩 session 一列，邀請頁的醫師人數則另以 LINE user ID 去重。
-- 已以 Stage API 實際觸發每日報表 endpoint；郵件收件清單、SendGrid 實際投遞與正式 BCC 名單仍需最終環境驗收。
-- 後端 Draft PR：[#90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90)。
-- 前端 Draft PR：[#52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52)。
+- 已以 Stage API 實際觸發每日報表 endpoint；截至 V2-1 收尾紀錄，郵件收件清單、SendGrid 實際投遞與正式 BCC 名單仍需最終環境驗收。
+- V2-1 後端修正合併至 `main`：[#105](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/105)、[#106](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/106)、[#107](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/107)、[#109](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/109)。
+- V2-1 前端修正合併至 `main`：[#57](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/57)、[#58](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/58)、[#59](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/59)。早期 Draft PR #90／#52 已關閉且未合併。
 
 以上數字代表程式與自動化驗證成果，不等於正式站已上線。正式 Medical／Compliance 核決、production deploy、真實活動流量及成效指標仍需另外紀錄。
 
@@ -369,7 +374,7 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - [ ] 新版使用新的 LIFF 連結，且不沿用 V1 入口。
 - [x] 家族樹包含六位成員，可任選挑戰；完成後不論對錯均解鎖，全部解鎖後可重玩。
 - [x] 每個案例僅有一題，情境與問題同頁，送出後顯示解析與 Reference。
-- [ ] 冠嬸案例的答案、健保規定與解析完成 AZ Medical／Compliance 核決。
+- [ ] 冠嬸婆案例的答案、健保規定與解析完成 AZ Medical／Compliance 核決。
 - [x] 影片頁已以 16:9 原生 video player 播放 Cloud Storage MP4，並保留外部開啟 fallback。
 - [ ] 影片在目標手機、LINE in-app browser 與醫院網路環境完成相容性驗收。
 - [x] 結果頁已依身分顯示不同 CTA 與「再玩一次」。
@@ -378,7 +383,7 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 - [x] V2 Excel 報表已依 AZ 範例固定 24 欄，並驗證跨月份從最早有效遊玩紀錄累計至報表日期、不以每月 1 號重置。
 - [ ] 每日報表以正式核准收件清單完成實際 SendGrid 投遞驗收；本機沒有 SendGrid API key 時只能驗證 API／附件產製。
 - [ ] V1 報表已結束，V2 報表與部署／切換時間已與 AZ 約定。
-- [ ] Sales 邀請畫面的參與人數規則完成確認並通過測試。
+- [x] 邀請頁參與人數於首次完成任一角色後計入，同一 LINE user ID 只計一次；六角色全數完成另作完整通關判定。
 - [ ] production Firebase 專案、V2 scenario seed 與 LIFF 主選單切換完成正式環境驗收。
 
 ## 成功指標
@@ -392,15 +397,15 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 
 ## 待確認與風險
 
-- **Sales 累計人數規則衝突**：BRD 要求延續 V1 數據並繼續累加；PRD 與 2026-08-25 會議則記載 V2 可歸零重新計算。目前以較晚的 PRD／會議結論為準，仍需 AZ 最終確認。
+- **Sales 計數口徑已在 V2-1 實作中定義**：邀請頁今日／累計參與人數在醫師首次完成任一角色後計入，依 LINE user ID 去重；完成六個角色另作完整通關指標。此規則由後端 [PR #105](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/105) 更新。
 - **Audit Log 欄位落差**：BRD 要求記錄答案正誤、影片播放長度與 LINE 註冊結果；PRD 的 3.8 欄位清單未全部列出，需補齊資料 schema 與驗收案例。
 - **健保規定合規風險**：題目、答案、解析及 Reference 必須以 AZ Medical／Compliance 核決版本為準。
-- **影片載入風險**：醫院內網可能限制 YouTube 或其他串流平台；優先使用客戶提供且可穩定存取的 AZbox／CDN 資源，並確認檔案壓縮與播放策略。
+- **影片載入風險**：V2-1 已改用 Google Cloud Storage MP4 與原生播放器；仍需確認目標手機、LINE WebView 與醫院網路可正常存取及播放。
 - **LIFF 入口尚未定案**：新 LIFF URL 需在上線前由客戶提供，並完成不同身份與邀請來源測試。
 - **完整簡報取得方式待確認**：BRD 風險對策建議完整版可能需完成 LINE 綁定後再發送，需確認是否影響本頁直接下載的需求。
 - **CMS 範圍待確認**：案例上下架與資源管理屬本次邊界；完整文案動態編輯在 BRD 中為 Nice-to-have。
 - **每日報表投遞尚未完成正式驗收**：Stage API 已能產製 Excel，但本機缺少 SendGrid API key，且測試收件人／BCC 與正式核准清單不同；上線前需確認實際郵件投遞與附件內容。
-- **production 題目資料需先完成 seed**：database-first resolver 可在資料缺失時回退程式碼內容，但正式環境仍應建立並核准六組 `hcpChallengeV2Scenarios`，避免長期依賴 fallback。
+- **V2-1 收尾時的 production 題目資料待確認**：database-first resolver 可在資料缺失時回退程式碼內容；正式環境仍需確認六組 `hcpChallengeV2Scenarios` 已建立並核准，避免長期依賴 fallback。
 
 ## 我的學習與反思
 
@@ -429,7 +434,7 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 - **Situation**：既有醫療行銷 LIFF 遊戲要從兩題制改為家族案例一題制，需求分散在多份文件與 Figma，且需同時相容四種 HCP 身分、六位角色、舊版資料與手機 LINE WebView。
 - **Task**：在不影響 V1 與公司共用 Firestore 其他資料的前提下，完成 V2 前後端流程、動態內容、狀態續玩、媒體播放、Audit Log 與可交接文件。
 - **Action**：整理 BRD／PRD／Figma 為可測試規格；設計 `hcpChallengeV2` 單一玩家文件、`hcpChallengeV2Scenarios` 題目版本與 server-side session state machine；以 Firebase token、ownership check 與 idempotency 保護 API；完成 Angular LIFF、圖片預載、原生手機影片與每角色獨立續玩；建立自動化測試與 Stage release 流程。
-- **Result**：完成 11 個 V2 API、6 位角色與六組案例的整合；後端 230 個測試全數通過，前端 Stage build 成功；前後端分別發布 Stage tag 並建立 Draft PR 送審，另以實際 Excel 檔驗證報表欄位與完成狀態。
+- **Result**：完成 12 個 V2-1 API、6 位角色與六組案例的整合；後端 230 個測試全數通過，前端 Stage build 成功；V2-1 後續修正合併至前後端 `main`，並以實際 24 欄 Excel 檔驗證報表欄位與完成狀態。
 
 ### 備審自述草稿
 
@@ -440,7 +445,7 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 - 參與跨國藥廠 HCP LINE LIFF 遊戲改版，整合 Angular、Bun／Elysia、Firebase Authentication、Firestore 與 Google Cloud Storage，完成六角色的一題制案例流程。
 - 設計 server-side session state machine、idempotent API 與 per-member session isolation，修正跨角色錯誤續玩及完成狀態不一致問題。
 - 將 V2 玩家資料與題目版本收斂到 site-scoped Firestore bounded context，建立 migration／rename／seed／layout tests，在不修改 V1 與其他產品資料的前提下完成資料整理。
-- 建立 V2 identity、content、answer、analytics 與 report API；後端 230 個自動化測試全數通過，前端 Angular Stage build 成功並完成 Stage PR 交付。
+- 建立 12 個 V2-1 API，涵蓋 identity、內容、院所、作答、追蹤與報表；後端 230 個自動化測試全數通過，前端 Angular Stage build 成功，V2-1 後續修正已合併至 `main`。
 
 > 對外申請時若受 NDA 或公司規範限制，可將「AstraZeneca」改寫為「跨國藥廠客戶」，移除內部 URL、資料路徑、tag、PR 編號與未公開醫療文案，只保留技術問題、方法與可公開成果。
 
@@ -478,17 +483,17 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 - 修正每位角色 session 隔離與 completed 才解鎖的邏輯。
 - 將影片從 Box iframe 改為 Google Cloud Storage MP4 與原生 video player。
 - 完成第一輪前後端測試、Stage merge 與 tag：API `s1.3.123`、LIFF `s1.7.55-55`；後續迭代已更新至 API `s1.3.133`、LIFF `s1.7.65-65`。
-- 建立 API Draft PR #90 與 LIFF Draft PR #52，目標分支皆為 `main`。
+- 當時建立的 API Draft PR #90 與 LIFF Draft PR #52 後來關閉且未合併；後續 V2-1 交付改由 9/16–9/22 的合併 PR 完成。
 
 ### 2026-09-08
 
 - 將需求規格、系統設計、個人貢獻、問題解法、驗證證據與學習反思整理至本筆記。
-- 目前程式已送 Draft PR review；production 上線、Medical／Compliance 核決及剩餘 Stage 手動驗收尚未完成。
+- 當時的 Draft PR 後來關閉且未合併；正式環境上線、Medical／Compliance 核決及剩餘 Stage 手動驗收仍需另外確認。
 
 ### 2026-09-09
 
 - 完成業務邀請頁的 V2 連結邏輯：QR Code 與分享連結都帶入 `site` 與 `medSalesKey`，並導向 `/hcp-challenge/v2`；原有 invite 路由與 V1 流程保留。
-- 完成 V2 邀請頁的今日／累計完成數 API 與業務醫師進度查詢；完成條件為同一 LINE 使用者完成六位角色，統計時以 LINE user ID 去重。
+- 完成 V2 邀請頁的今日／累計參與數 API 與業務醫師進度查詢。初版以全六角色完成為口徑；9/16 後續修正為首次完成任一角色即計入參與，同一 LINE user ID 只計一次，全六角色完成則另作完整通關指標。
 - 完成每日 Excel 報表 endpoint 的 Stage API 測試，確認可由指定日期產出 24 欄報表與 `rowCount`；實際 SendGrid 投遞仍受環境 API key 與正式收件清單控制。
 - 釐清 Cloud Run、Firebase 與本機設定的差異：Stage／production 不允許 `medSalesKey=test` bypass，本機 UAT 才能明確開啟測試 key。
 
@@ -501,11 +506,18 @@ BRD、PRD、Figma、舊版程式與口頭討論各自回答不同問題，而且
 
 ### 2026-09-15
 
-- 依 Figma 完成題目與解析頁的最後一輪文案呈現：左上統一顯示「案例背景」、標題補上 HP／HP+GP、只對指定角色／指定出現次數加粗，並移除不應出現的黑色粗體段落。
+- 依 Figma 調整題目與解析頁：左上統一顯示「案例背景」，設定指定角色／指定出現次數的粗體，並移除不應出現的黑色粗體段落。隔日的前端修正再移除案例標題中的英文 HP／HP+GP 標示。
 - 完成前端 `npm run build-stage`；後端 `bun test` 結果為 **230 pass、0 fail、698 expect() calls（24 個 test files）**。測試中仍會看到本機 Redis DNS warning，但不影響測試通過。
 - 實際檢查 `AZ_TW_CREST_CODE_HCP_Daily_Log_20260914_20260915.xlsx`：報表有 24 欄、4 筆 V2 session 明細，3 筆完成標記 `Y`、1 筆未完成標記 `N`；確認跨月份從最早有效 V2 遊玩紀錄累計，且明細不以醫師去重。
-- 後端與前端目前都切回 `feature/hcp-challenge-dynamic-scenarios`；本地分支保留 Stage release 後的報表收件人與 Figma 樣式修正，尚未 push／合併至 production。
-- 目前剩餘正式上線前工作：確認 production Firebase 專案與 scenario seed、完成目標手機／LINE WebView 驗收、確認 SendGrid 核准收件與 BCC、以及與 AZ 約定 V1／V2 報表與主選單切換時間。
+- 當時工作區切回 `feature/hcp-challenge-dynamic-scenarios`；Draft PR #90／#52 於當日關閉且未合併，後續 V2-1 修改透過新的 PR 合併至 `main`。
+- V2-1 收尾時仍待確認：production Firebase 題目資料、目標手機／LINE WebView 驗收、SendGrid 核准收件與 BCC，以及 V1／V2 報表和主選單切換。
+
+### 2026-09-16 至 2026-09-22
+
+- 9/16 後端 [PR #105](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/105) 將邀請頁參與計數改為首次完成任一角色即計入，並依 LINE user ID 去重；六角色全數完成仍獨立作為完整通關指標。前端 [PR #57](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/57) 合併 V2 前端修正，[PR #58](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/58) 移除案例標題的英文標示。
+- 9/18 後端 [PR #106](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/106) 修正影片點擊依單次遊玩計算；前端 [PR #59](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/59) 保留舊版挑戰連結並修正影片觀看追蹤。
+- 9/21 後端 [PR #107](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/107) 讓報表依最後互動時間排序。
+- 9/22 後端 [PR #109](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/109) 修正續玩 session 與影片互動的報表判定，作為本文件記錄的 V2-1 收尾修正。
 
 ## 相關人物與角色
 

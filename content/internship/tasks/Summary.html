@@ -1,0 +1,1482 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="author" content="Oscar" />
+    <meta
+      name="description"
+      content="Oscar 於 2026/08/10 至 2026/10/27 的實習工作成果、任務交付與協作回顧。"
+    />
+    <title>到職至今工作與任務整理｜Oscar</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #333333;
+        --body: #505050;
+        --muted: #707070;
+        --line: #dedede;
+        --soft: #f5f5f5;
+        --paper: #ffffff;
+        --radius: 14px;
+        scroll-behavior: smooth;
+        scroll-padding-top: 96px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--soft);
+        color: var(--body);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei",
+          sans-serif;
+        font-size: 15px;
+        line-height: 1.95;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+        text-decoration-color: #a0a0a0;
+        text-underline-offset: 4px;
+        overflow-wrap: anywhere;
+      }
+      a:hover {
+        color: var(--ink);
+        text-decoration-color: var(--ink);
+      }
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      a:focus-visible,
+      button:focus-visible,
+      .table-wrap:focus-visible {
+        outline: 2px solid #666666;
+        outline-offset: 5px;
+        border-radius: 4px;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      .skip-link {
+        position: fixed;
+        top: -80px;
+        left: 20px;
+        z-index: 99;
+        padding: 8px 16px;
+        background: #ffffff;
+        border: 1px solid #888888;
+        color: var(--ink);
+      }
+      .skip-link:focus {
+        top: 12px;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        min-height: 66px;
+        padding: 12px max(24px, calc((100vw - 1320px) / 2));
+        border-bottom: 1px solid var(--line);
+        background: #ffffff;
+      }
+      .brand {
+        font-size: 13px;
+        font-weight: 650;
+        letter-spacing: 0.06em;
+        color: var(--ink);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .brand span {
+        padding: 0 10px;
+        color: #999999;
+        font-weight: 400;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .actions a,
+      .actions button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 6px 14px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        font-size: 12px;
+        line-height: 1.5;
+        text-decoration: none;
+        white-space: nowrap;
+        background: #ffffff;
+        color: var(--body);
+      }
+      .actions button {
+        border-color: #555555;
+        background: #444444;
+        color: #ffffff;
+      }
+      .actions a:hover {
+        background: #f2f2f2;
+      }
+      .actions button:hover {
+        background: #555555;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 192px minmax(0, 1fr);
+        align-items: start;
+        gap: 38px;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 44px 28px 70px;
+      }
+      .sidebar {
+        position: sticky;
+        top: 110px;
+        padding-top: 5px;
+      }
+      .toc-label {
+        margin: 0 0 16px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+      }
+      .sidebar nav {
+        display: grid;
+        gap: 6px;
+      }
+      .sidebar nav a {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 10px 12px;
+        border-left: 2px solid transparent;
+        border-radius: 0 7px 7px 0;
+        color: #666666;
+        text-decoration: none;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .sidebar nav a:hover,
+      .sidebar nav a.is-active {
+        border-left-color: #666666;
+        background: #eaeaea;
+        color: var(--ink);
+      }
+      .nav-number {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+        color: #808080;
+        font-variant-numeric: tabular-nums;
+      }
+      .sidebar-meta {
+        margin: 26px 12px 0;
+        padding-top: 19px;
+        border-top: 1px solid var(--line);
+        font-size: 11px;
+        line-height: 1.9;
+        color: var(--muted);
+      }
+      .report {
+        min-width: 0;
+        background: var(--paper);
+        padding: 48px 48px 22px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+      .report-header {
+        padding: 0 0 32px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 34px;
+      }
+      .eyebrow {
+        margin: 0 0 14px;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      h1,
+      h2,
+      h3 {
+        color: var(--ink);
+        font-weight: 650;
+        overflow-wrap: anywhere;
+      }
+      h1 {
+        margin: 0 0 18px;
+        font-size: clamp(27px, 3.1vw, 39px);
+        letter-spacing: 0.025em;
+        line-height: 1.5;
+      }
+      .report-meta {
+        margin: 0;
+        font-size: 12px;
+        line-height: 2;
+        color: var(--muted);
+      }
+      .report-meta strong,
+      .task-meta strong {
+        font-weight: 400;
+      }
+      .report-section {
+        margin: 0 0 42px;
+        scroll-margin-top: 96px;
+      }
+      h2 {
+        margin: 0 0 19px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+        font-size: 20px;
+        letter-spacing: 0.035em;
+        line-height: 1.7;
+      }
+      h3 {
+        margin: 26px 0 12px;
+        font-size: 17px;
+        line-height: 1.7;
+      }
+      p {
+        margin: 0 0 16px;
+        overflow-wrap: anywhere;
+      }
+      strong {
+        font-weight: 600;
+        color: #444444;
+      }
+      ul,
+      ol {
+        padding-left: 1.45em;
+        margin: 14px 0 20px;
+      }
+      li {
+        padding-left: 4px;
+        margin: 7px 0;
+      }
+      li p {
+        margin: 0;
+      }
+      code {
+        padding: 2px 5px;
+        background: #f1f1f1;
+        border-radius: 4px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.87em;
+        color: #4a4a4a;
+        overflow-wrap: anywhere;
+      }
+      .section-overview > p:first-of-type {
+        font-size: 16px;
+        line-height: 2.05;
+      }
+      .section-overview > ul {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .section-overview > ul > li {
+        margin: 0;
+        padding: 16px 18px;
+        border: 1px solid #e6e6e6;
+        border-radius: 9px;
+        background: #fafafa;
+        font-size: 13px;
+        line-height: 1.95;
+      }
+      .section-overview > ul strong {
+        display: inline;
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        margin: 0 0 13px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 12px;
+        line-height: 1.85;
+        text-align: left;
+        table-layout: fixed;
+      }
+      th,
+      td {
+        padding: 13px 10px;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+        overflow-wrap: anywhere;
+      }
+      th {
+        background: #f3f3f3;
+        color: #555555;
+        font-size: 11px;
+        font-weight: 650;
+        letter-spacing: 0.04em;
+        border-top: 1px solid var(--line);
+      }
+      th:nth-child(1) {
+        width: 15%;
+      }
+      th:nth-child(2) {
+        width: 24%;
+      }
+      th:nth-child(3) {
+        width: 32%;
+      }
+      th:nth-child(4) {
+        width: 29%;
+      }
+      td:first-child {
+        font-size: 10px;
+        font-variant-numeric: tabular-nums;
+        color: var(--muted);
+      }
+      .task-jump {
+        font-weight: 600;
+        color: #444444;
+        text-decoration: none;
+      }
+      .task-jump:hover {
+        text-decoration: underline;
+      }
+      .section-tasks > .table-wrap + p {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .task-cards {
+        display: grid;
+        gap: 22px;
+      }
+      .task-card {
+        position: relative;
+        padding: 26px 27px 22px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #ffffff;
+        scroll-margin-top: 90px;
+      }
+      .task-card h3 {
+        margin: 0 0 8px;
+        font-size: 19px;
+        line-height: 1.7;
+      }
+      .task-meta {
+        margin: 0 0 22px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eaeaea;
+        font-size: 11px;
+        line-height: 1.9;
+        color: var(--muted);
+      }
+      .task-card > p:not(.task-meta):not(.source-note) {
+        font-size: 14px;
+      }
+      .source-note {
+        margin: 20px 0 0;
+        font-size: 11px;
+        line-height: 1.9;
+        color: #777777;
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 16px;
+        color: #707070;
+        font-size: 10px;
+        text-decoration: none;
+        letter-spacing: 0.03em;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      .section-engineering h3 {
+        padding-left: 12px;
+        border-left: 3px solid #b5b5b5;
+        font-size: 16px;
+      }
+      .section-handover {
+        padding: 24px 26px;
+        border: 1px solid #dedede;
+        border-radius: 10px;
+        background: #f8f8f8;
+      }
+      .section-handover h2 {
+        font-size: 18px;
+      }
+      .section-handover ul {
+        margin-bottom: 0;
+      }
+      .section-sources {
+        font-size: 12px;
+        color: #707070;
+        margin-bottom: 22px;
+      }
+      .section-sources h2 {
+        font-size: 16px;
+      }
+      .report-footer {
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        color: #808080;
+      }
+      @media (min-width: 1500px) {
+        .layout {
+          gap: 44px;
+        }
+        .report {
+          padding-right: 56px;
+          padding-left: 56px;
+        }
+      }
+      @media (max-width: 1100px) {
+        .layout {
+          grid-template-columns: 160px minmax(0, 1fr);
+          gap: 22px;
+          padding: 30px 20px 50px;
+        }
+        .report {
+          padding: 32px 27px 20px;
+        }
+        .sidebar nav a {
+          padding-left: 8px;
+          padding-right: 8px;
+          font-size: 12px;
+        }
+        .task-card {
+          padding: 22px;
+        }
+        table {
+          font-size: 11px;
+        }
+        th,
+        td {
+          padding: 11px 7px;
+        }
+      }
+      @media (max-width: 900px) {
+        .layout {
+          display: block;
+          max-width: 850px;
+          padding-top: 20px;
+        }
+        .sidebar {
+          position: static;
+          margin-bottom: 24px;
+          padding: 0;
+        }
+        .toc-label,
+        .sidebar-meta {
+          display: none;
+        }
+        .sidebar nav {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 6px;
+        }
+        .sidebar nav a {
+          border: 1px solid var(--line);
+          border-radius: 6px;
+          padding: 9px 10px;
+          background: #fafafa;
+        }
+        .sidebar nav a.is-active {
+          border-color: #b0b0b0;
+        }
+        .report {
+          padding: 32px;
+        }
+        .topbar {
+          padding: 12px 20px;
+        }
+      }
+      @media (max-width: 620px) {
+        body {
+          font-size: 14px;
+          line-height: 1.95;
+        }
+        .topbar {
+          min-height: 60px;
+          padding: 10px 14px;
+          gap: 9px;
+        }
+        .brand {
+          font-size: 11px;
+          letter-spacing: 0.02em;
+        }
+        .brand span {
+          padding: 0 5px;
+        }
+        .actions {
+          gap: 6px;
+        }
+        .actions a,
+        .actions button {
+          font-size: 10px;
+          min-height: 34px;
+          padding: 5px 8px;
+        }
+        .layout {
+          padding: 16px 12px 28px;
+        }
+        .sidebar {
+          margin-bottom: 16px;
+        }
+        .sidebar nav {
+          gap: 5px;
+        }
+        .sidebar nav a {
+          padding: 8px 7px;
+          font-size: 10px;
+          gap: 6px;
+        }
+        .nav-number {
+          font-size: 9px;
+        }
+        .report {
+          padding: 27px 19px 18px;
+          border-radius: 10px;
+        }
+        .report-header {
+          padding-bottom: 24px;
+          margin-bottom: 27px;
+        }
+        .eyebrow {
+          font-size: 10px;
+          letter-spacing: 0.12em;
+        }
+        h1 {
+          font-size: 27px;
+          line-height: 1.55;
+          margin-bottom: 14px;
+        }
+        .report-meta {
+          font-size: 10px;
+        }
+        .report-section {
+          margin-bottom: 32px;
+        }
+        h2 {
+          font-size: 18px;
+        }
+        .section-overview > p:first-of-type {
+          font-size: 14px;
+        }
+        .section-overview > ul {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .section-overview > ul > li {
+          padding: 13px 15px;
+        }
+        .task-cards {
+          gap: 16px;
+        }
+        .task-card {
+          padding: 20px 17px 17px;
+        }
+        .task-card h3 {
+          font-size: 17px;
+        }
+        .task-meta {
+          font-size: 10px;
+          margin-bottom: 16px;
+        }
+        .task-card > p:not(.task-meta):not(.source-note) {
+          font-size: 13px;
+        }
+        .source-note {
+          font-size: 10px;
+        }
+        .section-handover {
+          padding: 20px 17px;
+        }
+        .section-sources {
+          font-size: 11px;
+        }
+        .report-footer {
+          font-size: 9px;
+        }
+        .table-wrap {
+          overflow: visible;
+        }
+        table,
+        tbody,
+        tr,
+        td {
+          display: block;
+          width: 100%;
+        }
+        thead {
+          display: none;
+        }
+        table {
+          table-layout: auto;
+        }
+        tbody {
+          display: grid;
+          gap: 11px;
+        }
+        tr {
+          padding: 15px;
+          border: 1px solid var(--line);
+          border-radius: 8px;
+          background: #fafafa;
+        }
+        td {
+          padding: 5px 0;
+          border: 0;
+          font-size: 12px;
+          line-height: 1.9;
+        }
+        td:first-child {
+          font-size: 10px;
+          padding-top: 0;
+        }
+        td:nth-child(2) {
+          font-size: 14px;
+          padding-bottom: 9px;
+        }
+        td:nth-child(n + 3)::before {
+          content: attr(data-label);
+          display: block;
+          font-size: 10px;
+          font-weight: 600;
+          color: #777777;
+          letter-spacing: 0.04em;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        :root {
+          scroll-behavior: auto;
+        }
+      }
+      @page {
+        size: A4;
+        margin: 16mm 14mm;
+      }
+      @media print {
+        :root {
+          scroll-behavior: auto;
+        }
+        body {
+          background: #ffffff;
+          color: #444444;
+          font-size: 9pt;
+          line-height: 1.75;
+        }
+        .topbar,
+        .sidebar,
+        .skip-link,
+        .back-link {
+          display: none !important;
+        }
+        .layout {
+          display: block;
+          max-width: none;
+          margin: 0;
+          padding: 0;
+        }
+        .report {
+          padding: 0;
+          border: 0;
+          border-radius: 0;
+          background: #ffffff;
+        }
+        .report-header {
+          margin-bottom: 7mm;
+          padding-bottom: 5mm;
+        }
+        .eyebrow {
+          font-size: 8pt;
+          margin-bottom: 3mm;
+        }
+        h1 {
+          font-size: 23pt;
+          margin-bottom: 3mm;
+        }
+        .report-meta {
+          font-size: 8pt;
+        }
+        .report-section {
+          margin-bottom: 7mm;
+        }
+        h2 {
+          font-size: 13pt;
+          margin-bottom: 4mm;
+          padding-bottom: 2mm;
+          break-after: avoid;
+        }
+        h3 {
+          font-size: 11pt;
+          break-after: avoid;
+        }
+        p {
+          margin-bottom: 3mm;
+          orphans: 3;
+          widows: 3;
+        }
+        ul,
+        ol {
+          margin-top: 2mm;
+          margin-bottom: 4mm;
+        }
+        li {
+          margin: 1mm 0;
+        }
+        .section-overview > p:first-of-type {
+          font-size: 9pt;
+          line-height: 1.8;
+        }
+        .section-overview > ul {
+          grid-template-columns: 1fr 1fr;
+          gap: 3mm;
+        }
+        .section-overview > ul > li {
+          font-size: 8pt;
+          padding: 3mm;
+        }
+        .section-overview > ul strong {
+          font-size: 8pt;
+        }
+        .table-wrap {
+          overflow: visible;
+        }
+        table {
+          display: table;
+          width: 100%;
+          table-layout: fixed;
+          font-size: 7.5pt;
+          line-height: 1.65;
+        }
+        thead {
+          display: table-header-group;
+        }
+        tbody {
+          display: table-row-group;
+        }
+        tr {
+          display: table-row;
+          padding: 0;
+          background: #ffffff;
+          border: 0;
+          break-inside: avoid;
+        }
+        th,
+        td {
+          display: table-cell;
+          padding: 2.5mm 2mm;
+          border-bottom: 1px solid #dedede;
+          font-size: 7.5pt;
+        }
+        th {
+          font-size: 7.5pt;
+        }
+        td:first-child {
+          font-size: 7pt;
+        }
+        td:nth-child(2) {
+          font-size: 7.5pt;
+        }
+        td:nth-child(n + 3)::before {
+          display: none;
+        }
+        .section-tasks > .table-wrap + p {
+          font-size: 7pt;
+        }
+        .task-cards {
+          display: block;
+        }
+        .task-card {
+          padding: 4.5mm;
+          margin-bottom: 5mm;
+          border-color: #d6d6d6;
+          border-radius: 2mm;
+          break-inside: avoid-page;
+        }
+        .task-card h3 {
+          font-size: 12pt;
+          margin-bottom: 2mm;
+        }
+        .task-meta {
+          font-size: 7.5pt;
+          padding-bottom: 2mm;
+          margin-bottom: 3mm;
+        }
+        .task-card > p:not(.task-meta):not(.source-note) {
+          font-size: 9pt;
+        }
+        .source-note {
+          font-size: 7pt;
+          margin-top: 3mm;
+        }
+        .section-engineering h3 {
+          font-size: 10pt;
+        }
+        .section-handover {
+          padding: 4mm;
+          background: #ffffff;
+        }
+        .section-handover h2 {
+          font-size: 12pt;
+        }
+        .section-sources {
+          font-size: 8pt;
+        }
+        .section-sources h2 {
+          font-size: 11pt;
+        }
+        .report-footer {
+          font-size: 7pt;
+        }
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+        code {
+          font-size: 0.9em;
+          background: #f3f3f3;
+        }
+        strong {
+          color: #444444;
+        }
+        * {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳至報告內容</a>
+    <header class="topbar">
+      <a class="brand" href="#top">Oscar<span>/</span>工作回顧</a>
+      <div class="actions">
+        <a href="Summary.md" download="Summary.md">MD 原稿</a
+        ><button type="button" id="print-report" aria-label="列印報告或另存 PDF">列印 / PDF</button>
+      </div>
+    </header>
+    <div class="layout">
+      <aside class="sidebar" aria-label="報告目錄">
+        <p class="toc-label">報告目錄</p>
+        <nav>
+          <a href="#overview"><span class="nav-number">01</span><span>工作摘要</span></a>
+          <a href="#tasks"><span class="nav-number">02</span><span>主要任務總覽</span></a>
+          <a href="#details"><span class="nav-number">03</span><span>各項任務成果</span></a>
+          <a href="#engineering"
+            ><span class="nav-number">04</span><span>其他工作與工程實務</span></a
+          >
+          <a href="#handover"><span class="nav-number">05</span><span>交付與交接摘要</span></a>
+          <a href="#sources"><span class="nav-number">06</span><span>紀錄依據與補述方式</span></a>
+        </nav>
+        <p class="sidebar-meta">
+          整理期間<br />2026.08.10 — 2026.10.27<br /><br />任務成果 · 交付 · 協作
+        </p>
+      </aside>
+      <main class="report" id="main">
+        <header class="report-header" id="top">
+          <p class="eyebrow">實習工作成果 / 2026</p>
+          <h1>到職至今工作與任務整理</h1>
+          <p class="report-meta">
+            <strong>姓名：Oscar｜整理期間：2026/08/10–2026/10/27｜更新日期：2026/10/27</strong>
+          </p>
+        </header>
+        <section
+          class="report-section section-overview"
+          id="overview"
+          aria-labelledby="heading-overview"
+        >
+          <h2 id="heading-overview">一、工作摘要</h2>
+          <p>
+            到職後，我先完成帳號、開發工具與工作流程的熟悉，從 Firebase Hosting 與 LINE LIFF
+            整合開始實作，接著參與 AstraZeneca 的活動邀請 API、CRESTCODE
+            遊戲流程改版與卡牌收藏功能，以及 Awiqli 的劑量轉換器原型和 HCP 學習遊戲。同時完成 Todo
+            新人訓練，將前端 Mock CRUD 延伸至後端 API、Firestore、LINE 身分驗證與雲端部署。
+          </p>
+          <p>
+            本次整理涵蓋
+            <strong>8 項主要任務：5 項客戶相關功能任務、3 項入職與訓練實作</strong
+            >，另包含日常回報、需求討論、Code
+            Review、交接與技術文件整理。任務以目前成果交付與交接收斂的角度回顧，逐項說明本人負責範圍、具體產出及團隊分工。
+          </p>
+          <p>主要工作集中在四個面向：</p>
+          <ul>
+            <li>
+              <p>
+                <strong>前端功能與介面實作</strong>：Angular 畫面、RWD、表單、測驗互動、載入狀態與
+                Canvas 證書。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>後端與資料整合</strong>：Excel 批次 API、Firestore
+                資料模型、CRUD、驗證與前後端契約。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>部署與成果驗證</strong>：Firebase Hosting、Cloud Run、GitHub Actions、Stage
+                測試與實際輸出檔檢查。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>需求與協作流程</strong>：閱讀 PRD／BRD／Figma、OpenSpec 規格拆分、PR、Review
+                修正及任務交接。
+              </p>
+            </li>
+          </ul>
+        </section>
+        <section class="report-section section-tasks" id="tasks" aria-labelledby="heading-tasks">
+          <h2 id="heading-tasks">二、主要任務總覽</h2>
+          <div class="table-wrap" tabindex="0" aria-label="主要任務總覽表格">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">期間</th>
+                  <th scope="col">任務</th>
+                  <th scope="col">本人主要工作</th>
+                  <th scope="col">交付摘要</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="期間">08/19–08/24</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-01">Firebase Hosting＋LINE LIFF 整合</a>
+                  </td>
+                  <td data-label="本人主要工作">Hosting 部署、LIFF 初始化、登入與個人資料顯示</td>
+                  <td data-label="交付摘要">完成可由手機 LINE 開啟的整合示範</td>
+                </tr>
+                <tr>
+                  <td data-label="期間">08/24–08/31</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-02">AZ 活動 HCP 邀請 Excel API</a>
+                  </td>
+                  <td data-label="本人主要工作">
+                    批次邀請、資料驗證、Firestore 寫入與防重、測試及 Review 修正
+                  </td>
+                  <td data-label="交付摘要">核心功能經 PR #83 合併，留下 Stage 驗證紀錄</td>
+                </tr>
+                <tr>
+                  <td data-label="期間">08/25–09/15</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-03">CRESTCODE V2-1 遊戲改版</a>
+                  </td>
+                  <td data-label="本人主要工作">六角色流程、前後端整合、資料模型、影片與報表</td>
+                  <td data-label="交付摘要">完成主要流程與 Stage 交付，提供整合文件及 PR</td>
+                </tr>
+                <tr>
+                  <td data-label="期間">09/15–09/23</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-04">CRESTCODE V2-2 抽卡與收藏</a>
+                  </td>
+                  <td data-label="本人主要工作">
+                    規則釐清、資料設計、前端初版、API 串接及問題整理
+                  </td>
+                  <td data-label="交付摘要">前端初版與整合問題交接給負責工程師</td>
+                </tr>
+                <tr>
+                  <td data-label="期間">09/23–09/29</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-05">Awiqli 劑量轉換器 UI Prototype</a>
+                  </td>
+                  <td data-label="本人主要工作">劑量卡、輸入驗證、滑桿、換算展示與展開區塊</td>
+                  <td data-label="交付摘要">完成可操作原型，交付功能分支及畫面成果</td>
+                </tr>
+                <tr>
+                  <td data-label="期間">09/29–10/14</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-06">第二週 Todo 前端訓練</a>
+                  </td>
+                  <td data-label="本人主要工作">
+                    Mock CRUD、Service 分層、LIFF 登入、API 串接與 Hosting
+                  </td>
+                  <td data-label="交付摘要">完成前端訓練實作，提供 PR、部署入口與程式導覽</td>
+                </tr>
+                <tr>
+                  <td data-label="期間">10/07–10/14</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-07">第三週 Todo API 與部署訓練</a>
+                  </td>
+                  <td data-label="本人主要工作">REST API、Firestore、LINE token 驗證及 CI/CD</td>
+                  <td data-label="交付摘要">
+                    完成後端實作與 Cloud Run 部署，留下 API 契約及部署紀錄
+                  </td>
+                </tr>
+                <tr>
+                  <td data-label="期間">10/05–10/27</td>
+                  <td data-label="任務">
+                    <a class="task-jump" href="#task-08">Awiqli HCP 學習遊戲</a>
+                  </td>
+                  <td data-label="本人主要工作">
+                    六關地圖、課程、測驗、RWD、載入處理與 Canvas 證書
+                  </td>
+                  <td data-label="交付摘要">交付前端成果，配合同事完成後續整合與分支收斂</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>日期表示現有紀錄可辨識的參與區間；同一客戶專案的不同功能階段分列為不同任務。</p>
+        </section>
+        <section
+          class="report-section section-details"
+          id="details"
+          aria-labelledby="heading-details"
+        >
+          <h2 id="heading-details">三、各項任務成果</h2>
+          <div class="task-cards">
+            <article class="task-card" id="task-01">
+              <h3>01｜Firebase Hosting＋LINE LIFF 整合</h3>
+              <p class="task-meta"><strong>期間：2026/08/19–08/24｜類型：入職實作</strong></p>
+              <p>
+                <strong>任務目標</strong>：在公司既有 Firebase 專案建立自己的 Hosting 網站，透過
+                LINE LIFF 完成登入、授權與使用者資料顯示。
+              </p>
+              <p>
+                <strong>本人工作</strong>：設定 Angular 建置目錄、Hosting target、前端路由與 LIFF
+                Endpoint；完成 LIFF 初始化、登入判斷及 Profile 讀取。部署時追查空白頁與 JavaScript
+                MIME type 問題，修正範本的 base path。
+              </p>
+              <p>
+                <strong>交付成果</strong>：完成可開啟的 Angular 示範頁，顯示 LINE 暱稱、User
+                ID、頭像及狀態訊息，並以手機 LINE 完成實際登入與資料顯示測試。此任務建立了後續 LIFF
+                專案的部署與測試基礎。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="firebase-hosting-liff.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-08-24.md"
+                  >08/24 工作日誌</a
+                >。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-02">
+              <h3>02｜AstraZeneca 活動 HCP 邀請 Excel API</h3>
+              <p class="task-meta"><strong>期間：2026/08/24–08/31｜類型：客戶後端功能</strong></p>
+              <p>
+                <strong>任務目標</strong>：讓 CS Team 上傳 HCP 與邀請業務的 Excel
+                名單後，批次建立邀請資料，下載包含註冊邀請連結的結果 Excel。
+              </p>
+              <p>
+                <strong>本人工作</strong>：閱讀 Issue 與既有註冊流程，設計 multipart API、Excel
+                格式及逐列錯誤處理；實作資料驗證、Firestore 邀請建立、連結產生與檔案下載。以
+                transaction、鎖定文件及重複請求處理降低重複建立邀請的風險，並確認活動共用驗證碼與既有註冊流程的相容性。
+              </p>
+              <p>
+                <strong>交付成果</strong>：完成批次邀請 API，規格上限為 10,000 筆資料及 10 MB
+                檔案；錯誤列不阻斷其他有效資料。核心功能經
+                <a
+                  href="https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/83"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >PR #83</a
+                >
+                合併至 main。留下自動化測試、型別檢查、建置及 Stage Excel／Firestore／LIFF
+                核心流程驗證紀錄。
+              </p>
+              <p>
+                <strong>協作與收尾</strong>：配合 Julie 協助驗證、工程師 Review 與 PR 流程，將 LIFF
+                ID 改為環境設定，並集中管理 TypeScript 型別與註解。任務筆記保留核心合併與後續 Stage
+                修正的不同版本，便於追溯。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="astrazeneca-hcp-invite-excel-api.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-08-26.md"
+                  >08/26 工作日誌</a
+                >、<a href="../work-log/2026-08-31.md">08/31 工作日誌</a>。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-03">
+              <h3>03｜CRESTCODE V2-1 遊戲使用流程改版</h3>
+              <p class="task-meta"><strong>期間：2026/08/25–09/15｜類型：客戶前後端整合</strong></p>
+              <p>
+                <strong>任務目標</strong
+                >：將既有遊戲調整為六位家族角色的一題制案例流程，整合身分判定、作答解析、影片、教材、完成頁與
+                V2 報表。
+              </p>
+              <p>
+                <strong>本人工作</strong>：整理 BRD、PRD、Figma 與舊版程式的差異，跨前後端
+                Repository 開發。完成六角色畫面與 API
+                串接、每角色獨立進度與續玩、題目內容資料化，以及身分對應的結果頁。依團隊建議調整
+                Firestore 資料邊界，處理圖片預載、載入提示、跨角色狀態及手機影片播放問題。
+              </p>
+              <p>
+                <strong>交付成果</strong>：完成主要前後端流程與 11 個 V2 API
+                的建立或整合，並完成事件追蹤及每日 Excel 報表。當時後端專案測試紀錄為 230
+                項通過，前端 Stage build 成功；另以實際輸出檔核對 24 欄報表及完成狀態。提供前後端
+                Stage 版本、整合文件與
+                <a
+                  href="https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >API PR #90</a
+                >、<a
+                  href="https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >LIFF PR #52</a
+                >
+                供團隊審查與交付追蹤。
+              </p>
+              <p>
+                <strong>協作與收尾</strong>：由 Tiffany 交接既有專案，與 Bryant、Ranger、Kyle 及 CS
+                Team
+                討論需求、資料結構與驗收回饋，完成本人負責的開發和修正工作，將正式環境與客戶端的交付流程交由團隊統籌。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="AZ_crestcode_V2-1.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-09-14.md"
+                  >09/14 工作日誌</a
+                >、<a href="../work-log/2026-09-15.md">09/15 工作日誌</a>。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-04">
+              <h3>04｜CRESTCODE V2-2 每日抽卡與卡牌收藏</h3>
+              <p class="task-meta">
+                <strong>期間：2026/09/15–09/23｜類型：客戶功能延伸與交接</strong>
+              </p>
+              <p>
+                <strong>任務目標</strong>：在既有挑戰流程中加入 11
+                張卡牌的每日抽卡、跨角色收藏、收藏總覽與翻面互動。
+              </p>
+              <p>
+                <strong>本人工作</strong>：交叉比對 PRD、Issue、會議文件與
+                Figma，釐清每日首抽新卡、同日重玩同卡、午夜跨日、恢復原局及集滿卡牌等規則。規劃遊玩紀錄與玩家收藏的資料生命週期、API
+                契約及前後端 OpenSpec 工作，並完成部分後端開發、前端初版、素材對應與 API 串接。
+              </p>
+              <p>
+                <strong>交付成果</strong>：產出可追溯的抽卡規格、資料設計及驗收案例；盤點 11
+                組卡牌正面、背面、黑卡及介面素材，共 35 個檔案。前端已有抽卡與收藏介面，當時 Stage
+                build 成功，抽卡元件測試 41 項通過。
+              </p>
+              <p>
+                <strong>協作與收尾</strong>：因時程安排，後端後續由 Bryant 接手。前端串接後，將
+                Review 發現的局別識別、API
+                欄位與收藏視窗非同步問題一併交接，完成本人階段成果及問題脈絡的移交。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="AZ_crestcode_V2-2.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-09-22.md"
+                  >09/22 工作日誌</a
+                >、<a href="../work-log/2026-09-23.md">09/23 工作日誌</a>。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-05">
+              <h3>05｜Awiqli LIFF 劑量轉換器 UI Prototype</h3>
+              <p class="task-meta"><strong>期間：2026/09/23–09/29｜類型：客戶前端原型</strong></p>
+              <p>
+                <strong>任務目標</strong>：依參考 HTML 與截圖，在 Angular
+                專案實作可操作的劑量轉換器介面，供需求確認與展示使用。
+              </p>
+              <p>
+                <strong>本人工作</strong
+                >：建立獨立路由與元件，實作數字輸入、加減按鈕、滑桿同步、輸入驗證、每週換算展示及
+                Loading dose
+                展開／收合區塊。依畫面回饋調整完整劑量卡、頻率列、範圍標籤與手機版排版。
+              </p>
+              <p>
+                <strong>交付成果</strong>：完成可在瀏覽器操作的 UI
+                Prototype，初版程式已提交並推送功能分支；09/29 日誌記錄了展示驗收與小幅修正。Loading
+                dose 以欄位及規則提示呈現，交付範圍為介面原型，醫療公式的決策由需求與醫學團隊負責。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="awiqli-dose-converter-ui.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-09-29.md"
+                  >09/29 工作日誌</a
+                >。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-06">
+              <h3>06｜第二週新人訓練：Todo 前端與 LIFF</h3>
+              <p class="task-meta"><strong>期間：2026/09/29–10/14｜類型：前端訓練實作</strong></p>
+              <p>
+                <strong>任務目標</strong>：以 Angular 建立團隊待辦清單，透過 Service 分層完成 Mock
+                CRUD，再延伸至 LIFF 登入與真實 API 串接。
+              </p>
+              <p>
+                <strong>本人工作</strong
+                >：完成清單、新增、編輯、完成狀態切換、刪除、空狀態及錯誤處理。將資料操作集中於
+                Service，讓 Mock 可替換為 API；加入 LIFF 初始化、登入狀態、LINE ID token、401
+                重新登入與欄位轉換。依驗收回饋簡化互動與元件，並撰寫程式碼導覽。
+              </p>
+              <p>
+                <strong>交付成果</strong>：Mock 主線留有 30 項測試通過及 local build 紀錄；之後完成
+                Firebase Hosting 部署與手機開啟測試，再將 Todo Service 改接後端。交付
+                <a
+                  href="https://github.com/Aiii-Developers/Oscar-liff-demo/pull/1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >前端 PR #1</a
+                >、API 契約與程式閱讀文件，並保留
+                <a
+                  href="https://oscar-todo-list.web.app/todo-list"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Todo 展示入口</a
+                >。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="engineer-training-week2.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-10-07.md"
+                  >10/07 工作日誌</a
+                >、<a href="../work-log/2026-10-13.md">10/13 工作日誌</a>。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-07">
+              <h3>07｜第三週新人訓練：Todo API 與雲端部署</h3>
+              <p class="task-meta">
+                <strong>期間：2026/10/07–10/14｜類型：後端與部署訓練實作</strong>
+              </p>
+              <p>
+                <strong>任務目標</strong>：將 Todo 前端串接真正的 REST API 與
+                Firestore，建立可部署到個人 GCP 環境的完整練習。
+              </p>
+              <p>
+                <strong>本人工作</strong>：以 Bun／Elysia 實作 Todo 的
+                GET、POST、PATCH、DELETE，處理輸入驗證、ID、時間與操作者欄位，並加入 LINE ID token
+                驗證。整合 Angular 前端，撰寫 API 契約與 OpenAPI，調整 Docker／GitHub Actions，處理
+                Artifact Registry 與 Cloud Run 部署權限問題。
+              </p>
+              <p>
+                <strong>交付成果</strong>：完成 API 與 Firestore 資料存取實作，透過
+                <code>s0.1.2</code> 版本成功部署至個人 Cloud Run。紀錄包含 GitHub Actions
+                部署成功、服務健康檢查，以及匿名 Todo 請求回傳
+                401。留下本機新增／修改資料與欄位保留驗證、<a
+                  href="https://github.com/Aiii-Developers/Oscar-api-demo/pull/2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >後端 PR #2</a
+                >
+                及部署說明，完成從畫面、API 到資料庫的訓練實作。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="engineer-training-week3.md">完整任務紀錄</a>、<a
+                  href="../work-log/2026-10-12.md"
+                  >10/12 工作日誌</a
+                >、<a href="../work-log/2026-10-13.md">10/13 工作日誌</a>。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+            <article class="task-card" id="task-08">
+              <h3>08｜Awiqli HCP Learning Game 前端</h3>
+              <p class="task-meta">
+                <strong>期間：2026/10/05–10/27｜類型：客戶前端與整合協作</strong>
+              </p>
+              <p>
+                <strong>任務目標</strong>：依 Figma 與 PRD
+                製作六堂課的學習地圖、影片課程、摘要、逐題測驗、進度呈現與個人化證書。
+              </p>
+              <p>
+                <strong>本人工作</strong>：完成手機、平板與桌面的
+                RWD、地圖百分比定位、六關入口、課程摘要及測驗互動。建立早期假資料與進度原型，以
+                OpenSpec
+                管理首頁、課程與測驗三個階段；處理題目溢出、選項框跳動、字型／圖片載入、16:9
+                影片框與完成狀態。以 Canvas
+                合成姓名、專業別及日期，修正證書文字與下載／分享後按鈕狀態，並維護下載測試及分支整合。
+              </p>
+              <p>
+                <strong>交付成果</strong>：交付學習遊戲主要前端畫面、互動與證書輸出。本人三份
+                OpenSpec change 已在本機封存；選項版面留有 4 種寬度、18 題共 72
+                個呈現組合的瀏覽器檢查紀錄，證書留有實際 PNG 與 8 種按鈕狀態情境的檢查紀錄。
+              </p>
+              <p>
+                <strong>協作與收尾</strong>：Carlos 完成後續課程、作答、HCP 與進度 API 串接；Twiggy
+                完成平台圖片上傳、長按儲存、<code>nn-web-share</code>
+                分享頁及路由重構。本人配合後續整合，保留正式流程及本機下載測試，並於 10/27 處理
+                rebase 衝突。報告依此區分個人原始開發與團隊整合成果。
+              </p>
+              <p class="source-note">
+                紀錄依據：<a href="Awiqli-HCP-Learning-Game-UI.md">完整任務紀錄與分工表</a>、<a
+                  href="../work-log/2026-10-14.md"
+                  >10/14 工作日誌</a
+                >、<a href="../work-log/2026-10-19.md">10/19 工作日誌</a>。
+              </p>
+              <a class="back-link" href="#tasks" aria-label="返回主要任務總覽">返回任務總覽 ↑</a>
+            </article>
+          </div>
+        </section>
+        <section
+          class="report-section section-engineering"
+          id="engineering"
+          aria-labelledby="heading-engineering"
+        >
+          <h2 id="heading-engineering">四、其他工作與工程實務</h2>
+          <h3>入職準備與日常協作</h3>
+          <ul>
+            <li>
+              <p>
+                完成公司帳號、GitHub、Firebase／GCP
+                權限與開發工具設定，閱讀新人教育訓練影片並熟悉專案範本。
+              </p>
+            </li>
+            <li>
+              <p>在 workspace 建立個人介紹並走分支及 PR 流程，依團隊要求回報每日工作與進度。</p>
+            </li>
+            <li>
+              <p>
+                參與 Project Team 例會、需求與交接會議，閱讀 BRD、PRD、Issue、Figma 及既有程式，向
+                PM 與工程師確認需求差異。
+              </p>
+            </li>
+            <li>
+              <p>
+                配合 Reviewer、PM 與主要負責工程師調整功能，將驗收回饋轉為可追蹤的修改與交接內容。
+              </p>
+            </li>
+          </ul>
+          <h3>開發方式與文件整理</h3>
+          <ul>
+            <li>
+              <p>
+                <strong>規格拆分</strong>：使用 OpenSpec 整理 proposal、design、specs 與
+                tasks，將大型需求拆成可分階段實作及驗證的工作。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>版本與交付管理</strong>：實際操作功能分支、PR、Review、Stage tag、合併與
+                rebase，調整開發前確認分支及交付前檢查差異的方式。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>測試與除錯</strong>：結合瀏覽器 Network、API 回應、Firestore
+                資料、建置結果、輸出 Excel／PNG
+                與手機操作，判斷問題發生在畫面、契約、資料或部署哪一層。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>AI 協作</strong>：使用 AI coding assistant 輔助閱讀程式、拆解任務、實作與
+                Review，依實際需求、團隊回饋及測試結果修正產出。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>知識留存</strong>：持續維護工作日誌、任務案例，以及 Git Graph、SDD、OpenSpec
+                工作流程與 Prompt 筆記，保留成果、問題處理和分工脈絡。
+              </p>
+            </li>
+          </ul>
+        </section>
+        <section
+          class="report-section section-handover"
+          id="handover"
+          aria-labelledby="heading-handover"
+        >
+          <h2 id="heading-handover">五、交付與交接摘要</h2>
+          <ul>
+            <li>
+              <p>
+                <strong>AZ 活動邀請 API</strong>：以核心功能合併、Stage 測試、Review
+                修正與任務文件完成成果留存。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>CRESTCODE 系列</strong>：V2-1 交付主要前後端流程、報表與 Stage
+                整合成果；V2-2 移交前端初版、規格及整合問題，由負責工程師承接後續收斂。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>Awiqli 系列</strong>：交付劑量轉換器原型，以及學習遊戲的 UI、互動與 Canvas
+                證書；與 Carlos、Twiggy 的 API、平台上傳與分享整合分工已有紀錄。
+              </p>
+            </li>
+            <li>
+              <p>
+                <strong>入職與新人訓練</strong>：完成 LIFF 示範與 Todo
+                前後端、資料庫及部署實作，保留程式碼、PR、展示入口、API 契約與導覽文件。
+              </p>
+            </li>
+          </ul>
+        </section>
+        <section
+          class="report-section section-sources"
+          id="sources"
+          aria-labelledby="heading-sources"
+        >
+          <h2 id="heading-sources">六、紀錄依據與補述方式</h2>
+          <p>
+            本報告依
+            <code>content/internship/</code> 的任務、工作日誌、技術概念及人物紀錄整理，並依本人於
+            2026/10/27
+            補充的現況，以任務成果與交付／交接收斂為整理口徑。舊筆記中的當時待辦與狀態勾選用於還原歷程，並未直接沿用為目前任務狀態。
+          </p>
+          <p>
+            各項成果以本人實際負責範圍敘述；測試數量與部署版本引用相應歷史紀錄。缺少精確日期、驗收細節或量測數字的部分採範圍描述，未補造紀錄。Stage、原型展示、訓練部署與正式站成果依各任務的實際交付形式表述。
+          </p>
+          <p class="source-note">
+            參考入口：<a href="../index.md">實習筆記索引</a>、<a href="../concepts/SDD.md"
+              >SDD 筆記</a
+            >、<a href="../concepts/Git%20Graph.md">Git 與 Git Graph</a>、<a
+              href="../concepts/workflow.md"
+              >Codex＋OpenSpec 工作流程</a
+            >。
+          </p>
+        </section>
+        <footer class="report-footer">
+          <span>OSCAR · 工作成果回顧</span><span>更新於 2026.10.27</span>
+        </footer>
+      </main>
+    </div>
+    <script>
+      document.getElementById("print-report").addEventListener("click", function () {
+        window.print()
+      })
+      const sections = document.querySelectorAll(".report-section")
+      const links = document.querySelectorAll(".sidebar nav a")
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          function (entries) {
+            const visible = entries
+              .filter(function (entry) {
+                return entry.isIntersecting
+              })
+              .sort(function (a, b) {
+                return a.boundingClientRect.top - b.boundingClientRect.top
+              })
+            if (!visible.length) return
+            const id = visible[0].target.id
+            links.forEach(function (link) {
+              const active = link.hash === "#" + id
+              link.classList.toggle("is-active", active)
+              if (active) link.setAttribute("aria-current", "location")
+              else link.removeAttribute("aria-current")
+            })
+          },
+          { rootMargin: "-90px 0px -45% 0px", threshold: 0 },
+        )
+        sections.forEach(function (section) {
+          observer.observe(section)
+        })
+      }
+    </script>
+  </body>
+</html>
