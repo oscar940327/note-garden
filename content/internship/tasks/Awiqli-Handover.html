@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Oscar">
-<meta name="description" content="Awiqli 劑量轉換器原型與 HCP 學習遊戲交接：使用情境、流程、前端回饋、問題解法與維護入口。">
+<meta name="description" content="劑量轉換器原型與 HCP 學習遊戲的使用情境、基本流程、前端回饋、問題解法與維護入口。">
 <title>Awiqli 專案交接文件｜Oscar</title>
 <style>
 :root { color-scheme: light; --ink:#262626; --text:#454545; --muted:#737373; --line:#dedede; --paper:#fff; --soft:#f5f5f4; }
@@ -65,10 +65,10 @@ footer { color:var(--muted); font-size:12px; padding:0 4px; }
 <aside aria-label="交接目錄"><div class="nav-label">交接目錄</div><nav><a href="#section-1"><span>01</span>交接範圍與目前狀態</a>
 <a href="#section-2"><span>02</span>劑量轉換器原型</a>
 <a href="#section-3"><span>03</span>HCP 學習遊戲</a>
-<a href="#section-4"><span>04</span>證書下載與分享</a>
+<a href="#section-4"><span>04</span>證書畫面與操作回饋</a>
 <a href="#section-5"><span>05</span>開發問題與處理方式</a>
-<a href="#section-6"><span>06</span>接手定位與驗收</a></nav><p class="side-note">Dose Converter · HCP Learning Game<br>情境 / 流程 / 回饋 / 排錯<br>2026.10.27</p></aside>
-<main id="main"><header class="hero"><div class="eyebrow">Awiqli · Handover</div><h1>Awiqli 專案交接文件</h1><p>交接整理：Oscar　｜　更新日期：2026/10/27</p></header>
+<a href="#section-6"><span>06</span>接手定位與部署</a></nav><p class="side-note">Dose Converter · HCP Learning Game<br>情境 / 流程 / 回饋 / 排錯<br>2026.10.28</p></aside>
+<main id="main"><header class="hero"><div class="eyebrow">Awiqli · Handover</div><h1>Awiqli 專案交接文件</h1><p>交接整理：Oscar　｜　更新日期：2026/10/28</p></header>
 <p>內容依目前本機程式、任務筆記與同事留下的整合紀錄整理，供接手定位及回歸檢查。</p>
 <section id="section-1" aria-labelledby="section-1-title"><h2 id="section-1-title">1. 交接範圍與目前狀態</h2>
 <div class="table-wrap" tabindex="0" role="region" aria-label="1. 交接範圍與目前狀態 表格"><table><thead><tr>
@@ -76,12 +76,11 @@ footer { color:var(--muted); font-size:12px; padding:0 4px; }
 <th scope="col">使用情境與範圍</th>
 <th scope="col">開發位置</th>
 </tr></thead><tbody>
-<tr><td>劑量轉換器</td><td>討論畫面與輸入互動的 UI 原型；每週換算為 Demo 示意，Loading dose 尚未實作計算。</td><td><code>nnhcp-awiqli-liff</code>，Angular 20。</td></tr>
-<tr><td>HCP 學習遊戲</td><td>HCP 從 LINE LIFF 學習課程、作答、續接進度，完成後取得個人化證書。</td><td><code>nnhcp-liff-main</code>，Angular 17；現行功能目錄為 <code>src/app/product-course/</code>。</td></tr>
-<tr><td>證書分享頁</td><td>接收證書檔名、讀取已上傳圖片，提供系統分享或下載。</td><td><code>nn-web-share/public/index.html</code>，入口 <code>https://novonordisk.aiii.ai/</code>。</td></tr>
+<tr><td>劑量轉換器</td><td>討論畫面與輸入互動的 UI 原型；每週換算為 Demo 示意，Loading dose 尚未實作計算。</td><td><code>nnhcp-awiqli-liff</code>。</td></tr>
+<tr><td>HCP 學習遊戲</td><td>HCP 從 LINE LIFF 學習課程、作答、續接進度，完成後取得個人化證書。</td><td><code>nnhcp-liff-main</code>。</td></tr>
+<tr><td>證書相關畫面</td><td>本人負責證書畫面與 Canvas 產圖；後續上傳、下載及分享整合由其他同事接手。</td><td><code>src/app/product-course/certificate-page/</code></td></tr>
 </tbody></table></div>
-<p>分工：Oscar 負責原始 UI、RWD、假資料流程、Canvas 證書與早期下載／分享嘗試；Carlos 串接課程、作答、HCP 與進度 API；Twiggy 後續整合平台上傳、長按下載視窗、外部分享頁，以及 <code>product-course</code> 路由與命名重構。</p>
-<p>目前一般下載採用「上傳後顯示圖片，使用者長按儲存」，分享採用「開啟外部分享頁，再按按鈕呼叫系統分享」。原先希望「按下載後自動開 Safari／Chrome 並下載」的要求，不能據此列為已完成。</p>
+<p>分工：Oscar 負責原始 UI、RWD、假資料流程與 Canvas 證書；API 串接及後續下載／分享整合由其他同事負責。</p>
 </section>
 <section id="section-2" aria-labelledby="section-2-title"><h2 id="section-2-title">2. 劑量轉換器原型</h2>
 <h3>使用情境與基本流程</h3>
@@ -119,7 +118,6 @@ footer { color:var(--muted); font-size:12px; padding:0 4px; }
 <li><strong>離開與續接：</strong> 返回地圖保留已送出進度；重整或重新進入時，定位第一個尚未答對的題目，清除未送出的暫選項。已完成課程顯示最後一題、已保存正解及灰色鎖定狀態。</li>
 <li><strong>取得證書：</strong> 全部課程完成後，城堡與認證告示牌可進入證書頁。證書頁再次讀取進度，確認 <code>completed</code>、HCP 資料與 <code>certifiedAt</code>，未符合時返回地圖。</li>
 </ol>
-<p>課程頁依需要送出 <code>startCourse</code>。若送答案遇到 <code>PROGRESS_NOT_FOUND</code>，先補送 <code>startCourse</code>，再重送一次同一份答案；其他錯誤不會當成尚未建立進度處理。</p>
 <h3>前端回饋與例外</h3>
 <div class="table-wrap" tabindex="0" role="region" aria-label="3. HCP 學習遊戲 表格"><table><thead><tr>
 <th scope="col">情境</th>
@@ -138,30 +136,10 @@ footer { color:var(--muted); font-size:12px; padding:0 4px; }
 <tr><td>再次進入完成課程</td><td>灰色鎖定選項及「已完成本堂測驗」。</td><td>不可重新送出；可返回地圖。</td></tr>
 </tbody></table></div>
 </section>
-<section id="section-4" aria-labelledby="section-4-title"><h2 id="section-4-title">4. 證書下載與分享</h2>
-<h3>資料、產圖與共用上傳</h3>
-<p>姓名與專業別取自 API 的 HCP，日期取自 <code>progress.certifiedAt</code>，以台北時區格式化。Canvas 合成證書本體與文字，加入 Forest Green 底色及留白；頁面上的天空、草地與城堡不會合成到證書檔案。</p>
-<p>頁面準備時先產生本機 File；第一次按下載或分享才上傳。<code>getCertificateImage()</code> 共用縮圖與上傳流程：最長邊不超過 1024px、檔案不超過 1MB，同一元件生命週期內以使用者、姓名、專業別與日期組成快取 key，沿用 <code>{ url, fileName }</code>。離開再進入會重新產生頁面快取。</p>
-<p>上傳由 <code>apiFetch()</code> 呼叫 <code>${environment.cloudrun.api}/upload-to-storage</code>；符合 API 網址設定且有記憶體 token 時，自動帶 Bearer token。FormData 含 <code>file</code>、<code>site</code>、<code>remotePath</code>、<code>fileName</code>、<code>makePrivate=false</code>，目前未傳 <code>lifeNumber</code>。證書頁已移除直接操作 Firebase Storage SDK 的流程。</p>
-<p>固定目錄為 <code>projects/nnhcp/productCourse/awiqli/certificate</code>，檔名為台北時間 <code>{YYYYMMDDHHmmss}_{LINE userId}.{png|jpg}</code>。<code>nn-web-share</code> 依同一套目錄與命名規則取圖，修改時需同步兩個 repo。圖片目前設為公開讀取；正式 bucket、保存期限與存取設定需由負責人確認。</p>
-<h3>按下載的流程</h3>
-<ol>
-<li>呼叫 <code>downloadCertificate()</code>，取得上傳圖片網址。</li>
-<li>設定 <code>downloadImageUrl</code>，顯示證書圖片視窗與「請長按圖片以下載」。</li>
-<li>使用者長按圖片儲存；桌機可右鍵另存。關閉視窗後可以再次操作。</li>
-</ol>
-<p>這條流程沒有自動切換外部瀏覽器，也沒有直接呼叫 <code>downloadLocalFile()</code>。視窗顯示的是上傳後縮圖。<code>downloadTest=1</code> 才會顯示額外測試入口，讀取外部測試圖片後轉成 File，以 Blob URL／<code>&lt;a download&gt;</code> 嘗試下載；它不代表個人化證書或 LINE WebView 的正式下載已驗收。</p>
-<h3>按分享的流程</h3>
-<ol>
-<li>主 repo 取得已上傳圖片的檔名，組出 <code>https://novonordisk.aiii.ai/</code>，帶 <code>campaign=awiqli-certificate</code>、<code>env</code>、<code>file</code>、<code>date</code>、<code>openExternalBrowser=1</code>。</li>
-<li>LINE 內用 <code>liff.openWindow({ url, external: true })</code> 請求外部瀏覽器；外部瀏覽器則在目前分頁導向分享頁。</li>
-<li><code>nn-web-share</code> 驗證環境與檔名格式，組 GCS JSON API 圖片下載網址並顯示預覽。它讀取成品，不重新產生姓名或日期。</li>
-<li>使用者在分享頁再按「分享／下載」。<code>shareFile()</code> 取圖成 Blob／File，將分享檔名改為 <code>Awiqli-HCP-Certificate-{日期}.{副檔名}</code>。</li>
-<li><code>navigator.canShare({ files: [file] })</code> 通過後呼叫 <code>navigator.share()</code>，顯示系統分享選單；使用者可選系統提供的 LINE 等 App。不支援時以 Blob URL／<code>&lt;a download&gt;</code> 嘗試下載。</li>
-</ol>
-<p>目前使用的是系統分享選單；LIFF 專用的 <code>shareTargetPicker()</code> 已從證書分享方法移除。主 repo 的「已在外部瀏覽器開啟分享頁面。」只表示執行開頁指令，沒有確認圖片已傳送給任何人。</p>
+<section id="section-4" aria-labelledby="section-4-title"><h2 id="section-4-title">4. 證書畫面與操作回饋</h2>
+<p>本人負責證書畫面與 Canvas 產圖。以下整理目前整合版本的操作回饋，供接手排查；不代表全部由本人實作。</p>
 <h3>前端回饋與失敗處理</h3>
-<div class="table-wrap" tabindex="0" role="region" aria-label="4. 證書下載與分享 表格"><table><thead><tr>
+<div class="table-wrap" tabindex="0" role="region" aria-label="4. 證書畫面與操作回饋 表格"><table><thead><tr>
 <th scope="col">階段／情境</th>
 <th scope="col">顯示內容</th>
 <th scope="col">操作與復原</th>
@@ -184,21 +162,17 @@ footer { color:var(--muted); font-size:12px; padding:0 4px; }
 <th scope="col">交接時的狀態／檢查重點</th>
 </tr></thead><tbody>
 <tr><td>原型只呈現標題，沒有完整劑量卡</td><td>依完整截圖補齊數字、加減、滑桿、範圍、頻率列與結果卡；排除展示手機框。</td><td>原型已調整；核對初始值、1／100、空白與小數，正式公式另確認。</td></tr>
-<tr><td>地圖底端空白、標題被外框擋住、平板進度筆太小</td><td>調整地圖／HUD／外框層級、百分比點擊區及 safe area；標題與進度筆依可用寬度調整。</td><td>維護時檢查地圖最底、窄螢幕、平板與桌面，避免改一種裝置後遮住另一種。</td></tr>
 <tr><td>長題目溢出、選項只一行卻套兩行框</td><td>字數估算無法反映裝置寬度與實際字型；改由瀏覽器換行、量實際文字高度與 line-height 選框，題目由內容撐高。</td><td>字級、內距與隱藏量測區要一致；更換長文案後再查框內留白與溢出。</td></tr>
 <tr><td>選項在轉圈結束或切題後由小跳大</td><td>字型及框圖尚未準備完成就先顯示單行框；改在隱藏區量整堂選項、預載框圖，再顯示內容。</td><td>保留 <code>prepareQuizLayout()</code> 與載入器整合；調寬時用 <code>ResizeObserver</code> 重算並更新 OnPush。</td></tr>
-<tr><td>舊 Safari 摘要不能開啟，或版面尺寸失效</td><td>原生 dialog 與 cqw 支援差異；摘要改 Angular Material Dialog，先提供基本尺寸再用 <code>@supports</code> 啟用 cqw。</td><td>檢查摘要開關／捲動、無摘要停用，以及 fallback 樣式。</td></tr>
 <tr><td>重新播放增加瀏覽紀錄，裝置返回要按多次</td><td>重設 iframe 網址會影響瀏覽紀錄；改用 Vimeo Player API 暫停並 seek 到 0，不重設 iframe src。</td><td>同一頁連按多次後，裝置返回應回地圖；按鈕文字仍叫「重新播放」，實際操作為回開頭並暫停。</td></tr>
 <tr><td>證書缺姓名或專業別、日期超出框</td><td>Canvas 座標曾重複縮放；修正繪圖座標與日期排版。後續另加填底、留白及分享縮圖。</td><td>檢查頁面預覽與實際輸出兩者；原尺寸 PNG 的舊結果不能當成現行上傳縮圖結果。</td></tr>
-<tr><td>按下載／分享後按鈕卡住</td><td>非同步完成後狀態沒有反映到 OnPush；補上 finally、<code>finishAction()</code>、逾時與離頁中止。</td><td>成功、取消、失敗與重試都應恢復按鈕；分享頁的系統分享狀態由另一頁負責。</td></tr>
-<tr><td>Firebase 直接上傳卡住，LINE 下載不支援</td><td>早期前端 Storage 流程曾受登入／權限／連線問題阻擋，單憑 0% 無法判定根因；同事改平台上傳 API，下載改長按，分享改外部頁。</td><td>已替換流程；不能據此宣稱原先「自動跳外部下載」要求已達成。先查 API 回應，再查圖片讀取及瀏覽器行為。</td></tr>
-<tr><td>分享頁 fetch 圖片被跨網域擋住</td><td>同事檢查 stage 的一般物件網址缺少 CORS 回應，改用 GCS JSON API 下載網址讀圖。</td><td>stage 有驗證紀錄；正式 bucket 名稱與正式站跨網域讀取仍待確認。</td></tr>
-<tr><td>建置或整合失敗</td><td>曾遇到衝突標記進入程式、Vimeo 型別相依錯誤、Google Fonts 無法連線；原型也曾以 exit code 134 無診斷退出。</td><td>衝突與後續證書 change 有修正／建置紀錄；134 未留下確定根因。依目前錯誤排查，不把歷史失敗當成現存缺陷或已驗收。</td></tr>
+<tr><td>按下載／分享後按鈕卡住</td><td>非同步完成後狀態沒有反映到 OnPush；補上 finally、<code>finishAction()</code>、逾時與離頁中止。</td><td>成功、取消、失敗與重試都應恢復按鈕。</td></tr>
+<tr><td>Firebase 直接上傳卡住，LINE 下載不支援</td><td>早期前端 Storage 流程曾受登入／權限／連線問題阻擋，單憑 0% 無法判定根因。</td><td>已替換流程；不能據此宣稱原先「自動跳外部下載」要求已達成。</td></tr>
 </tbody></table></div>
 </section>
-<section id="section-6" aria-labelledby="section-6-title"><h2 id="section-6-title">6. 接手定位與驗收</h2>
+<section id="section-6" aria-labelledby="section-6-title"><h2 id="section-6-title">6. 接手定位與部署</h2>
 <h3>程式入口與修改位置</h3>
-<div class="table-wrap" tabindex="0" role="region" aria-label="6. 接手定位與驗收 表格"><table><thead><tr>
+<div class="table-wrap" tabindex="0" role="region" aria-label="6. 接手定位與部署 表格"><table><thead><tr>
 <th scope="col">內容</th>
 <th scope="col">檔案／位置</th>
 </tr></thead><tbody>
@@ -213,27 +187,10 @@ footer { color:var(--muted); font-size:12px; padding:0 4px; }
 <tr><td>系統分享與下載 fallback</td><td><code>nn-web-share/public/index.html</code> 的 <code>initAwiqliCertificate()</code>、<code>shareFile()</code>。</td></tr>
 <tr><td>圖片素材</td><td><code>src/assets/awiqli/learning-game/</code>；功能目錄已改名，素材目錄仍保留原名。</td></tr>
 </tbody></table></div>
-<p>更換題目、選項、摘要或影片時，先更新 API 課程資料；選項使用 <code>@for</code>，三個或四個選項都依清單繪製。題目／選項 ID 影響作答與續接，修改需與後端協調。首頁雖依課程資料更新完成數，關卡位置、地圖及七種進度筆仍是 Awiqli 六關素材；擴充其他藥品或超過六關時需另外調整。</p>
-<h3>本機開啟</h3>
-<pre><code># 劑量轉換器原型（兩個 repo 的指令不同）
-cd /Users/oscar/Documents/nnhcp-awiqli-liff
-npm run local
-
-# HCP 學習遊戲
-cd /Users/oscar/Documents/nnhcp-liff-main
-npm start</code></pre>
 <p>原型入口為 <code>http://localhost:4200/awiqli-dose-converter</code>。學習遊戲入口為 <code>http://localhost:4200/product-courses/{productKey}?site=nnhcp</code>，課程／測驗加 <code>/course</code> 或 <code>/quiz</code> 並帶 <code>courseId</code>，證書加 <code>/certificate</code>。請使用有效課程專案與測試 HCP；localhost 路由放行不代表登入與後端資料可用，也不能取代 LINE 實機測試。</p>
 <p>部署維持在功能分支提交程式，再整合到 <code>stage/s2.1.0</code>，依 stage workflow 支援的 <code>s*</code> tag 發布；以目標提交與 GitHub Actions 結果確認版本。<code>stage</code> 不回合到功能分支。<code>nn-web-share</code> 是另一個 repo，有獨立部署流程；更動分享規則時要同步確認兩邊版本。</p>
-<h3>已有證據與待交接項目</h3>
-<ul>
-<li>同事的 <code>share-certificate-via-web-share/tasks.md</code> 記錄 2026-10-23 iOS LINE → Safari、Android LINE → Chrome、外部瀏覽器、桌面分享／下載 fallback、取消及失敗重試通過，並有 AM 分享頁外觀確認。這是既有驗證紀錄，本次整理沒有重新部署或實機測試。</li>
-<li><code>use-platform-upload-for-certificate-share/tasks.md</code> 的跨裝置長按儲存、上傳細節及正式保存設定仍有未勾選；分享 change 的正式 bucket／JSON API 跨網域讀取亦未勾選。</li>
-<li>接手先確認：長按儲存是否為最終接受方案；原型初始值及正式計算規則；正式 bucket 與圖片保存設定。未確認項目不要直接標完成。</li>
-<li>回歸至少涵蓋：窄手機／平板／桌面、長題目與三個選項、切題及重整續接、無權限、影片回開頭、全部完成、長姓名證書、下載後再分享、取消、失敗及重試。結果記錄裝置、瀏覽器、版本與實際檔案，不只記「按鈕有反應」。</li>
-</ul>
-<p>詳細背景與來源：<a href="awiqli-dose-converter-ui.md">劑量轉換器任務</a>、<a href="Awiqli-HCP-Learning-Game-UI.md">學習遊戲任務與實作分工</a>、<a href="https://github.com/Aiii-Developers/nn-web-share/blob/66d00e8b715e402f3849ae251352abaf35ca1059/public/index.html">nn-web-share 原始碼</a>。原有三份 UI OpenSpec 已封存；後續上傳／分享 change 仍依各自 tasks 追蹤。</p>
 </section>
-<footer>與 Awiqli-Handover.md 使用同一份內容整理。實際驗收狀態以文件內列出的紀錄與待確認項目為準。</footer>
+<footer>內容同步自 Awiqli-Handover.md。更新日期：2026/10/28。</footer>
 </main></div>
 <script>document.getElementById('print-report').addEventListener('click',function(){window.print();});</script>
 </body>

@@ -14,7 +14,7 @@ tags:
 
 # CRESTCODE V2-1／V2-2 專案交接文件
 
-> 本文件記錄我負責期間的需求決策、V2-2 前端初版、驗證紀錄與交接事項。V2-2 後續已不由我負責；review 問題是否已由接手團隊修正、Stage／Production 是否已部署，請以接手團隊目前的分支與環境為準。本文不把未確認的後續工作寫成已完成。
+> 本文件記錄我負責期間的需求決策、V2-2 前端初版、驗證紀錄與交接事項。V2-2 後續已不由我負責，本文不把未確認的後續工作寫成已完成。
 
 ## 1. 專案情境與範圍
 
@@ -28,8 +28,6 @@ CRESTCODE 是提供 HCP 使用的 LINE LIFF 家族案例挑戰。V2-1 將舊版�
 | --- | --- | --- |
 | V2-1 | V2-2 的既有 baseline；應保持相容，不重寫既有功能。 | 六角色一題式挑戰、身份分流、profile、影片／教材、完成解鎖、邀請計數、事件追蹤與每日報表。 |
 | V2-2 | 在既有 parent challenge 與 V2-1 流程上新增卡牌 child records。 | 11 張卡、按角色遊玩紀錄日期抽卡、跨局收藏推導、卡牌動畫與報表欄位。 |
-
-V2-1 收尾時的重要 merge 紀錄：後端 PR [#105](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/105)、[#106](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/106)、[#107](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/107)、[#109](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/109)；前端 PR [#57](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/57)、[#58](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/58)、[#59](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/59)。這些是截至 2026-09-22 的程式碼合併紀錄，不等同 Production 部署證明。詳細 V2-1 原始紀錄見 [AZ_crestcode_V2-1.md](/Users/oscar/Documents/note-garden/content/internship/tasks/AZ_crestcode_V2-1.md)。
 
 | 資源 | 位置 |
 | --- | --- |
@@ -166,65 +164,37 @@ V2-2 以每份有效 `cardDraws` 文件輸出一筆遊玩資料，新增欄位�
 
 | 問題／前端回饋 | 當時處理方向 | 接手時注意 |
 | --- | --- | --- |
-| 選角／開始／前進請求遇到 409 或 500，常見於狀態不同步或重複送出。 | 後端依合法狀態轉移處理，對可重送操作使用冪等識別；前端依回應恢復畫面。 | 修改狀態機前先保留續玩與重送情境。 |
 | A 角色的影片／進度狀態洩漏到 B 角色。 | 進度與 session key 按角色隔離；切換角色後重新載入該角色狀態。 | 回歸 A→B→A 與未完成續玩。 |
 | 角色被選取後看起來像已完成。 | 將目前選取狀態與已完成／解鎖狀態分開呈現。 | 不要以 selected 推導 completed。 |
 | Box iframe 在手機影片體驗不佳。 | 改用 GCS MP4 與原生 video controls／playsinline，保留外開連結。 | 驗證 LINE WebView 的播放與離頁行為。 |
 | 題目或案例圖片載入前空白。 | 預載情境圖片並顯示載入狀態。 | 影像錯誤與慢網路需保留可理解的狀態。 |
-| 院所查詢曾遇 BigQuery 403。 | 改用同 site 的 Firestore 院所來源，profile 資料供報表使用。 | 確認目前權限及資料來源，不要假設舊查詢仍可用。 |
 | 邀請參與數與六角色全完成數被混用。 | 首次完成任一角色的參與數以 LINE user 去重；全角色完成使用另一個完成欄位。 | 報表口徑需維持分開。 |
 | localhost LIFF 缺少 site 或 redirect 設定錯誤。 | LIFF 狀態帶 `site`，以 Angular server 搭配 LIFF CLI 測試。 | `npm start` 與 `npm run serve:liff` 是本機啟動方式，不代表可用瀏覽器直接開網址完成 LIFF 驗收。 |
 
 以上是 V2-1 開發時的處理紀錄摘要；目前分支是否仍維持相同實作，需由接手者檢查。
+
+### V2-2 問題與交接狀態
 
 | 問題 | 處理／解法 | 狀態 |
 | --- | --- | --- |
 | PRD、會議 HTML 與早期機率規則互相衝突。 | 以後續確認的 PRD 方向為主；逐項明確定義跨日、同日重抽、滿卡與 replay 案例。 | 規則已收斂並寫入 OpenSpec。 |
 | local route 直接開啟時 LIFF guard 回報缺少 `site` 或跳 LINE 400。 | 本機網址需帶 `site=astrazeneca`；需要 LIFF 時先啟動 Angular (`npm start`)，再執行 `npm run serve:liff`。redirect URL 必須符合 LINE LIFF channel 設定；瀏覽器直開不等同 LIFF 驗收。 | 本機使用流程已確認；環境設定需由接手者核對。 |
 | 早期 review 指出已完成但未抽卡的續玩頁沒有抽卡入口。 | 恢復該狀態時導回有 Galaxy News CTA 的影片／完成互動流程，不可只留在無抽卡按鈕的結果畫面。 | 前端曾依 review 修正；接手者需以當前 branch 驗證。 |
-| local preview query 曾可能在非 V2 頁面繞過 LIFF guard。 | 將 preview bypass 限定在精確的 `/hcp-challenge/v2` 路由，避免同一 query 在其他功能頁略過身份初始化。 | 前端曾依 review 修正；接手者需以當前 branch 驗證。 |
-| V2-2 start／draw／collection 契約與前端 model 不一致。 | Review 指出 start 要 opt-in `cardDrawId: null`、draw request 要帶 `cardDrawId`、draw DTO 欄位名不同、collection summary 為巢狀。應按本文件 API 契約 mapping 並補 DTO fixture tests。 | 4 項 P1 已交接；我離開後是否修好未知。 |
 | 收藏彈窗關閉後重開，舊 request 可能覆蓋新資料或 loading。 | 關閉時 cancel request 或使用 request generation/token 忽略過期 response，並測試先舊後新的回應順序。 | 1 項 P2 已交接；我離開後是否修好未知。 |
 | 重送抽卡可能播放／略過錯誤動畫或改變卡片。 | 後端以 cardDraw record 保存固定結果；前端重用同一結果，不重抽，但每次顯示結果都依產品要求正面 3 秒再翻背面。 | 需求已定；API 串接 review 後續交接。 |
 | 卡牌畫面看起來模糊。 | 確認 `src` 有載入、自然尺寸 1000×1400、顯示尺寸約 242×340；因此不能直接認定 asset 被壓縮。檢視放大／手勢縮放曾提出後又暫停，未確認 CSS 根因或最終修復。 | 根因未確認；不列為已解決。 |
-| feature branch 曾混入 Stage 歷史；push 曾回報 HTTP 400。 | 開發時切到 `feature/crestcode-card-collection`；最後一次紀錄 commit `7458acf`，push 回報 HTTP 400，當時遠端是否收到未確認。接手者先檢查 `git status`、branch、remote hash，再決定 push／tag。 | 交接事項；不由我繼續追蹤。 |
 
 ### 前端當時的驗證紀錄
 
 - `npm run build-stage` 成功。
 - 抽卡元件 targeted tests 41 項通過。
 - 以上是本機 build／unit test 證據，不代表 Stage 端到端、LINE WebView 或正式環境驗收已完成。
-- V2-1 收尾紀錄曾記載後端 `bun test` 為 230 項通過、0 項失敗（698 expectations、24 個測試檔）；這是歷史驗證快照，不代表目前 branch 的測試結果。相關 V2-1 合併 PR 見第 1 節。
+- V2-1 收尾紀錄曾記載後端 `bun test` 為 230 項通過、0 項失敗（698 expectations、24 個測試檔）；這是歷史驗證快照，不代表目前 branch 的測試結果。
 
-## 7. 本機測試與 Stage 注意事項
-
-```bash
-# 前端 repository
-npm start
-
-# 另一個 terminal：需要 LIFF 時
-npm run serve:liff
-
-# 前端 staging configuration build
-npm run build-stage
-```
-
-- 若 LIFF 初始化失敗，先看網址是否含正確的 `site`、LIFF channel／redirect URL 是否允許 localhost，以及 Angular server 是否仍在 4200 運作。
-- 卡牌 API 的 API base 由前端 environment 設定；不要把測試或正式 API key、Firebase token、SendGrid secret 寫入文件或 commit。
-- 當時 Stage workflow 是以 `s*` tag 觸發 `build-stage` 並部署 Firebase Stage hosting；推 tag 前應核對當前 workflow、tag 慣例與部署目標。不要用 `v*` production tag 測試 Stage。
-- 交接後的 Stage smoke test 至少涵蓋三種可玩身份、未完成續玩、完成未抽卡恢復、影片頁抽卡、同日重抽、滿卡後抽卡、收藏查詢與報表欄位。
-
-## 8. 交接給接手工程師
+## 7. 交接給接手工程師
 
 1. 先以最新 remote branch 確認 V2-2 的真實 code／OpenSpec 狀態；不要只依本文件中的 commit 或測試歷史判斷。
-2. 優先核對五項前端 review finding（4 P1、1 P2）是否已修正，補 request／response contract tests。
+2. 優先核對已交接的前端 review 問題是否已修正，並補上 request／response contract tests。
 3. 用測試站驗證 `startedAt` 的台北有效日期、同日固定卡、集滿後全卡池等機率抽取，以及所有 draw presentation 正面 3 秒翻面。
 4. 驗證 collection summary UI、關閉重開的 request race、V2-1 legacy flow／report 沒有回歸。
 5. 由新負責人決定 Stage／Production 部署、報表與客戶文字驗收；本文件作者已退出後續負責範圍。
-
-## 9. 安全與資料注意事項
-
-- 不要把真實 HCP 個資、LINE UID、Firebase token、API key 或服務憑證放進交接文件、截圖或 Git。
-- 正式醫療題目、正解、解析與 Reference 以 AZ Medical／Compliance 核准版本為準。
-- 不要未經 owner 核准直接在 Production 執行 seed、migration、刪除或搬移資料。
-- 部署紀錄需同時記 repo、branch、commit／tag、Firebase project、API environment 與時間；Stage tag 不是 Production 上線證明。

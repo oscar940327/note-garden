@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Oscar">
-  <meta name="description" content="CRESTCODE V2-1／V2-2 專案情境、流程、前端回饋、資料/API 設計與問題交接。">
-  <title>CRESTCODE V2-1／V2-2 專案交接</title>
+  <meta name="description" content="?????????????????? API ???????????????">
+  <title>CRESTCODE V2-1?V2-2 ??????</title>
   <style>
     :root {
       color-scheme: light;
@@ -102,248 +102,400 @@
     <aside aria-label="文件目錄">
       <h2>文件目錄</h2>
       <nav>
-        <a href="#scope">1. 專案情境</a>
-        <a href="#cases">2. 六個案例</a>
-        <a href="#flow">3. 身分與流程</a>
-        <a href="#feedback">4. 前端回饋</a>
-        <a href="#data">5. 資料與 API</a>
-        <a href="#issues">6. 問題與解法</a>
-        <a href="#testing">7. 測試與部署</a>
-        <a href="#handover">8. 後續交接</a>
+        <a href="#scope">1. 專案情境與範圍</a>
+        <a href="#cases">2. 六個案例情境</a>
+        <a href="#flow">3. 身分情境與基本流程</a>
+        <a href="#feedback">4. 前端回饋與 UI 定案</a>
+        <a href="#data">5. 資料模型與 API 契約</a>
+        <a href="#issues">6. 開發問題、解法與交接狀態</a>
+        <a href="#handover">7. 交接給接手工程師</a>
       </nav>
     </aside>
     <main id="top">
       <article>
         <header>
-          <p class="eyebrow">ASTRAZENECA · LIFF · FIRESTORE</p>
-          <h1>CRESTCODE V2-1／V2-2 專案交接</h1>
-          <p class="meta">整理者 Oscar｜更新日期 2026-10-27｜涵蓋情境、流程、前端回饋與開發交接</p>
-          <div class="notice handoff">本文件記錄我負責期間的需求決策、V2-2 前端初版、驗證紀錄與交接事項。V2-2 後續已不由我負責；review 問題是否已由接手團隊修正、Stage／Production 是否已部署，請以接手團隊目前的分支與環境為準。本文不把未確認的後續工作寫成已完成。</div>
-          <div class="version-grid" aria-label="V2-1 與 V2-2 版本關係">
-            <section class="version-card">
-              <h3>V2-1｜既有基準</h3>
-              <p>完成六角色的一題式挑戰、身份與 profile 分流、續玩、影片／教材、角色解鎖、邀請計數、事件追蹤及每日報表。我參與前後端主要流程與狀態、事件、報表整理。</p>
-            </section>
-            <section class="version-card">
-              <h3>V2-2｜卡牌增量</h3>
-              <p>沿用 V2-1 challenge 與遊玩流程，新增 11 張卡的抽取、收藏、前端呈現與報表欄。我的工作包含需求收斂、OpenSpec、前端初版及測試站 API 串接；後端與後續 review／部署已交接他人。</p>
-              <p>V2-2 不應重寫 V2-1，也不應改動 V1 資料。</p>
-            </section>
-          </div>
-          <p>V2-1 收尾時的程式碼合併紀錄：後端 <a href="https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/105">#105</a>、<a href="https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/106">#106</a>、<a href="https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/107">#107</a>、<a href="https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/109">#109</a>；前端 <a href="https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/57">#57</a>、<a href="https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/58">#58</a>、<a href="https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/59">#59</a>。這是截至 2026-09-22 的 merge 記錄，不是 Production 部署證明。</p>
+          <p class="eyebrow">ASTRAZENECA ? LIFF ? FIRESTORE</p>
+          <h1>CRESTCODE V2-1／V2-2 專案交接文件</h1>
+          <p class="meta">??? Oscar????? 2026-10-27??????????????????</p>
+          <div class="notice handoff">
+<p>本文件記錄我負責期間的需求決策、V2-2 前端初版、驗證紀錄與交接事項。V2-2 後續已不由我負責，本文不把未確認的後續工作寫成已完成。</p>
+</div>
         </header>
-
         <section id="scope">
           <h2>1. 專案情境與範圍</h2>
-          <p>CRESTCODE 是提供 HCP 使用的 LINE LIFF 家族案例挑戰。V2-1 將舊版兩題式體驗改成選擇家族角色、回答一題、查看解析與影片，再完成角色挑戰。V2-2 在既有流程加入 11 張卡牌抽取與收藏；前端是 Angular LIFF，後端使用 Bun／Elysia API、Firebase Authentication 與 Firestore。</p>
-          <p>我負責需求收斂、OpenSpec 規格、前端卡牌結果／收藏初版、測試站 API 串接、前端 build 與元件測試。後端實作及我離開後的 review 修正、整合驗收與部署由其他工程師接手。</p>
+          <p>CRESTCODE 是提供 HCP 使用的 LINE LIFF 家族案例挑戰。V2-1 將舊版兩題式體驗改成選擇家族角色、回答一題、查看解析與影片，再完成角色挑戰；V2-2 在既有流程加入 11 張卡牌抽取與收藏。主要前端是 Angular LIFF，後端使用 Bun／Elysia API、Firebase Authentication 與 Firestore。</p>
+          <p>我在 V2-1 參與前後端主要流程、身份／角色／題目狀態、事件與報表的整理和實作；V2-2 負責需求收斂、OpenSpec 規格、前端卡牌結果／收藏初版、測試站 API 串接、前端 build 與元件測試。V2-2 後端與我離開後的 review 修正、整合驗收及部署由其他工程師接手。</p>
+          <h3>版本關係</h3>
           <div class="table-wrap"><table>
-            <thead><tr><th>資源</th><th>連結</th></tr></thead>
-            <tbody>
-              <tr><td>前端 Repository</td><td><a href="https://github.com/Aiii-Developers/astrazeneca-liff-med">astrazeneca-liff-med</a></td></tr>
-              <tr><td>後端 Repository</td><td><a href="https://github.com/Aiii-Developers/astrazeneca-hcp-api">astrazeneca-hcp-api</a></td></tr>
-              <tr><td>PRD／問題清單</td><td><a href="https://github.com/Aiii-Developers/astrazeneca-docs/blob/main/%E5%B0%88%E6%A1%88_crestcode_V2/AZTW_CRESTCODE_PRD.md">PRD</a> · <a href="https://github.com/Aiii-Developers/astrazeneca-liff-med/issues/54">Issue #54</a></td></tr>
-              <tr><td>OpenSpec</td><td>Backend：crestcode-v2-2-card-collection-backend；Frontend：crestcode-v2-2-card-collection-frontend</td></tr>
-              <tr><td>Figma</td><td><a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=4828-5759&amp;p=f&amp;m=dev">主檔</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6305-10099&amp;m=dev">抽卡</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6305-10155&amp;m=dev">集滿</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6290-9285&amp;m=dev">家族樹收藏入口</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6290-9674&amp;m=dev">完成頁收藏入口</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6302-9927&amp;m=dev">卡牌正面</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6305-10045&amp;m=dev">卡牌背面</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6302-10017&amp;m=dev">翻面</a></td></tr>
-            </tbody>
-          </table></div>
+<thead>
+<tr>
+<th scope="col">版本</th>
+<th scope="col">交接定位</th>
+<th scope="col">主要範圍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V2-1</td>
+<td>V2-2 的既有 baseline；應保持相容，不重寫既有功能。</td>
+<td>六角色一題式挑戰、身份分流、profile、影片／教材、完成解鎖、邀請計數、事件追蹤與每日報表。</td>
+</tr>
+<tr>
+<td>V2-2</td>
+<td>在既有 parent challenge 與 V2-1 流程上新增卡牌 child records。</td>
+<td>11 張卡、按角色遊玩紀錄日期抽卡、跨局收藏推導、卡牌動畫與報表欄位。</td>
+</tr>
+</tbody>
+</table></div>
+          <div class="table-wrap"><table>
+<thead>
+<tr>
+<th scope="col">資源</th>
+<th scope="col">位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前端 Repository</td>
+<td><a href="https://github.com/Aiii-Developers/astrazeneca-liff-med">astrazeneca-liff-med</a></td>
+</tr>
+<tr>
+<td>後端 Repository</td>
+<td><a href="https://github.com/Aiii-Developers/astrazeneca-hcp-api">astrazeneca-hcp-api</a></td>
+</tr>
+<tr>
+<td>PRD</td>
+<td><a href="https://github.com/Aiii-Developers/astrazeneca-docs/blob/main/%E5%B0%88%E6%A1%88_crestcode_V2/AZTW_CRESTCODE_PRD.md">AZTW CRESTCODE PRD</a></td>
+</tr>
+<tr>
+<td>抽卡問題清單</td>
+<td><a href="https://github.com/Aiii-Developers/astrazeneca-liff-med/issues/54">LIFF issue #54</a></td>
+</tr>
+<tr>
+<td>OpenSpec changes</td>
+<td>Backend：<code>crestcode-v2-2-card-collection-backend</code>；Frontend：<code>crestcode-v2-2-card-collection-frontend</code></td>
+</tr>
+<tr>
+<td>Figma 主檔</td>
+<td><a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=4828-5759&amp;p=f&amp;m=dev">AstraZeneca HCP 業代 LIFF</a></td>
+</tr>
+<tr>
+<td>一般抽卡／集滿畫面</td>
+<td><a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6305-10099&amp;m=dev">一般抽卡</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6305-10155&amp;m=dev">集滿卡牌</a></td>
+</tr>
+<tr>
+<td>收藏／卡牌詳情畫面</td>
+<td><a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6290-9285&amp;m=dev">家族樹收藏入口</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6290-9674&amp;m=dev">完成頁收藏入口</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6302-9927&amp;m=dev">卡牌正面</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6305-10045&amp;m=dev">卡牌背面</a> · <a href="https://www.figma.com/design/OXErFSa4skc4885havEMrZ/AstraZeneca-HCP-%E6%A5%AD%E4%BB%A3-Liff%E5%85%AC%E7%89%88?node-id=6302-10017&amp;m=dev">翻面文字</a></td>
+</tr>
+</tbody>
+</table></div>
         </section>
-
         <section id="cases">
           <h2>2. 六個案例情境</h2>
-          <p>以下只作角色識別，正式題目、答案、解析及 Reference 以 AZ Medical／Compliance 核准版本為準。</p>
+          <p>六位家族角色各有一組單題案例。以下只作交接識別，正式題目、答案、解析及 Reference 必須以 AZ Medical／Compliance 核准版本為準。</p>
           <div class="table-wrap"><table>
-            <thead><tr><th>角色</th><th>案例背景摘要</th></tr></thead>
-            <tbody>
-              <tr><td>冠嬸婆</td><td>65 歲、有高血壓；生活型態調整三個月後 LDL-C 仍為 140 mg/dL。</td></tr>
-              <tr><td>冠爺</td><td>75 歲，近期急性心肌梗塞，住院檢驗 LDL-C 為 120 mg/dL。</td></tr>
-              <tr><td>冠媽</td><td>50 歲，健檢 HbA1C 9.0%、LDL-C 200 mg/dL。</td></tr>
-              <tr><td>冠爸</td><td>55 歲，近期急性缺血性中風，LDL-C 為 120 mg/dL。</td></tr>
-              <tr><td>冠叔</td><td>45 歲、有抽菸及高血壓；生活型態調整後 LDL-C 仍為 140 mg/dL。</td></tr>
-              <tr><td>阿冠</td><td>20 歲大學生，急性心肌梗塞並診斷 ASCVD；出院後 LDL-C 為 150 mg/dL。</td></tr>
-            </tbody>
-          </table></div>
+<thead>
+<tr>
+<th scope="col">角色</th>
+<th scope="col">案例背景摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冠嬸婆</td>
+<td>65 歲、有高血壓；生活型態調整三個月後 LDL-C 仍為 140 mg/dL。</td>
+</tr>
+<tr>
+<td>冠爺</td>
+<td>75 歲，近期急性心肌梗塞，住院檢驗 LDL-C 為 120 mg/dL。</td>
+</tr>
+<tr>
+<td>冠媽</td>
+<td>50 歲，健檢 HbA1C 9.0%、LDL-C 200 mg/dL。</td>
+</tr>
+<tr>
+<td>冠爸</td>
+<td>55 歲，近期急性缺血性中風，LDL-C 為 120 mg/dL。</td>
+</tr>
+<tr>
+<td>冠叔</td>
+<td>45 歲、有抽菸及高血壓；生活型態調整後 LDL-C 仍為 140 mg/dL。</td>
+</tr>
+<tr>
+<td>阿冠</td>
+<td>20 歲大學生，急性心肌梗塞並診斷 ASCVD；出院後 LDL-C 為 150 mg/dL。</td>
+</tr>
+</tbody>
+</table></div>
         </section>
-
         <section id="flow">
           <h2>3. 身分情境與基本流程</h2>
-          <p>LIFF 初始化後由後端依 Firebase ID token 判定身份；前端不可用 URL 中的 LINE UID 作為身份依據。</p>
+          <p>LIFF 初始化後由後端依 Firebase ID token 判定身份。前端不可用 URL 中的 LINE UID 作為登入身份依據。</p>
           <div class="table-wrap"><table>
-            <thead><tr><th>身分</th><th>進入方式</th></tr></thead>
-            <tbody>
-              <tr><td>已驗證 HCP</td><td>直接進家族樹。</td></tr>
-              <tr><td>待驗證 HCP</td><td>依既有資料進家族樹；已有 profile 不要求重填。</td></tr>
-              <tr><td>未驗證 HCP</td><td>沒有既存 profile 時先填姓名、縣市與服務院所，再進家族樹。</td></tr>
-              <tr><td>已註銷 HCP</td><td>顯示阻擋頁，不允許開始遊戲。</td></tr>
-            </tbody>
-          </table></div>
+<thead>
+<tr>
+<th scope="col">身分</th>
+<th scope="col">進入流程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已驗證 HCP</td>
+<td>直接進家族樹。</td>
+</tr>
+<tr>
+<td>待驗證 HCP</td>
+<td>依既有資料進家族樹；已有 profile 不要求重填。</td>
+</tr>
+<tr>
+<td>未驗證 HCP</td>
+<td>沒有既存 profile 時先填姓名、縣市與服務院所，再進家族樹。</td>
+</tr>
+<tr>
+<td>已註銷 HCP</td>
+<td>顯示阻擋頁，不允許開始遊戲。</td>
+</tr>
+</tbody>
+</table></div>
           <h3>V2-1 基本流程</h3>
-          <pre>LIFF 初始化 → 身分判定 →（必要時填基本資料）→ 家族樹選角
-→ 題目 → 後端判分 → 解析／Reference → 影片 → 教材／結果 → 角色完成並解鎖</pre>
+          <pre><code class="language-text">LIFF 初始化 → 身分判定 →（必要時填基本資料）→ 家族樹選角
+→ 題目 → 後端判分 → 解析／Reference → 影片 → 教材／結果
+→ 角色完成並解鎖
+</code></pre>
           <ul>
-            <li>同角色未完成流程恢復原進度；切換角色時載入該角色自己的狀態。</li>
-            <li>作答由後端判分；只有後端到達 completed 才解鎖角色。</li>
-            <li>影片以原生 video controls／playsinline 播放，並保留外部開啟方式。</li>
-          </ul>
-          <h3>V2-1 前端主要回饋</h3>
+<li>同角色未完成流程要恢復原進度；切換角色時載入該角色自己的狀態。</li>
+<li>作答由後端判分；前端不自行決定正解或提早顯示解析。</li>
+<li>只有後端狀態到達 completed 才解鎖角色。</li>
+<li>影片以原生 video controls／playsinline 播放，並保留外部開啟方式。</li>
+</ul>
+          <h3>V2-1 既有功能邊界</h3>
           <ul>
-            <li>題目與案例圖片載入前顯示載入狀態，避免空白；角色選取狀態與已完成／解鎖狀態分開呈現。</li>
-            <li>手機影片採 GCS MP4、原生 controls／playsinline，並保留外部開啟方式；結果頁提供教材與下一步入口。</li>
-            <li>院所選擇需支援搜尋並提供手動處理方式；profile 欄位與題目標題／字級依前端回饋調整。</li>
-          </ul>
-          <h3>V2-2 抽卡流程</h3>
-          <pre>家族樹選角色 → 題目 → 解析 → 影片頁 → 點 Galaxy News
-→ 後端保存抽卡結果 → 彈窗由下往上進場
-→ 彈窗到位後背景切換 → 正面 3 秒 → 翻至背面停留</pre>
+<li>Parent player document 使用 <code>sites/{site}/hcpChallengeV2/{challengeId}</code>；六角色以 <code>memberProgress</code> 保存目前狀態與完成投影。題目內容另存 <code>sites/{site}/hcpChallengeV2Scenarios/{scenarioVersionId}</code>，資料庫優先、核准程式碼內容作 fallback。</li>
+<li>V2-1 服務 API 的主要路徑（均為 POST；實際 host／<code>/az-hcp</code> 前綴依環境設定）：<code>identity</code>、<code>family-members</code>、<code>scenario-content</code>、<code>medical-institutions</code>、<code>start</code>、<code>profile-status</code>、<code>profile</code>、<code>select-member</code>、<code>answer</code>、<code>advance</code>、<code>track</code>、<code>reports</code>，皆位於 <code>/hcp-challenge/v2/</code> 下。V2-2 增加的 <code>draw-card</code>、<code>card-collection</code> 是附加端點，不取代這些既有端點；改動前先對照目前 OpenAPI 與前端 service。</li>
+<li>既有玩家資料、身份、profile、邀請來源、角色進度、events 與完成欄位屬於 V2-1 相容面。V2-2 不應改寫 V1 的 <code>hcpChallenge</code>、V1 題庫、Sales 統計或其他 site 資料。</li>
+<li>邀請頁「參與」是首次完成任一角色、按 LINE user ID 去重；六角色全完成另由 all-members completion 記錄，不可混為同一口徑。</li>
+<li>V2-1 每日報表曾核對為 24 欄、逐遊玩列；V2-2 只增加「當次遊戲抽的卡牌」欄，其他完成統計沿用既有判定。</li>
+</ul>
+          <h3>V2-2 抽卡與收藏流程</h3>
+          <pre><code class="language-text">家族樹選角色 → 題目 → 解析 → 影片頁
+→ 點「持續關注 Galaxy News」→ 後端保存抽卡結果
+→ 抽卡彈窗由下往上滑入
+→ 彈窗到位後背景切換至下一頁
+→ 卡片正面顯示 3 秒 → 翻至背面並停留
+</code></pre>
           <ul>
-            <li>Galaxy News 抽卡按鈕在影片頁，不在結果頁；不要求影片播完。</li>
-            <li>收藏入口只在家族樹與挑戰完成頁，固定懸浮右下角，不額外加字。</li>
-            <li>每次呈現抽卡結果（新抽、同日重複、恢復已存結果）都正面 3 秒後翻背；重試不得換卡。</li>
-            <li>收藏詳情點下方文字手動翻面；卡牌放大／觸控縮放後來決定暫緩。</li>
-          </ul>
-          <h3>每日抽卡與日期</h3>
+<li>抽卡入口是<strong>影片頁</strong>的「持續關注 Galaxy News」，不是結果頁按鈕，也不要求影片播完。</li>
+<li>收藏查看入口只在家族樹與挑戰完成頁；使用固定懸浮右下角的圖片，不額外疊文字。</li>
+<li>收藏詳情中的卡片由使用者點下方文字翻面；不套用抽卡的 3 秒動畫。</li>
+<li>每次顯示抽卡結果（新抽、同日重複、恢復已存結果）都先顯示正面 3 秒再翻面；重試不得換卡。</li>
+<li>卡牌放大／觸控縮放曾提出，但後來決定暫緩，不列入本次範圍。</li>
+</ul>
+          <h3>最終抽卡規則</h3>
           <ul>
-            <li>卡池固定 11 張；V2-1 舊遊玩不補收藏。</li>
-            <li>有效日期依角色遊玩 `startedAt` 的 Asia/Taipei 日期，抽卡時間另行記錄；23:59 開始、00:01 點擊仍屬前一天。</li>
-            <li>新有效日期首抽從未收藏卡等機率抽取；同日其他局固定同卡。</li>
-            <li>集滿 11 張後，新有效日期從全部 11 張等機率抽一張，收藏仍為 11/11。</li>
-          </ul>
+<li>固定 11 張；V2-1 舊遊玩不補發收藏。</li>
+<li>每局有效日期依角色遊玩記錄的 <code>startedAt</code>，以 <code>Asia/Taipei</code> 換日；抽卡按鈕時間另記為實際抽卡時間。23:59 開始角色、00:01 點擊 Galaxy News，仍屬前一天。</li>
+<li>同一有效日期首抽：從尚未收藏卡牌等機率抽一張；同日其他局沿用該日第一張。</li>
+<li>集滿 11 張後，新有效日期從全部 11 張等機率抽一張，收藏數維持 11/11。</li>
+<li>同一 <code>cardDrawId</code> 重送或恢復時回傳原結果，不重新抽卡。</li>
+</ul>
         </section>
-
         <section id="feedback">
           <h2>4. 前端回饋與 UI 定案</h2>
           <div class="table-wrap"><table>
-            <thead><tr><th>回饋／問題</th><th>定案或處理方式</th></tr></thead>
-            <tbody>
-              <tr><td>抽卡規則文件不一致</td><td>以後續確認的 PRD 方向為主；每日首張、同日固定、滿卡後新日期在 11 張間等機率抽取。</td></tr>
-              <tr><td>抽卡按鈕放錯頁面</td><td>更正為影片頁點 Galaxy News 才抽卡。</td></tr>
-              <tr><td>同日重抽可能直接顯示背面</td><td>所有抽卡結果畫面都先顯示正面 3 秒再翻面。</td></tr>
-              <tr><td>抽卡彈窗和背景切換</td><td>彈窗由下往上滑入，到位後再切背景；右上角叉叉為黑色。</td></tr>
-              <tr><td>收藏入口位置</td><td>只有家族樹與挑戰完成頁有右下角固定懸浮圖片，不再疊加文字。</td></tr>
-              <tr><td>卡牌詳情</td><td>收藏卡點下方文字翻面，旋轉需有動畫；右上角有叉叉。</td></tr>
-              <tr><td>卡牌模糊</td><td>當時確認原圖 1000×1400 已載入，顯示約 242×340；根因未確認。放大／手勢縮放後來暫停，不能記為畫質問題已解決。</td></tr>
-              <tr><td>素材位置與檔名</td><td>素材位於 LIFF 的 `src/assets/image/hcp-challenge/v2/cards`，檔名改為小寫。</td></tr>
-            </tbody>
-          </table></div>
+<thead>
+<tr>
+<th scope="col">回饋／狀況</th>
+<th scope="col">定案或處理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前端要求以 PRD 為主，不採早期 HTML 機率表與「同卡四次」上限。</td>
+<td>抽卡規則收斂為每日首張、同日同卡；滿卡後新日期在 11 張間等機率抽取。</td>
+</tr>
+<tr>
+<td>抽卡曾被放在完成頁，與流程不一致。</td>
+<td>更正為影片頁點 Galaxy News 才抽卡。</td>
+</tr>
+<tr>
+<td>同日重抽或恢復結果原本可能直接顯示背面。</td>
+<td>定為任何抽卡結果畫面都正面 3 秒後翻背面。</td>
+</tr>
+<tr>
+<td>抽卡結果彈窗的呈現方式。</td>
+<td>由下往上滑入；到位後背景才切至下一頁；右上角叉叉為黑色。</td>
+</tr>
+<tr>
+<td>家族樹／完成頁找不到卡牌收藏入口，或入口位置不穩。</td>
+<td>只在這兩頁顯示右下角固定懸浮圖片入口，圖片本身已有文案，不另外疊字。</td>
+</tr>
+<tr>
+<td>收藏內卡片詳情需可翻面、可退出。</td>
+<td>點下方文字翻面並播放旋轉動畫；右上角顯示叉叉。</td>
+</tr>
+<tr>
+<td>卡牌畫質看起來模糊。</td>
+<td>檢查時圖片已載入原始 1000×1400 檔，畫面顯示約 242×340；根因未確認。放大／縮放功能後續被暫緩，勿記成已解決的畫質修正。</td>
+</tr>
+<tr>
+<td>素材檔案名稱與位置。</td>
+<td>11 張卡的正／背／黑卡素材使用小寫檔名，位於 <code>src/assets/image/hcp-challenge/v2/cards</code>。</td>
+</tr>
+</tbody>
+</table></div>
         </section>
-
         <section id="data">
           <h2>5. 資料模型與 API 契約</h2>
-          <h3>Firestore</h3>
-          <pre>sites                                      ← collection
-└─ {site}                                  ← site 文件，例如 astrazeneca
+          <h3>Firestore 結構</h3>
+          <pre><code class="language-text">sites                                      ← collection
+└─ {site}                                  ← site document，例如 astrazeneca
    └─ hcpChallengeV2                       ← challenge 子集合
       └─ {challengeId}                     ← 玩家／challenge 文件
-         └─ cardDraws                       ← 此 challenge 文件底下的子集合
-            └─ {cardDrawId}                 ← 一局遊戲的卡牌紀錄文件</pre>
+         └─ cardDraws                       ← 這份 challenge 文件底下的子集合
+            └─ {cardDrawId}                 ← 一局遊戲的卡牌紀錄文件
+</code></pre>
           <ul>
-            <li>完整路徑範例：<code>sites/astrazeneca/hcpChallengeV2/abc123/cardDraws/run456</code>。<code>sites</code>、<code>hcpChallengeV2</code>、<code>cardDraws</code> 是集合；<code>astrazeneca</code>、<code>abc123</code>、<code>run456</code> 是文件。</li>
-            <li><code>cardDraws</code> 是 <code>sites/{site}/hcpChallengeV2/{challengeId}</code> 文件底下的子集合；它不是該文件中的欄位或陣列，也不是最上層獨立集合。</li>
-            <li><code>challengeId</code> 沿用既有玩家／challenge 文件，不是每局重建；每次角色遊玩都在其 <code>cardDraws</code> 子集合新增一份 <code>cardDrawId</code> 文件。</li>
-            <li>每份 <code>cardDraws/{cardDrawId}</code> 保存一局的開始時間、角色、進度、完成狀態、事件及抽卡結果。</li>
-            <li>parent 的角色摘要保留目前／可恢復的 <code>cardDrawId</code>。</li>
-            <li>不新增獨立玩家收藏、collection summary 或每日卡牌文件；收藏由有效 cardDraw records 推導。</li>
-            <li>V2-1 舊 parent 沒有 cardDraws 時沿用舊流程與報表，不搬移、不補卡。</li>
-          </ul>
-          <h3>V2-1 既有 API 邊界</h3>
-          <p>以下是 V2-1 的主要 POST 路徑（服務 host 與 API 前綴依環境設定）；它們屬於既有流程，V2-2 卡牌 API 是附加功能。實際修改前請以目前 OpenAPI／前端 service 為準。</p>
-          <pre>POST /hcp-challenge/v2/identity
-POST /hcp-challenge/v2/family-members
-POST /hcp-challenge/v2/scenario-content
-POST /hcp-challenge/v2/medical-institutions
-POST /hcp-challenge/v2/start
-POST /hcp-challenge/v2/profile-status
-POST /hcp-challenge/v2/profile
-POST /hcp-challenge/v2/select-member
-POST /hcp-challenge/v2/answer
-POST /hcp-challenge/v2/advance
-POST /hcp-challenge/v2/track
-POST /hcp-challenge/v2/reports</pre>
-          <h3>V2-2 卡牌 API 增量</h3>
-          <p>共用前綴 <code>/az-hcp/hcp-challenge/v2</code>；身份來自 Bearer token。</p>
+<li>例如完整文件路徑是 <code>sites/astrazeneca/hcpChallengeV2/abc123/cardDraws/run456</code>。<code>sites</code>、<code>hcpChallengeV2</code>、<code>cardDraws</code> 是集合；<code>astrazeneca</code>、<code>abc123</code>、<code>run456</code> 是文件。</li>
+<li><code>cardDraws</code> 不在 <code>challengeId</code> 文件內當作欄位或陣列，也不是 Firestore 最上層的獨立集合；它是 <code>sites/{site}/hcpChallengeV2/{challengeId}</code> 這份文件底下的子集合。</li>
+<li><code>challengeId</code> 沿用既有玩家／challenge parent，不是每一局都重新建立；每次角色遊玩在其 <code>cardDraws</code> 子集合新增一份 <code>cardDrawId</code> 文件。</li>
+<li>每份 <code>cardDraws/{cardDrawId}</code> 文件保存一局的開始時間、角色、遊戲進度、完成狀態、事件、<code>drawnCardId</code>、<code>drawnCardName</code>、<code>cardDrawDate</code>、<code>cardDrawnAt</code>；parent 的角色摘要保留目前或可恢復的 <code>cardDrawId</code>。</li>
+<li>不新增獨立玩家收藏、收藏摘要或每日卡牌文件。收藏由該已驗證玩家的有效 <code>cardDraws</code> 記錄推導。</li>
+<li>V2-1 舊 parent 沒有 <code>cardDraws</code> 時沿用既有流程與報表，不搬資料、不補發卡牌。</li>
+</ul>
+          <h3>前端會用到的 API</h3>
+          <p>API 共用前綴為 <code>/az-hcp/hcp-challenge/v2</code>。主要卡牌端點：</p>
           <div class="table-wrap"><table>
-            <thead><tr><th>端點</th><th>契約重點</th></tr></thead>
-            <tbody>
-              <tr><td><code>POST /az-hcp/hcp-challenge/v2/draw-card</code></td><td>Request 必須含 <code>site</code>、<code>challengeId</code>、<code>cardDrawId</code>；回應含 <code>effectiveDate</code>、<code>drawnAt</code>、<code>reusedExistingResult</code> 等。</td></tr>
-              <tr><td><code>POST /az-hcp/hcp-challenge/v2/card-collection</code></td><td>回傳 11 張卡；摘要為 <code>summary.collectedCount</code>、<code>summary.totalCount</code>、<code>summary.isComplete</code>。</td></tr>
-              <tr><td><code>POST /az-hcp/hcp-challenge/v2/start</code></td><td>新 V2-2 flow 傳 <code>cardDrawId: null</code> opt in；保存回傳的 <code>cardDrawId</code>／<code>cardDraw</code> 供恢復。</td></tr>
-            </tbody>
-          </table></div>
+<thead>
+<tr>
+<th scope="col">Method／Path</th>
+<th scope="col">用途／重要欄位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST /az-hcp/hcp-challenge/v2/draw-card</code></td>
+<td>Request <code>{site, challengeId, cardDrawId}</code>；身份取自 Bearer token。回應包含 <code>effectiveDate</code>、<code>drawnAt</code>、<code>reusedExistingResult</code>、collection 狀態。</td>
+</tr>
+<tr>
+<td><code>POST /az-hcp/hcp-challenge/v2/card-collection</code></td>
+<td>依 token owner 查詢 11 張卡；收藏摘要在 <code>summary.collectedCount</code>、<code>summary.totalCount</code>、<code>summary.isComplete</code>。</td>
+</tr>
+<tr>
+<td><code>POST /az-hcp/hcp-challenge/v2/start</code></td>
+<td>新 V2-2 流程需傳 <code>cardDrawId: null</code> 啟用單局 lifecycle；回應帶回 <code>cardDrawId</code>／<code>cardDraw</code> 以供續玩。</td>
+</tr>
+</tbody>
+</table></div>
+          <p>抽卡 response 使用後端欄位 <code>effectiveDate</code>、<code>reusedExistingResult</code>；collection response 的數量與集滿狀態在 <code>summary</code>。前端 model 若使用其他命名，需在 normalizer 明確 mapping。</p>
           <h3>報表</h3>
-          <p>每個 V2-2 cardDraw record 一列，新增欄名「當次遊戲抽的卡牌」。有效結果填英文卡名，缺少／無效填 N；遊戲完成欄沿用原判定。舊 V2-1 記錄維持既有 flatten，卡牌欄填 N。</p>
+          <p>V2-2 以每份有效 <code>cardDraws</code> 文件輸出一筆遊玩資料，新增欄位名稱為 <strong>「當次遊戲抽的卡牌」</strong>。有有效抽卡結果時填英文卡名，缺少或無效時填 <code>N</code>；完成／統計欄沿用原本的遊戲判定，不由卡牌欄反推。V2-1 舊資料仍走既有 flatten，卡牌欄填 <code>N</code>。</p>
         </section>
-
         <section id="issues">
           <h2>6. 開發問題、解法與交接狀態</h2>
-          <h3>V2-1 歷史問題處理</h3>
+          <h3>V2-1 前端回饋與問題處理紀錄</h3>
           <div class="table-wrap"><table>
-            <thead><tr><th>問題／回饋</th><th>當時處理方向</th><th>接手時注意</th></tr></thead>
-            <tbody>
-              <tr><td>選角、開始或前進遇到 409／500，狀態可能不同步或重複送出</td><td>後端依合法狀態轉移處理；可重送操作使用冪等識別，前端按回應恢復。</td><td>回歸續玩與重送。</td></tr>
-              <tr><td>A 角色影片／進度狀態洩漏到 B 角色</td><td>依角色隔離 session key 與進度狀態。</td><td>測試 A→B→A 及未完成續玩。</td></tr>
-              <tr><td>選取角色被誤認為已完成</td><td>分開記錄 selected 與 completed／unlocked。</td><td>不得以 selected 推導 completed。</td></tr>
-              <tr><td>Box iframe 手機播放體驗不佳、題目圖片載入前空白</td><td>影片改原生 MP4 controls／playsinline；圖片預載並提供 loading 狀態。</td><td>回歸 LINE WebView、慢網路與錯誤狀態。</td></tr>
-              <tr><td>院所資料查詢曾遇 BigQuery 403</td><td>改用同 site Firestore 院所來源，profile 資料供報表使用。</td><td>先確認目前權限與資料來源。</td></tr>
-              <tr><td>邀請參與數與六角色全完成數混為一談</td><td>參與數按 LINE user 去重；全部角色完成用獨立完成欄位。</td><td>報表口徑維持分開。</td></tr>
-            </tbody>
-          </table></div>
-          <p>以上為 V2-1 開發紀錄摘要，不能代替對目前程式碼的檢查。</p>
-          <h3>V2-2 review 與交接狀態</h3>
+<thead>
+<tr>
+<th scope="col">問題／前端回饋</th>
+<th scope="col">當時處理方向</th>
+<th scope="col">接手時注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A 角色的影片／進度狀態洩漏到 B 角色。</td>
+<td>進度與 session key 按角色隔離；切換角色後重新載入該角色狀態。</td>
+<td>回歸 A→B→A 與未完成續玩。</td>
+</tr>
+<tr>
+<td>角色被選取後看起來像已完成。</td>
+<td>將目前選取狀態與已完成／解鎖狀態分開呈現。</td>
+<td>不要以 selected 推導 completed。</td>
+</tr>
+<tr>
+<td>Box iframe 在手機影片體驗不佳。</td>
+<td>改用 GCS MP4 與原生 video controls／playsinline，保留外開連結。</td>
+<td>驗證 LINE WebView 的播放與離頁行為。</td>
+</tr>
+<tr>
+<td>題目或案例圖片載入前空白。</td>
+<td>預載情境圖片並顯示載入狀態。</td>
+<td>影像錯誤與慢網路需保留可理解的狀態。</td>
+</tr>
+<tr>
+<td>邀請參與數與六角色全完成數被混用。</td>
+<td>首次完成任一角色的參與數以 LINE user 去重；全角色完成使用另一個完成欄位。</td>
+<td>報表口徑需維持分開。</td>
+</tr>
+<tr>
+<td>localhost LIFF 缺少 site 或 redirect 設定錯誤。</td>
+<td>LIFF 狀態帶 <code>site</code>，以 Angular server 搭配 LIFF CLI 測試。</td>
+<td><code>npm start</code> 與 <code>npm run serve:liff</code> 是本機啟動方式，不代表可用瀏覽器直接開網址完成 LIFF 驗收。</td>
+</tr>
+</tbody>
+</table></div>
+          <p>以上是 V2-1 開發時的處理紀錄摘要；目前分支是否仍維持相同實作，需由接手者檢查。</p>
+          <h3>V2-2 問題與交接狀態</h3>
           <div class="table-wrap"><table>
-            <thead><tr><th>問題</th><th>處理／建議解法</th><th>狀態</th></tr></thead>
-            <tbody>
-              <tr><td>PRD、會議 HTML 與早期機率規則衝突</td><td>以後續確認的 PRD 決策為主，把跨日、同日重抽與滿卡情境逐條寫入規格。</td><td>規則已收斂並寫入 OpenSpec。</td></tr>
-              <tr><td>localhost 缺少 site、LIFF redirect 400 或 CLI 連不到 Angular</td><td>網址帶 <code>site=astrazeneca</code>；先 <code>npm start</code>，再 <code>npm run serve:liff</code>；確認 LINE channel 允許 localhost redirect。</td><td>本機流程已確認；接手者核對目前環境設定。</td></tr>
-              <tr><td>已完成但未抽卡的恢復頁沒有 CTA</td><td>恢復時導回可按 Galaxy News 的影片／完成互動流程。</td><td>前端曾依 review 修正；以當前 branch 驗證。</td></tr>
-              <tr><td>Preview query 可能在非 V2 頁繞過 LIFF guard</td><td>將 preview bypass 限定精確的 <code>/hcp-challenge/v2</code> route。</td><td>前端曾依 review 修正；以當前 branch 驗證。</td></tr>
-              <tr><td>Start/draw/collection API 契約不一致</td><td>Start 傳 <code>cardDrawId: null</code>；draw 帶三欄；mapping <code>effectiveDate</code>／<code>reusedExistingResult</code>；collection 解析巢狀 summary。</td><td>4 項 P1 已交接；後續是否修復未知。</td></tr>
-              <tr><td>關閉收藏彈窗後舊 request 覆蓋重開結果</td><td>取消 request 或用 generation token 忽略過期 response，測試先舊後新的回應次序。</td><td>1 項 P2 已交接；後續是否修復未知。</td></tr>
-              <tr><td>重試結果動畫不一致</td><td>結果由 backend snapshot 固定；每次顯示結果仍按需求正面 3 秒後翻面。</td><td>需求已定；API 契約修正已交接。</td></tr>
-              <tr><td>卡牌看似模糊</td><td>原圖 1000×1400、顯示約 242×340；未確認 CSS 根因。放大／觸控縮放暫緩。</td><td>根因未確認，不可記成已解決。</td></tr>
-              <tr><td>feature branch 混入 Stage 歷史，push 回報 HTTP 400</td><td>最後記錄在 <code>feature/crestcode-card-collection</code>、commit <code>7458acf</code>；接手者核對 remote hash 後再 push/tag。</td><td>當時 remote 狀態未確認；後續由接手團隊負責。</td></tr>
-            </tbody>
-          </table></div>
-          <p>V2-2 最後記錄的前端驗證：<code>npm run build-stage</code> 成功、抽卡元件 targeted tests 41 項通過。V2-1 收尾時的後端歷史測試記錄為 <code>bun test</code> 230 項通過、0 項失敗（698 expectations、24 個測試檔）。以上都是當時的歷史快照，不等於目前 branch、Stage、LINE WebView 或 Production 已驗收。</p>
-        </section>
-
-        <section id="testing">
-          <h2>7. 本機測試與 Stage 注意事項</h2>
-          <pre># 前端 repository
-npm start
-
-# 另一個 terminal，需要 LIFF 時
-npm run serve:liff
-
-# Stage configuration build
-npm run build-stage</pre>
+<thead>
+<tr>
+<th scope="col">問題</th>
+<th scope="col">處理／解法</th>
+<th scope="col">狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PRD、會議 HTML 與早期機率規則互相衝突。</td>
+<td>以後續確認的 PRD 方向為主；逐項明確定義跨日、同日重抽、滿卡與 replay 案例。</td>
+<td>規則已收斂並寫入 OpenSpec。</td>
+</tr>
+<tr>
+<td>local route 直接開啟時 LIFF guard 回報缺少 <code>site</code> 或跳 LINE 400。</td>
+<td>本機網址需帶 <code>site=astrazeneca</code>；需要 LIFF 時先啟動 Angular (<code>npm start</code>)，再執行 <code>npm run serve:liff</code>。redirect URL 必須符合 LINE LIFF channel 設定；瀏覽器直開不等同 LIFF 驗收。</td>
+<td>本機使用流程已確認；環境設定需由接手者核對。</td>
+</tr>
+<tr>
+<td>早期 review 指出已完成但未抽卡的續玩頁沒有抽卡入口。</td>
+<td>恢復該狀態時導回有 Galaxy News CTA 的影片／完成互動流程，不可只留在無抽卡按鈕的結果畫面。</td>
+<td>前端曾依 review 修正；接手者需以當前 branch 驗證。</td>
+</tr>
+<tr>
+<td>收藏彈窗關閉後重開，舊 request 可能覆蓋新資料或 loading。</td>
+<td>關閉時 cancel request 或使用 request generation/token 忽略過期 response，並測試先舊後新的回應順序。</td>
+<td>1 項 P2 已交接；我離開後是否修好未知。</td>
+</tr>
+<tr>
+<td>重送抽卡可能播放／略過錯誤動畫或改變卡片。</td>
+<td>後端以 cardDraw record 保存固定結果；前端重用同一結果，不重抽，但每次顯示結果都依產品要求正面 3 秒再翻背面。</td>
+<td>需求已定；API 串接 review 後續交接。</td>
+</tr>
+<tr>
+<td>卡牌畫面看起來模糊。</td>
+<td>確認 <code>src</code> 有載入、自然尺寸 1000×1400、顯示尺寸約 242×340；因此不能直接認定 asset 被壓縮。檢視放大／手勢縮放曾提出後又暫停，未確認 CSS 根因或最終修復。</td>
+<td>根因未確認；不列為已解決。</td>
+</tr>
+</tbody>
+</table></div>
+          <h3>前端當時的驗證紀錄</h3>
           <ul>
-            <li>LIFF 初始化失敗時檢查 site query、channel／redirect URL 與 Angular server 是否在 4200 運作。</li>
-            <li>當時 Stage workflow 以 <code>s*</code> tag 觸發 build-stage 並部署 Stage hosting；操作前先核對目前 workflow 與 target。</li>
-            <li>Stage smoke test需涵蓋身份、恢復、影片頁抽卡、同日重抽、滿卡抽取、收藏與報表欄位。</li>
-            <li>禁止把 token、API key、醫師個資或 production secrets 放入文件或 Git。</li>
-          </ul>
+<li><code>npm run build-stage</code> 成功。</li>
+<li>抽卡元件 targeted tests 41 項通過。</li>
+<li>以上是本機 build／unit test 證據，不代表 Stage 端到端、LINE WebView 或正式環境驗收已完成。</li>
+<li>V2-1 收尾紀錄曾記載後端 <code>bun test</code> 為 230 項通過、0 項失敗（698 expectations、24 個測試檔）；這是歷史驗證快照，不代表目前 branch 的測試結果。</li>
+</ul>
         </section>
-
         <section id="handover">
-          <h2>8. 交接給接手工程師</h2>
+          <h2>7. 交接給接手工程師</h2>
           <ol>
-            <li>依最新 remote branch 確認 code／OpenSpec，不只依本文件的 commit 或測試歷史判斷。</li>
-            <li>優先確認 4 項 P1 API 契約與 1 項 P2 modal request race 是否修正並補測試。</li>
-            <li>驗證 startedAt 台北日期、同日固定卡、集滿後全卡池等機率抽取，以及抽卡結果正面 3 秒翻面。</li>
-            <li>回歸 V2-1 legacy flow／報表；完成 Stage、LINE WebView 與 report 驗收後由新 owner 決定上線。</li>
-          </ol>
-          <div class="notice">本文件作者已退出後續負責範圍。後續修正、測試結果、分支同步與部署狀態，請接手團隊自行更新。</div>
+<li>先以最新 remote branch 確認 V2-2 的真實 code／OpenSpec 狀態；不要只依本文件中的 commit 或測試歷史判斷。</li>
+<li>優先核對已交接的前端 review 問題是否已修正，並補上 request／response contract tests。</li>
+<li>用測試站驗證 <code>startedAt</code> 的台北有效日期、同日固定卡、集滿後全卡池等機率抽取，以及所有 draw presentation 正面 3 秒翻面。</li>
+<li>驗證 collection summary UI、關閉重開的 request race、V2-1 legacy flow／report 沒有回歸。</li>
+<li>由新負責人決定 Stage／Production 部署、報表與客戶文字驗收；本文件作者已退出後續負責範圍。</li>
+</ol>
         </section>
-
-        <section>
-          <h2>9. 安全與資料注意事項</h2>
-          <ul>
-            <li>正式醫療題目、正解、解析及 Reference 以 AZ Medical／Compliance 核准版本為準。</li>
-            <li>未經 owner 核准，不在 Production 執行 seed、migration、刪除或搬移資料。</li>
-            <li>部署記錄 repo、branch、commit/tag、Firebase project、API environment 與時間；Stage tag 不代表 Production 上線。</li>
-          </ul>
-        </section>
-        <footer class="footer">CRESTCODE handover · 更新日期 2026-10-27 · 以接手團隊目前環境與規格為準</footer>
+        <footer class="footer">????? CRESTCODE-Handover.md ? ???? 2026-10-27</footer>
       </article>
     </main>
   </div>
