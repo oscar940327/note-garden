@@ -10,6 +10,7 @@ tags:
   - Firebase
   - LINE
 ---
+
 # Firebase Hosting + LINE LIFF 整合
 
 ## 任務目標
@@ -40,10 +41,10 @@ tags:
 
 ## 相關概念
 
-- [[Firebase Hosting]]
-- [[LINE LIFF]]
-- [[Firebase]]
-- [[LINE Login]]
+- Firebase Hosting
+- LINE LIFF
+- Firebase
+- LINE Login
 
 ## 相關人物
 
@@ -222,7 +223,7 @@ line: {
 ```typescript
 await liff.init({
   liffId: environment.line.liffId,
-});
+})
 ```
 
 接著使用 `liff.isLoggedIn()` 檢查登入狀態。如果使用者尚未登入，執行：
@@ -230,7 +231,7 @@ await liff.init({
 ```typescript
 liff.login({
   redirectUri: window.location.href,
-});
+})
 ```
 
 ### 步驟 10：取得並顯示使用者資料
@@ -238,7 +239,7 @@ liff.login({
 使用者完成 LINE 授權後，呼叫：
 
 ```typescript
-const profile = await liff.getProfile();
+const profile = await liff.getProfile()
 ```
 
 取得的公開資訊包括：

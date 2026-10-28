@@ -1,18 +1,19 @@
 ---
 title: Awiqli HCP Learning Game UI
 status: in-progress
-updated_date: 2026-10-27
+modified: 2026-10-27
 tags:
   - 實習
   - 任務
   - Awiqli
   - HCP
   - Angular
-  - LINE LIFF
+  - LINE-LIFF
   - Figma
   - RWD
   - OpenSpec
 ---
+
 # Awiqli HCP Learning Game UI
 
 ## 任務目標
@@ -43,12 +44,12 @@ tags:
 - 技術組合：Angular 17、TypeScript、HTML、SCSS、standalone component、Angular Material Dialog、Canvas、LINE LIFF、平台 Storage API、Web Share API。
 - 分享頁 Repository：<https://github.com/Aiii-Developers/nn-web-share>；入口為 <https://novonordisk.aiii.ai/>。
 
-| 頁面 | 目前路由 |
-| --- | --- |
-| 學習地圖 | `/product-courses/:productKey` |
+| 頁面             | 目前路由                                                |
+| ---------------- | ------------------------------------------------------- |
+| 學習地圖         | `/product-courses/:productKey`                          |
 | 課程影片／摘要頁 | `/product-courses/:productKey/course?courseId=course-1` |
-| 測驗頁 | `/product-courses/:productKey/quiz?courseId=course-1` |
-| 證書頁 | `/product-courses/:productKey/certificate` |
+| 測驗頁           | `/product-courses/:productKey/quiz?courseId=course-1`   |
+| 證書頁           | `/product-courses/:productKey/certificate`              |
 
 `productKey` 為課程專案 ID，各頁面從 `paramMap` 取得；`courseId` 依 API 課程資料選取，各堂共用課程頁與測驗頁。早期使用的 `/awiqli/learning-game` 已由重構取代，本文件 Progress 中仍保留當時路徑作為歷史紀錄。
 
@@ -65,11 +66,11 @@ tags:
 
 ### OpenSpec 紀錄
 
-| Change | 本機封存位置 |
-| --- | --- |
-| `awiqli-home-rwd` | `openspec/changes/archive/2026-10-06-awiqli-home-rwd/` |
+| Change               | 本機封存位置                                              |
+| -------------------- | --------------------------------------------------------- |
+| `awiqli-home-rwd`    | `openspec/changes/archive/2026-10-06-awiqli-home-rwd/`    |
 | `awiqli-course-page` | `openspec/changes/archive/2026-10-14-awiqli-course-page/` |
-| `awiqli-quiz-flow` | `openspec/changes/archive/2026-10-19-awiqli-quiz-flow/` |
+| `awiqli-quiz-flow`   | `openspec/changes/archive/2026-10-19-awiqli-quiz-flow/`   |
 
 封存表示各 change 當時的範圍已結束，不等同後續後端、影片、分享與實機驗收全部完成。2026-10-27 本機可見上述三份封存，但 Git 狀態仍列為未追蹤；目前 `.gitignore` 沒有忽略 `openspec/`，repo 也已有其他追蹤中的 OpenSpec 文件，不能再把整個目錄視為已忽略。
 
@@ -89,14 +90,14 @@ tags:
 
 以下依 Git author 與提交內容區分本人原始實作及同事後續整合，作為交接與成果回顧的依據。
 
-| 日期／提交 | Git author | 內容 |
-| --- | --- | --- |
-| 2026-10-20 `77a54a4`、`f037b90` | `carlos811009` | 課程／測驗／進度 API，以及證書 HCP 資料與認證日期串接。 |
-| 2026-10-22 `ef5f2bf` | `TwiggyKang` | 移除前端 Firebase Storage 上傳，改用平台 API；下載改為顯示線上圖片視窗供長按儲存。 |
-| 2026-10-22 `3f477c8`、`a4c9b51` | `TwiggyKang` | 改為 `/product-courses/:productKey` 路由，並重構目錄、元件與服務命名。 |
-| 2026-10-23 `67f2c63` | `TwiggyKang` | 證書分享改為開啟 `nn-web-share`，讓分享頁呼叫系統分享選單。 |
-| 2026-10-23 `5bbb549` | `TwiggyKang` | 將 `feat/awiqli-certificate-web-share` 合併至 `feat/awiqli-dose-converter`。 |
-| 2026-10-27 rebase 後 `f513af5`（原提交 `657dcff` 的 author date 為 10/21） | `oscaraiii` | 將外部測試圖片讀成 Blob／File，再呼叫本機下載 helper；保留同事加入的正式下載與分享流程。 |
+| 日期／提交                                                                 | Git author     | 內容                                                                                     |
+| -------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------- |
+| 2026-10-20 `77a54a4`、`f037b90`                                            | `carlos811009` | 課程／測驗／進度 API，以及證書 HCP 資料與認證日期串接。                                  |
+| 2026-10-22 `ef5f2bf`                                                       | `TwiggyKang`   | 移除前端 Firebase Storage 上傳，改用平台 API；下載改為顯示線上圖片視窗供長按儲存。       |
+| 2026-10-22 `3f477c8`、`a4c9b51`                                            | `TwiggyKang`   | 改為 `/product-courses/:productKey` 路由，並重構目錄、元件與服務命名。                   |
+| 2026-10-23 `67f2c63`                                                       | `TwiggyKang`   | 證書分享改為開啟 `nn-web-share`，讓分享頁呼叫系統分享選單。                              |
+| 2026-10-23 `5bbb549`                                                       | `TwiggyKang`   | 將 `feat/awiqli-certificate-web-share` 合併至 `feat/awiqli-dose-converter`。             |
+| 2026-10-27 rebase 後 `f513af5`（原提交 `657dcff` 的 author date 為 10/21） | `oscaraiii`    | 將外部測試圖片讀成 Blob／File，再呼叫本機下載 helper；保留同事加入的正式下載與分享流程。 |
 
 ## 已確認的畫面與互動規格
 
@@ -193,22 +194,22 @@ tags:
 
 以下功能檔案均相對於 `src/app/product-course/`，除非另行標註。
 
-| 檔案／目錄 | 用途 |
-| --- | --- |
-| `../liff.module.ts` | 掛載 `/product-courses/:productKey`。 |
-| `product-course.module.ts` | 載入地圖、課程、測驗與證書頁的 standalone component。 |
-| `product-course-home.component.*` | 首頁、關卡定位、進度、仿單連結與證書入口。 |
-| `course-page/course-page.component.*` | 課程版面、16:9 影片框、摘要、返回與測驗入口。 |
-| `course-page/vimeo-embed-url.ts` | Vimeo 嵌入網址處理。 |
-| `quiz/quiz-page.component.*` | 逐題作答、提示、鎖定狀態、隱藏量測與選項適配。 |
-| `page-loader/product-course-page-loader.component.*` | 學習遊戲頁面的載入動畫與準備時序。 |
-| `product-course-api.service.ts` | `progress/get`、`progress/update` API 呼叫。 |
-| `product-course.service.ts` | 共用 API 課程、HCP 與進度狀態。 |
-| `product-course.models.ts` | 課程、題目、HCP、進度與作答型別。 |
-| `certificate-page/certificate-page.component.*` | 證書畫面、Canvas 合成、平台 API 上傳、長按下載視窗、nn-web-share 入口與本機下載測試。 |
-| `../shared/api-fetch.ts` | fetch 呼叫共用封裝，在符合設定的 API 網址帶入 token。 |
-| `../../environments/environment*.ts` | API 網址與 `webShare.url`、`webShare.certificateEnv`。 |
-| `nn-web-share` repo 的 `public/index.html` | 證書分享頁、GCS JSON API 讀圖、Web Share API 與下載 fallback。 |
+| 檔案／目錄                                           | 用途                                                                                  |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `../liff.module.ts`                                  | 掛載 `/product-courses/:productKey`。                                                 |
+| `product-course.module.ts`                           | 載入地圖、課程、測驗與證書頁的 standalone component。                                 |
+| `product-course-home.component.*`                    | 首頁、關卡定位、進度、仿單連結與證書入口。                                            |
+| `course-page/course-page.component.*`                | 課程版面、16:9 影片框、摘要、返回與測驗入口。                                         |
+| `course-page/vimeo-embed-url.ts`                     | Vimeo 嵌入網址處理。                                                                  |
+| `quiz/quiz-page.component.*`                         | 逐題作答、提示、鎖定狀態、隱藏量測與選項適配。                                        |
+| `page-loader/product-course-page-loader.component.*` | 學習遊戲頁面的載入動畫與準備時序。                                                    |
+| `product-course-api.service.ts`                      | `progress/get`、`progress/update` API 呼叫。                                          |
+| `product-course.service.ts`                          | 共用 API 課程、HCP 與進度狀態。                                                       |
+| `product-course.models.ts`                           | 課程、題目、HCP、進度與作答型別。                                                     |
+| `certificate-page/certificate-page.component.*`      | 證書畫面、Canvas 合成、平台 API 上傳、長按下載視窗、nn-web-share 入口與本機下載測試。 |
+| `../shared/api-fetch.ts`                             | fetch 呼叫共用封裝，在符合設定的 API 網址帶入 token。                                 |
+| `../../environments/environment*.ts`                 | API 網址與 `webShare.url`、`webShare.certificateEnv`。                                |
+| `nn-web-share` repo 的 `public/index.html`           | 證書分享頁、GCS JSON API 讀圖、Web Share API 與下載 fallback。                        |
 
 早期假資料檔案與 `learning-game-*` 命名保留在 Git 歷史，不是現行目錄。素材仍放在 `src/assets/awiqli/learning-game/`，包含 `course/`、`quiz/`、`certificate/`；素材目錄沒有隨 TypeScript 功能目錄一併改名。
 
@@ -316,7 +317,7 @@ Canvas 輸出與頁面預覽是不同的繪製流程，必須確認縮放倍率�
 - 下載流程直接呼叫 downloadLocalFile()：使用本機 Canvas File 建立 Blob URL，建立帶 download 的臨時 a 標籤並觸發下載，不需要 Firebase Storage。
 - 測試區保留一般連結測試，另一個測試按鈕直接呼叫 downloadLocalFile()。此項是程式路徑調整，尚未證明 LINE WebView 會成功下載。
 - 解決 stage/s2.1.0 合併衝突時保留 API HCP／進度載入流程，同時合入功能分支下載 helper。功能提交為 7693df9，stage 合併提交為 0711551。
-- 本機可見 tag 2.1.261 與 s2.1.261；部署 workflow 只匹配 s* tag。此工作區無法連到 GitHub 核實遠端 tag 與 Actions 結果，需到 GitHub 確認是否已推送 tag、build-stage 是否成功及測試站是否更新。
+- 本機可見 tag 2.1.261 與 s2.1.261；部署 workflow 只匹配 s\* tag。此工作區無法連到 GitHub 核實遠端 tag 與 Actions 結果，需到 GitHub 確認是否已推送 tag、build-stage 是否成功及測試站是否更新。
 - 合併結果的 git diff --cached --check 通過；本次沒有執行完整 build，也沒有做 LINE iOS／Android 實機下載或分享驗收。
 
 ### 2026-10-22（同事後續整合，2026-10-27 核對）

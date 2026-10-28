@@ -6,12 +6,15 @@ tags:
 difficulty: Easy
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://leetcode.com/problems/reverse-string/)
 
 ### 📘 先嘗試自己寫
 
 喵到講解中的圖就寫出來了
+
 > [!example]- 自己寫的
+>
 > ```cpp
 > class Solution {
 > public:
@@ -36,10 +39,10 @@ status: reviewing
 ### 🧠 核心思路
 
 - 沒看影片，我覺得這題不需要看
-![[0344.gif]]
+  ![[0344.gif]]
 
 > [!example]- **解法實作**
-> 他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函示可以用)
+> 他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函式可以用)
 >
 > ```cpp
 > class Solution {
@@ -53,7 +56,7 @@ status: reviewing
 > ```
 
 > [!example]- **解法實作 (2026/08/31)**
-> 他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函示可以用)
+> 他的更簡化，我的只是把 `swap` 的內容寫出來 (其實我是不知道有 `swap` 這個函式可以用)
 >
 > ```cpp
 > class Solution {

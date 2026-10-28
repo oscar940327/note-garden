@@ -35,6 +35,16 @@ tags:
 - [[work-log/2026-09-29|2026-09-29]]
 - [[work-log/2026-09-30|2026-09-30]]
 - [[work-log/2026-10-05|2026-10-05]]
+- [[work-log/2026-10-06|2026-10-06]]
+- [[work-log/2026-10-07|2026-10-07]]
+- [[work-log/2026-10-12|2026-10-12]]
+- [[work-log/2026-10-13|2026-10-13]]
+- [[work-log/2026-10-14|2026-10-14]]
+- [[work-log/2026-10-19|2026-10-19]]
+- [[work-log/2026-10-20|2026-10-20]]
+- [[work-log/2026-10-21|2026-10-21]]
+- [[work-log/2026-10-27|2026-10-27]]
+- [[work-log/2026-10-28|2026-10-28]]
 
 ## 任務
 
@@ -45,6 +55,13 @@ tags:
 - [[tasks/Awiqli-HCP-Learning-Game-UI|Awiqli HCP Learning Game UI]]
 - [[tasks/awiqli-dose-converter-ui|Awiqli 劑量轉換器 UI Prototype]]
 - [[tasks/engineer-training-week2|工程師訓練第二週]]
+- [[tasks/engineer-training-week3|工程師訓練第三週]]
+
+## 工作總覽與專案交接
+
+- [[tasks/Summary|到職至今工作與任務整理]]
+- [[tasks/CRESTCODE-Handover|CRESTCODE V2-1／V2-2 交接文件]]
+- [[tasks/Awiqli-Handover|Awiqli 劑量轉換器與學習遊戲交接文件]]
 
 ## 技術概念
 
@@ -55,6 +72,7 @@ tags:
 
 ## 人物
 
+- [[people/Allen|Allen]]
 - [[people/Bryant|Bryant]]
 - [[people/Carlos|Carlos]]
 - [[people/Jeff|Jeff]]
@@ -62,4 +80,5 @@ tags:
 - [[people/Julie|Julie]]
 - [[people/Ranger|Ranger]]
 - [[people/Tiffany|Tiffany]]
+- [[people/Twiggy|Twiggy]]
 - [[people/Vivian|Vivian]]

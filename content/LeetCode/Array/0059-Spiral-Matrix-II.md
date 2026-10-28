@@ -21,21 +21,21 @@ status: reviewing
 
 ### 🧠 核心思路
 
-* 填充上列從左到右
-* 填充右行從上到下
-* 填充下列從右到左
-* 填充左行從下到上
+- 填充上列從左到右
+- 填充右行從上到下
+- 填充下列從右到左
+- 填充左行從下到上
 
-從內到外一圈一圈畫下去
-用左閉右開原則，每一行都不會遍歷到最後一個元素
+從外到內一圈一圈填入數字。
+每條邊採用左閉右開的原則：保留該邊的最後一個角落，交給下一條邊處理，避免重複填入。
 ![[0059.png|500]]
-
 
 ```cpp
 startX = 0, startY = 0;
 offset = 1;
 count = 1;
-while(n/2){
+int loops = n / 2;
+while(loops--){
     for(j = startY ; j < n-offset ; j++){
         nums[startX][j] = count++;
     }
@@ -52,13 +52,14 @@ while(n/2){
     startX++;
     startY++;
 }
+int mid = n / 2;
 if(n % 2 != 0){
     nums[mid][mid] = count;
 }
 ```
 
 > [!note]- 註解
-> **註解 1**：這邊用 `while` 不用 `if` 是因為不可能只遍歷一遍，`while` 迴圈是用來縮減最後的 `result` ，不可能每次都只縮減一遍。
+> **註解 1**：每輪 `while` 填完一圈，並遞減剩餘圈數；`startX`、`startY` 與 `offset` 讓下一圈往內縮。若 `n` 是奇數，最後另外填入中心元素。
 
 ### 💡 解法實作
 
@@ -98,13 +99,13 @@ public:
             startX++;
             startY++;
         }
-        
+
         int mid = n/2;
 
         if(n % 2 != 0){
             vec[mid][mid] = count;
         }
-        
+
         return vec;
     }
 };

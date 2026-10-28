@@ -1,4 +1,13 @@
-# 現在的想法
+---
+title: 留學規劃
+tags:
+  - 留學
+  - 個人規劃
+---
+
+# 留學規劃
+
+## 現在的想法
 
 > 把大學讀完 -> 當兵 -> 申請美國的研究所
 
@@ -10,7 +19,7 @@
 - 當兵：越快入伍越好
 - 申請研究所
 
-*如果我有先把雅思讀完，可以先著手 GRE ( 大四 )*
+_如果我有先把雅思讀完，可以先著手 GRE ( 大四 )_
 
 ---
 
@@ -18,18 +27,19 @@
 - 找到一份實習 (2026/08/10 ~ 2026/11/09) -> 類神經網路股份公司
 - 還沒考雅思
 
-##### 2026/08/10
+**紀錄日期：2026/08/10**
 
 ---
 
-# 之前的想法
+## 之前的想法
 
 1. ~~先考上台灣的研究所 -> 休學 -> 申請美國的研究所~~
 2. ~~先讀完台灣的研究所，累積工作經驗，再二碩或直接投外商。~~
 3. ~~在美國讀研究所，嘗試在那邊直接找工作，但如果找不到，會有浪費金錢問題~~
-- ~~聽說 Opt 三年也夠把學費賺回來~~
 
-## dcard 上找到的資料
+- ~~聽說 OPT 三年也夠把學費賺回來~~
+
+### Dcard 上找到的資料（未核實摘錄）
 
 1. 存150~200萬現金+留學貸款100萬，出發
 2. ~~在台灣累積 5 ~ 10 年經驗 -> 海投 Tech firm -> 請公司幫忙申請綠卡~~
@@ -37,11 +47,16 @@
 
 ---
 
-# 選校
+## 選校
 
-https://opencs.app/grade/
+[選校分級參考](https://opencs.app/grade/)
 
-### B-
+> [!note] 資料來源與適用範圍
+> 以下保留歷史摘錄。分級與排名未記錄適用年度或評估方式；費用未完整記錄來源、年度、幣別，以及是學費、每年總費用或整個學程費用。數字並列時的差異也尚未釐清，不能直接當成目前的預算依據。申請前需依各校當年度官方資料重新核對。
+
+### 選校分級（原始摘錄）
+
+#### B-
 
 - MSCS@UMass
 - MSCS@UMN
@@ -50,14 +65,16 @@ https://opencs.app/grade/
 - MSCSE@OSU
 - MCS@NCSU
 
-### B
+#### B
+
 - MSCS@Virginia Tech
 - MSCS@UVa
 - MCS@UVa
 - CE MEng@TAMU
 - CS General@NEU
 
-### B+
+#### B+
+
 - CS28@USC
 - MSWE@UCI
 - MSCS@TAMU
@@ -65,7 +82,8 @@ https://opencs.app/grade/
 - MSCS@NYU Tandon
 - MSCS@NYU Courant
 
-### A-
+#### A-
+
 - MPCS@UChicago
 - MSCS@UCSB
 - MCS@UCI
@@ -76,13 +94,14 @@ https://opencs.app/grade/
 - MSCS@Columbia
 - ScM CS@Brown
 
-## USA
+### USA
 
-### TOP 50
+#### TOP 50
 
-### $50000 ~ $80000
+#### $50000 ~ $80000
 
 ##### 已刪除(太貴)：
+
 - UC Berkeley
 - UW Seattle($72909)
 - ~~UMich($90000)~~
@@ -93,7 +112,8 @@ https://opencs.app/grade/
 - ~~PSU($70828)~~
 - ~~UCD~~
 
-#### 60000以上：
+##### 60000 以上（原始分組）：
+
 - UMD($62000) ($60951)
 - UMass($62537) ($60951)
 - UNC Chapel Hill($62352) ($58784)
@@ -104,7 +124,8 @@ https://opencs.app/grade/
 - CU Boulder($68961) ($64376)
 - RU($63073) ($55685)
 
-#### 60000以下：
+##### 60000 以下（原始分組）：
+
 - UIUC($52132) ($55228~$60284) **中西部 / 南部州大**
 - GaTech($53462) ($53996) **中西部 / 南部州大**
 - UT Austin($42834) ($61780~$66668)
@@ -114,20 +135,21 @@ https://opencs.app/grade/
 - SBU($57460) ($52010)
 - UF($55212) ($48551) **中西部 / 南部州大**
 
-### RANK 54 (便宜所以放進來)
+#### RANK 54 (便宜所以放進來)
 
 - Utah($56311)
 
-### $70000 ~ $100000
+#### $70000 ~ $100000
+
 - ~~私立大學：MIT、CMU、Stanford、Cornell、Princeton、CaTech、Columbia、UPenn、Harvard、JHU、USC、Yale、Duke、Rice、Brown、NYU、NEU、NWU、UChicago、BU、DC、VU、WashU~~
 
-## Singapore
+### Singapore
 
 - 南洋理工大學 (NTU)(71萬 - 133萬NTD)
 - 新加坡國立大學 (NUS)( 71萬 - 152萬NTD)
 - 新加坡管理大學 (SMU)(100萬 - 120萬NTD)
 
-## Hong Kong
+### Hong Kong
 
 - 香港大學 (HKU)(99萬 - 107萬NTD)
 - 香港科技大學 (HKUST)(88萬 - 96萬NTD)
@@ -135,83 +157,85 @@ https://opencs.app/grade/
 - 香港城市大學 (CityU)(84萬 - 92萬NTD)
 - 香港理工大學 (PolyU)(84萬 - 92萬NTD)
 
-##### 2025/11/13
+### 補充選校紀錄
+
+**紀錄日期：2025/11/13**
 
 - Purdue CIT MS
 
-##### 2026/07/10
+### 美國課程與申請機會估計（2026/07/10 原始紀錄）
 
-### top 30
+> [!warning] 估計來源未記錄
+> 以下百分比沒有原始來源、樣本、申請年度或估計方法，無法確認是錄取率或個人申請機會；保留供追溯，不視為已核實的數據。「Top 30」也未註明排名來源。
 
 **UIUC**
 
-* MCS Urbana-Champaign：**12–20%**
-* MCS Chicago：**15–25%**
-* MEng ECE：**15–25%**
+- MCS Urbana-Champaign：**12–20%**
+- MCS Chicago：**15–25%**
+- MEng ECE：**15–25%**
 
 **Georgia Tech**
 
-* MS Computer Science：**5–10%**
-* MS ECE（Non-Thesis）：**10–18%**
+- MS Computer Science：**5–10%**
+- MS ECE（Non-Thesis）：**10–18%**
 
 **UT Austin**
 
-* ECE MSE – Software Engineering & Systems：**6–12%**
-* MS Business Technology & Artificial Intelligence：**20–35%**
+- ECE MSE – Software Engineering & Systems：**6–12%**
+- MS Business Technology & Artificial Intelligence：**20–35%**
 
 **University of Washington**
 
-* ECE Professional Master's Program：**18–30%**
+- ECE Professional Master's Program：**18–30%**
 
 **University of Michigan–Ann Arbor**
 
-* MS/MSE Computer Science & Engineering：**5–10%**
+- MS/MSE Computer Science & Engineering：**5–10%**
 
 **University of Maryland, College Park**
 
-* MS Artificial Intelligence：**22–35%**
-* MEng Software Engineering：**30–45%**
-* MS Applied Machine Learning：**20–35%**
+- MS Artificial Intelligence：**22–35%**
+- MEng Software Engineering：**30–45%**
+- MS Applied Machine Learning：**20–35%**
 
 **Purdue**
 
-* MS Computer Science：**8–15%**
-* MS Software Engineering（Indianapolis）：**15–25%**
+- MS Computer Science：**8–15%**
+- MS Software Engineering（Indianapolis）：**15–25%**
 
 **University of Wisconsin–Madison**
 
-* Professional MS in Computer Sciences：**15–25%**
+- Professional MS in Computer Sciences：**15–25%**
 
 **UMass Amherst**
 
-* MS Computer Science：**15–25%**
+- MS Computer Science：**15–25%**
 
 **UC Irvine**
 
-* Master of Computer Science (MCS)：**25–40%**
+- Master of Computer Science (MCS)：**25–40%**
 
 **Texas A&M**
 
-* Master of Computer Science (MCS)：**20–35%**
-* MS Artificial Intelligence：**20–35%**
-* MEng Computer Engineering：**28–45%**
+- Master of Computer Science (MCS)：**20–35%**
+- MS Artificial Intelligence：**20–35%**
+- MEng Computer Engineering：**28–45%**
 
 **UNC Chapel Hill**
 
-* MS Computer Science：**5–10%**
+- MS Computer Science：**5–10%**
 
 **University of Virginia**
 
-* Master of Computer Science (MCS)：**25–40%**
+- Master of Computer Science (MCS)：**25–40%**
 
 **CU Boulder**
 
-* Professional MS Computer Science：**40–55%**
+- Professional MS Computer Science：**40–55%**
 
+**紀錄日期：2026/08/21**
 
-##### 2026/08/21
-
-# 問教授的問題
+## 問教授的問題
 
 1. ~~GPA 應該怎麼算，照學校的算法還是 WES 的 ?~~
 
@@ -220,7 +244,6 @@ https://opencs.app/grade/
 3. ~~如果我現在 GPA 不高有什麼辦法補救 ?~~
 
 4. ~~有什麼個人專題可以做嗎， PBL 是個怎麼樣的選項 ?~~
-
    - ~~我對 PBL（問題導向學習）這個方向很有興趣，想透過個人專題來提升自己。教授您覺得這是一個好的選項嗎？另外，您有沒有推薦其他類型的專題？~~
 
 5. ~~我有查過學費平均差不多是 $62000 ，想問 GA 、 TA 、 RA 好找嗎 ?~~
@@ -235,13 +258,13 @@ https://opencs.app/grade/
 
 10. ~~在教授的角度來看，花大錢出國留學真的值得嗎 ?~~
 
-# 問學姐的問題
+## 問學姐的問題
 
 ~~Q：~~ 聽說托福將在 2026 年 1 月改制，美國學校好像比較看重托福成績。考慮到我的英文程度需要補習，我現在應該先準備舊制托福，還是等新制出來再開始？另外，如果我轉考雅思，雅思在美國的接受度如何？
 
 **A：** 都可以，所以我決定考雅思
 
-~~Q：~~ 學姐您的 GRE 或 托福 (雅思) 有補習嗎 ? 方便透漏是補哪間嗎 ? 在 dcard 上看到很多補習班的評價目前決定如果托福 -> 送佛，如果雅思 -> 邱吉爾
+~~Q：~~ 學姐您的 GRE 或 托福 (雅思) 有補習嗎 ? 方便透露是補哪間嗎 ? 在 dcard 上看到很多補習班的評價目前決定如果托福 -> 送佛，如果雅思 -> 邱吉爾
 
 **A：** GRE 補 Mason，雅思找家教補口說跟寫作，聽讀自己刷題
 
@@ -265,7 +288,7 @@ https://opencs.app/grade/
 
 **A：** 要看一畝三分地，學姐是 GPA 3.8 GRE 310 左右，雅思到門檻就行
 
-##### 2025/09/13
+**紀錄日期：2025/09/13**
 
 ~~Q：~~ 您說雅思有找口說跟寫作的家教，甚麼時候找的 ? 您找誰 ? 是在哪裡找的 ? 從甚麼時候開始補的 ?
 
@@ -281,19 +304,19 @@ https://opencs.app/grade/
 
 ~~Q：~~ 公立大學查到的總花費差不多是 $61000 這樣對嗎 ? 房租一個月 $1000，伙食費一個月 $500 對嗎 ? 學姐您是住哪裡 ?
 
-**A：** 學姐試算:1000 * 12 + 500 * 12 + 18000 * 2 + blablabla...，如果比較省的話差不多 $60000 出頭
+**A：** 學姐試算:1000 _ 12 + 500 _ 12 + 18000 \* 2 + blablabla...，如果比較省的話差不多 $60000 出頭
 
 ~~Q：~~ 上次有問關於能考上甚麼樣學校的問題，想問說學姐那時候投了幾間 ? 有哪幾間上的 ?
 
-**A：** 11間，因為 Covid 剛解放，所以很多人申請，比較難上 
+**A：** 11間，因為 Covid 剛解放，所以很多人申請，比較難上
 
 ~~Q：~~ 要面試嗎 ? 有可能面試後沒上嗎 ?
 
-**A：** 基本上不用面試，有些學校會要 pre recorded 
+**A：** 基本上不用面試，有些學校會要 pre recorded
 
-# 問代辦的問題
+## 問代辦的問題
 
-##### 2025/09/20
+**紀錄日期：2025/09/20**
 
 > 前言：都是前一年的九月申請，德州生活費比較低，加州生活費比較高
 
@@ -321,15 +344,14 @@ https://opencs.app/grade/
 
 **A：** 盡量還是要去找
 
-## 代辦的 PPT
+### 代辦的 PPT
 
-![alt text](consultant_ppt-1.png)
-![alt text](consultant_ppt-2.png)
-![alt text](consultant_ppt-3.png)
+> [!note] 原始附件未保留
+> 本 Vault 目前找不到 `consultant_ppt-1.png`、`consultant_ppt-2.png`、`consultant_ppt-3.png`。原簡報圖片暫時無法呈現；找到原檔後再補回，不以其他圖片代替。
 
-# 雅思讀法
+## 雅思讀法
 
-##### 2025/09/13
+**紀錄日期：2025/09/13**
 
 閱讀可以買 ”平行閱讀法”
 裡面針對閱讀技巧介紹非常詳細
@@ -346,13 +368,14 @@ https://opencs.app/grade/
 5. 再聽一次
 
 ### 聽力素材：
+
 https://docs.google.com/document/d/1kkCEH9ymuHw8Gf8XtSeiFk8eVpd2DFORzT8ziKkZKdA/edit?tab=t.0#heading=h.8v9e1qt2pc45
 
-##### 2025/09/16
+**紀錄日期：2025/09/16**
 
 跟述 shadowing 練習口說跟英聽
 
-##### 2025/10/22
+**紀錄日期：2025/10/22**
 
 推薦B站上有很多學習資源，最推薦閱讀可以上Sun老師閱讀13節課（約6小時）上完後閱讀有明顯進步，接著開始練習真題，練完就去B站上找講解的影片看看別人的思路，最後慢慢進步到考試有7.5（課程完全免費）
 寫作的話我跟著慎小嶷老師的書《十天突破雅思寫作》練習，我覺得也進步很多
@@ -362,15 +385,16 @@ https://docs.google.com/document/d/1kkCEH9ymuHw8Gf8XtSeiFk8eVpd2DFORzT8ziKkZKdA/
 
 ---
 
-# 可參考選校文章
+## 參考資料
 
-1. https://github.com/oscar940327/note-garden.git
+- [選校分級參考](https://opencs.app/grade/)：原筆記保存的選校網站；其他費用與申請機會數字仍缺來源。
+- [[index|筆記首頁]]：本站入口。
 
 ---
 
-# ＜轉讓＞ 大碩資工所課程及教材
+## ＜轉讓＞ 大碩資工所課程及教材
 
-##### 2026/03/12
+**紀錄日期：2026/03/12**
 
 因為未來計畫有所變更，我打算轉售之前買的課程。各科使用時數如下；課本都是新的。
 
@@ -400,4 +424,4 @@ https://docs.google.com/document/d/1kkCEH9ymuHw8Gf8XtSeiFk8eVpd2DFORzT8ziKkZKdA/
 
 交易方式：站內私訊我之後再加 line 討論
 
-##### 2026/03/26
+**紀錄日期：2026/03/26**

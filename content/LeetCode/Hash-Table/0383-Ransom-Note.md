@@ -6,16 +6,19 @@ tags:
 difficulty: Easy
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://leetcode.com/problems/ransom-note/)
 
 ### 📘 先嘗試自己寫
 
 這題比較簡單，雜湊表基本概念而已。
-1. 把 `ransomNote` 的每個字母轉成數字放到 `hash[26]` 裡面。
-2. 用 `hash[26]` 裡面字母去減去 `magazine` 的每個字母。
-3. 檢查 `hash[26]` 只要有負數就 `false`。
+
+1. 使用長度為 26 的 `hash` 陣列，累計 `magazine` 中每個字母的數量。
+2. 遍歷 `ransomNote`，將對應字母的數量減 1。
+3. 若 `hash` 中有負數，代表所需字母數量不足，回傳 `false`；否則回傳 `true`。
 
 > [!example]- **我的寫法**
+>
 > ```cpp
 > class Solution {
 > public:
@@ -24,11 +27,11 @@ status: reviewing
 >         for(int i = 0; i < magazine.size(); i++){
 >             hash[magazine[i] - 'a']++;
 >         }
-> 
+>
 >         for(int i = 0; i < ransomNote.size(); i++){
 >             hash[ransomNote[i] - 'a']--;
 >         }
-> 
+>
 >         for(int i = 0; i < 26; i++){
 >             if(hash[i] < 0){
 >                 return false;
@@ -50,10 +53,11 @@ status: reviewing
 1. 題目只包含小寫字母，因此可以用陣列實作雜湊表。
 2. 使用長度為 26 的陣列，記錄 `magazine` 中每個字母出現的次數。
 3. 再用 `ransomNote` 檢查陣列中的字母數量是否足夠。
-> 在這個情境下，`map` 的空間消耗會比陣列大，因為它需要維護紅黑樹或雜湊表結構，也需要進行雜湊運算。資料量大時，兩者的差異會更明顯。
+   > 此題的字元範圍固定，長度為 26 的陣列即可完成計數。`std::map` 通常使用平衡搜尋樹；`std::unordered_map` 使用雜湊表，才需要雜湊運算。兩者通常都有額外的資料結構開銷，這裡使用陣列較直接。
 
 > [!example]- **解法實作**
 > 寫法差不多，但我沒有在一開始就檢查大小，會有效能的差異。
+>
 > ```cpp
 > class Solution {
 > public:

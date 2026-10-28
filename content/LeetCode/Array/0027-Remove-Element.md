@@ -1,4 +1,4 @@
- ---
+---
 title: 27. Remove Element
 tags:
   - leetcode
@@ -33,6 +33,7 @@ public:
 ### 📹 看影片後
 
 ---
+
 - .erase()的時間複雜度是O(n)
 - 題目本意是讓我們實現erase函數刪除元素的過程
 
@@ -42,10 +43,10 @@ public:
 
 ```cpp
 slow=0;
-for(fast = 0 ; fast < nums.size ; fast++){
+for(fast = 0 ; fast < nums.size() ; fast++){
     if(nums[fast] != val){ // 當快指針不等於目標值時
         nums[slow] = nums[fast]; // 將快指針的值給慢指針
-        slow++; // 因為慢指標指向新的陣列，所以會逐步增加
+        slow++; // slow 是原陣列中下一個保留元素的寫入位置
     }
 }
 ```
@@ -67,4 +68,5 @@ public:
     }
 };
 ```
+
 ---

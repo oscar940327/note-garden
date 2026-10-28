@@ -9,8 +9,9 @@ status: reviewing
 ---
 
 > [!info] 📚 學習資源
-> - **必須先看過這個：**[油管阿三哥讲KMP查找算法](https://www.bilibili.com/video/BV18k4y1m7Ar?spm_id_from=333.788.videopod.episodes&vd_source=bb283fe9a0ba97424605c7c49c5bb4d7)
-> - 再把其他兩部看完：[帮你把KMP算法学个通透！（理论篇）](https://www.youtube.com/watch?v=S3ckBIJG6fo)，[帮你把KMP算法学个通透！（求next数组代码篇）](https://www.youtube.com/watch?v=t6xa2p6fFS8)
+>
+> - **必須先看過這個：**[油管阿三哥講 KMP 查找演算法](https://www.bilibili.com/video/BV18k4y1m7Ar?spm_id_from=333.788.videopod.episodes&vd_source=bb283fe9a0ba97424605c7c49c5bb4d7)
+> - 再把其他兩部看完：[幫你把 KMP 演算法學個通透！（理論篇）](https://www.youtube.com/watch?v=S3ckBIJG6fo)，[幫你把 KMP 演算法學個通透！（求 next 陣列程式碼篇）](https://www.youtube.com/watch?v=t6xa2p6fFS8)
 
 ## KMP 解決的問題
 
@@ -45,9 +46,9 @@ KMP 用來解決字串比對問題，例如：
 以 `ababa` 為例
 
 - 所有前綴
-`a、ab、aba、abab`
+  `a、ab、aba、abab`
 - 所有後綴
-`a、ba、aba、baba`
+  `a、ba、aba、baba`
 
 ## 最長相等前後綴
 
@@ -89,9 +90,9 @@ KMP 用來解決字串比對問題，例如：
 
 ## `next` 陣列
 
-雖然圖片和[講解](https://programmercarl.com/0028.%E5%AE%9E%E7%8E%B0strStr.html#%E6%80%9D%E8%B7%AF)有提到將 `next` 陣列的值減一或右移，但我建議先不要調整 `next` 陣列，直接理解原始數值。
+先理解前面以「最長相等前後綴長度」表示的前綴表，再對照圖片和[講解](https://programmercarl.com/0028.%E5%AE%9E%E7%8E%B0strStr.html#%E6%80%9D%E8%B7%AF)中的不同 `next` 定義，避免混用。
 ![[KMP-9.gif]]
-圖片中的陣列已經先減 1；閱讀時在心中把它加回 1 即可。
+圖片與下方程式使用「前綴長度減 1」的版本：沒有相等前後綴時記為 `-1`，原本長度為 `k` 時記為 `k - 1`。因此 `j` 代表前綴末端索引，實際長度為 `j + 1`；比較下一個字元時使用 `s[j + 1]`。
 
 ```cpp
 void getNext(int* next, const string& s) {
@@ -104,7 +105,7 @@ void getNext(int* next, const string& s) {
         if (s[i] == s[j + 1]) { // 找到相同的前後綴
             j++;
         }
-        next[i] = j; // 將 j（前綴的長度）給 next[i]
+        next[i] = j; // 儲存最長相等前後綴的長度減 1
     }
 }
 ```

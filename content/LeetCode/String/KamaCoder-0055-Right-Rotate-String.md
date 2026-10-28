@@ -5,11 +5,13 @@ tags:
   - string
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://kamacoder.com/problempage.php?pid=1065)
 
 ### 📘 先嘗試自己寫
 
 在沒看講解的情況寫出來，我的方法是：
+
 1. 先擴充陣列
 2. 再全部右移
 3. 再把目標陣列移到前面
@@ -44,26 +46,27 @@ int main() {
 ```
 
 > [!example]- **2026/09/08 自己寫**
+>
 > ```cpp
 > #include<iostream>
 > #include<string>
-> 
+>
 > using namespace std;
-> 
+>
 > int main(){
 >     int n;
 >     string s;
 >     cin >> n >> s;
-> 
+>
 >     int i;
 >     for(i = 0; i < s.size()-n; i++){
 >         // cout << s[i] << endl;
 >     }
-> 
+>
 >     for(int j = i; j < s.size(); j++){
 >         cout << s[j];
 >     }
-> 
+>
 >     for(i = 0; i < s.size()-n; i++){
 >         cout << s[i];
 >     }
@@ -79,19 +82,18 @@ int main() {
 
 ### 🧠 核心思路
 
-這題講解有兩個解法
-1.先分成兩段，先整體翻轉，再翻轉第一段以及第二段
-2.先翻轉第一段以及第二段，再整體翻轉
+這題講解有兩個解法1.先分成兩段，先整體翻轉，再翻轉第一段以及第二段2.先翻轉第一段以及第二段，再整體翻轉
 
 `本題沒有影片，所以沒有pseudocode`
 
 > [!example]- **解法實作 1**
+>
 > ```cpp
 > #include <iostream>
 > #include<algorithm>
-> 
+>
 > using namespace std;
-> 
+>
 > int main() {
 >   int k;
 >   string s;
@@ -105,12 +107,13 @@ int main() {
 > ```
 
 > [!example]- **解法實作 2**
+>
 > ```cpp
 > #include <algorithm>
 > #include <iostream>
-> 
+>
 > using namespace std;
-> 
+>
 > int main() {
 >   int k;
 >   string s;

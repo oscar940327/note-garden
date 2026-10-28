@@ -6,6 +6,7 @@ tags:
 difficulty: Medium
 status: reviewing
 ---
+
 🔗 [**題目連結**](http://leetcode.com/problems/reverse-words-in-a-string/)
 
 ### 📘 先嘗試自己寫
@@ -21,6 +22,7 @@ status: reviewing
 ### 🧠 核心思路
 
 解題分成三個步驟，主要操作如下：
+
 1. 移除多餘空格：`"the sky is blue"`
 2. 字串反轉：`"eulb si yks eht"`
 3. 單字反轉：`"blue is sky the"`

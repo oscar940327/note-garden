@@ -7,7 +7,7 @@ tags:
   - 技術概念
   - SDD
   - OpenSpec
-  - Spec Kit
+  - Spec-Kit
 status: reviewing
 ---
 
@@ -157,13 +157,13 @@ specify init --here --integration codex --integration-options="--skills"
 
 ## OpenSpec 和 Spec Kit 的差異
 
-| 比較項目 | OpenSpec | Spec Kit |
-| --- | --- | --- |
-| 主要方向 | 以一次變更（change）為中心 | 以 feature 與完整開發流程為中心 |
-| 適合情境 | 已存在專案的增量修改、功能演進 | 新專案或較大型功能的完整規劃 |
+| 比較項目 | OpenSpec                                     | Spec Kit                                                     |
+| -------- | -------------------------------------------- | ------------------------------------------------------------ |
+| 主要方向 | 以一次變更（change）為中心                   | 以 feature 與完整開發流程為中心                              |
+| 適合情境 | 已存在專案的增量修改、功能演進               | 新專案或較大型功能的完整規劃                                 |
 | 主要流程 | Explore → Propose → Review → Apply → Archive | Constitution → Specify → Plan → Tasks → Implement → Converge |
-| 規格位置 | `openspec/specs/` | `.specify/` 與 `specs/` |
-| 特點 | 流程輕量、變更完成後會歸檔 | 階段較完整，有 constitution、checklist 和分析工具 |
+| 規格位置 | `openspec/specs/`                            | `.specify/` 與 `specs/`                                      |
+| 特點     | 流程輕量、變更完成後會歸檔                   | 階段較完整，有 constitution、checklist 和分析工具            |
 
 兩者都不是單純的自動產生程式碼工具，而是把需求變成 agent 可以依循、人工可以審查的文件。實際工作時通常選一套作為團隊主要流程，不需要同一個功能同時完整跑兩套。
 

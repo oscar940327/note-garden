@@ -6,6 +6,7 @@ tags:
 difficulty: Easy
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://leetcode.com/problems/valid-anagram/)
 
 ### 📘 先嘗試自己寫
@@ -26,7 +27,7 @@ status: reviewing
 - 同理，遍歷字串 `t` 時，將 `t[i] - 'a'` 對應位置的值減 1。
 - 最後檢查 `hash` 陣列；若有元素不為 0，表示 `s` 和 `t` 中某個字元的出現次數不同，回傳 `false`。
 - 若 `hash` 陣列的所有元素皆為 0，表示 `s` 和 `t` 是字母異位詞，回傳 `true`。
-![[0242.gif]]
+  ![[0242.gif]]
 
 ```cpp
 int hash[26];
@@ -45,6 +46,7 @@ return true;
 ```
 
 > [!example]- **解法實作**
+>
 > ```cpp
 > class Solution {
 > public:

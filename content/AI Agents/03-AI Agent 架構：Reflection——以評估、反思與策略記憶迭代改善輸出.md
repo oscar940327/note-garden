@@ -6,22 +6,22 @@ source_language: 中文（含英文技術術語）
 note_language: zh-TW
 created: 2026-07-15
 tags:
-- AI Agent
-- Reflection Agent
-- ReAct
-- Agent 架構
-- Evaluation
-- 策略記憶
-- LLM
-- 工具呼叫
-- DeepSeek
+  - AI-Agent
+  - Reflection-Agent
+  - ReAct
+  - Agent-架構
+  - Evaluation
+  - 策略記憶
+  - LLM
+  - 工具呼叫
+  - DeepSeek
 ---
 
 # AI Agent 架構：Reflection——以評估、反思與策略記憶迭代改善輸出
 
 ## 摘要
 
-本節介紹 AI Agent 的 **Reflection** 架構。它是在先前的 [[ReAct]]／ReAct + Evaluation + Reflection + Retry + Strategy Memory 思路上再往前延伸：Agent 先執行動作取得答案，再用評估器檢查答案是否符合任務規則；若失敗，便根據輸出與評估回饋產生一條可重用的改進策略，保存到反思記憶中，並在下一次嘗試時把這段歷史帶回提示詞，讓 Agent 修正行為。
+本節介紹 AI Agent 的 **Reflection** 架構。它是在先前的 ReAct／ReAct + Evaluation + Reflection + Retry + Strategy Memory 思路上再往前延伸：Agent 先執行動作取得答案，再用評估器檢查答案是否符合任務規則；若失敗，便根據輸出與評估回饋產生一條可重用的改進策略，保存到反思記憶中，並在下一次嘗試時把這段歷史帶回提示詞，讓 Agent 修正行為。
 
 核心迴圈是：
 
@@ -44,7 +44,6 @@ Reflection 將「檢查答案」與「修正下一次行為」明確化：
 
 > [!info] AI 補充
 > Reflection 的重點不是讓模型「泛泛地自我檢討」，而是把評估結果轉成下一輪能使用的具體控制訊息，例如「先呼叫計算工具，再呼叫字數統計工具」。實際系統仍須依業務定義可檢查的規則與停止條件。
-
 
 ### 1. Action：先完成任務
 
@@ -157,7 +156,6 @@ flowchart TD
 > [!warning] 需要人工確認
 > 影片口述中曾提到 `max_trials` 設為 3（示範段落中實際執行時使用 5），但示範中 Agent 在第二輪即成功，未觸及上限。筆記保留其核心意思：系統必須設定最大試次與反思記憶上限；具體數值應以實際程式碼或執行 log 為準。
 
-
 ### 入口函式：`main.py`
 
 入口函式負責：
@@ -194,7 +192,6 @@ Evaluation 是業務專屬的品質閘門，回傳成功與否、分數及 feedb
 
 Reflector 根據 Evaluation 的輸出產生短策略，不重新回答原題。策略會被加入 reflections，並在下一輪送回 Action。（約 00:15:10–00:17:00）
 
-
 ### Reflection Agent 的 system message
 
 影片示範的 system message 是：
@@ -226,7 +223,6 @@ Stop when you can answer final answer
 ```
 
 影片展示的實際 log 中，Agent 先以 calculator 得到 `42`，之後才在第一次嘗試產生 final answer；第二輪則因為 prompt 中加入了反思策略，補上 `word_count` 工具。（約 00:20:00–00:23:30）
-
 
 ### 任務
 
@@ -265,15 +261,13 @@ Past reflection strategy memory from failed attempts
 
 ## 與其他架構的關係
 
-| 架構               | 主要流程                                                 | 核心目的                 | 是否先規劃 | 是否評估並重試 |            是否保留失敗策略 |
-| ---------------- | ---------------------------------------------------- | -------------------- | ----: | ------: | ------------------: |
-| ReAct            | Thought → Action → Observation → 重複執行 → Final Answer | 邊思考邊使用工具完成任務         |     否 |       否 |                   否 |
-| Plan and Execute | Planner 拆解步驟 → 逐步執行每個 Step → Final Answer            | 先規劃完整流程，再依序完成複雜任務    |     是 |     不一定 |                 不一定 |
-| Reflection Agent | ReAct Action → Evaluation → Reflection → Retry       | 檢查執行結果，根據失敗原因修正後重新嘗試 |   不一定 |       是 | 是，會將改進策略帶入下一個 trial |
-
+| 架構             | 主要流程                                                 | 核心目的                                 | 是否先規劃 | 是否評估並重試 |                 是否保留失敗策略 |
+| ---------------- | -------------------------------------------------------- | ---------------------------------------- | ---------: | -------------: | -------------------------------: |
+| ReAct            | Thought → Action → Observation → 重複執行 → Final Answer | 邊思考邊使用工具完成任務                 |         否 |             否 |                               否 |
+| Plan and Execute | Planner 拆解步驟 → 逐步執行每個 Step → Final Answer      | 先規劃完整流程，再依序完成複雜任務       |         是 |         不一定 |                           不一定 |
+| Reflection Agent | ReAct Action → Evaluation → Reflection → Retry           | 檢查執行結果，根據失敗原因修正後重新嘗試 |     不一定 |             是 | 是，會將改進策略帶入下一個 trial |
 
 影片也提醒，實務上不必拘泥於「ReAct」或「Planner-Executor」等名稱；開發者可以根據業務融合多種思路，形成自己的 Agent 設計。（約 00:03:00–00:04:30）
-
 
 ### 優點
 

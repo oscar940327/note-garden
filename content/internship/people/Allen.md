@@ -1,3 +1,10 @@
+---
+title: Allen
+tags:
+  - 實習
+  - 人物
+---
+
 # Allen
 
 - 職位：CTO

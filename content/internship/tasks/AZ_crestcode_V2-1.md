@@ -2,21 +2,22 @@
 title: AZTW CRESTCODE 遊戲使用流程改版（V2-1）
 status: in-progress
 start_date: 2026-08-25
-updated_date: 2026-10-27
+modified: 2026-10-27
 assigned_by: AZ
 tags:
   - 實習
   - AstraZeneca
   - CRESTCODE
-  - LINE LIFF
+  - LINE-LIFF
   - HCP
   - Console
   - PRD
   - Angular
   - TypeScript
   - Firestore
-  - Software Engineering
+  - Software-Engineering
 ---
+
 # AZTW CRESTCODE 遊戲使用流程改版（V2-1）
 
 ## 文件範圍
@@ -148,20 +149,20 @@ family_selection → question → explanation → video → material → complet
 
 本次建立或整合 12 個 V2-1 endpoint：
 
-| Endpoint | 用途 |
-| --- | --- |
-| `POST /hcp-challenge/v2/identity` | 判定 verified、pending、unregistered、revoked 與結果頁 CTA |
-| `POST /hcp-challenge/v2/family-members` | 取得六位成員及完成／可用狀態 |
-| `POST /hcp-challenge/v2/scenario-content` | 取得已上架且核准的公開題目內容 |
-| `POST /hcp-challenge/v2/medical-institutions` | 搜尋可選的服務院所資料 |
-| `POST /hcp-challenge/v2/start` | 建立家族選擇 shell 或以選角方式 retry-safe 開始 |
-| `POST /hcp-challenge/v2/profile-status` | 查詢非已驗證 HCP 是否已填過資料 |
-| `POST /hcp-challenge/v2/profile` | 儲存姓名、縣市與服務院所 |
-| `POST /hcp-challenge/v2/select-member` | 將角色與該角色 session 綁定 |
-| `POST /hcp-challenge/v2/answer` | 伺服器端判分並回傳解析、影片與教材 |
-| `POST /hcp-challenge/v2/advance` | 驗證 explanation、video、material、completed 的狀態轉移 |
-| `POST /hcp-challenge/v2/track` | 記錄前端擁有的漏斗事件 |
-| `POST /hcp-challenge/v2/reports` | 提供同 site 管理者查詢 V2 統計 |
+| Endpoint                                      | 用途                                                       |
+| --------------------------------------------- | ---------------------------------------------------------- |
+| `POST /hcp-challenge/v2/identity`             | 判定 verified、pending、unregistered、revoked 與結果頁 CTA |
+| `POST /hcp-challenge/v2/family-members`       | 取得六位成員及完成／可用狀態                               |
+| `POST /hcp-challenge/v2/scenario-content`     | 取得已上架且核准的公開題目內容                             |
+| `POST /hcp-challenge/v2/medical-institutions` | 搜尋可選的服務院所資料                                     |
+| `POST /hcp-challenge/v2/start`                | 建立家族選擇 shell 或以選角方式 retry-safe 開始            |
+| `POST /hcp-challenge/v2/profile-status`       | 查詢非已驗證 HCP 是否已填過資料                            |
+| `POST /hcp-challenge/v2/profile`              | 儲存姓名、縣市與服務院所                                   |
+| `POST /hcp-challenge/v2/select-member`        | 將角色與該角色 session 綁定                                |
+| `POST /hcp-challenge/v2/answer`               | 伺服器端判分並回傳解析、影片與教材                         |
+| `POST /hcp-challenge/v2/advance`              | 驗證 explanation、video、material、completed 的狀態轉移    |
+| `POST /hcp-challenge/v2/track`                | 記錄前端擁有的漏斗事件                                     |
+| `POST /hcp-challenge/v2/reports`              | 提供同 site 管理者查詢 V2 統計                             |
 
 ### 前端呈現與媒體策略
 
@@ -175,12 +176,12 @@ family_selection → question → explanation → video → material → complet
 
 身份判定由後端在 LIFF 開啟時執行，前端只依判定結果控制頁面與按鈕顯示；每次 API 操作仍需由後端重新驗證身份。
 
-| 身分 | 進場規則 | 可見流程 | 結尾頁 CTA |
-| --- | --- | --- | --- |
-| 已驗證 HCP | 系統自動登入，免填基本資料 | 家族樹 → 問答／答頁彈窗 → 影片 → 下載簡報 | 領取指引整理、再玩一次；不顯示 LINE 按鈕 |
-| 待驗證 HCP | 已有註冊資料但尚未完成驗證；已有資料者免重填 | 家族樹 → 問答／答頁彈窗 → 影片 → 下載簡報 | 領取指引整理、再玩一次；不顯示 LINE 按鈕 |
+| 身分         | 進場規則                                           | 可見流程                                         | 結尾頁 CTA                                |
+| ------------ | -------------------------------------------------- | ------------------------------------------------ | ----------------------------------------- |
+| 已驗證 HCP   | 系統自動登入，免填基本資料                         | 家族樹 → 問答／答頁彈窗 → 影片 → 下載簡報        | 領取指引整理、再玩一次；不顯示 LINE 按鈕  |
+| 待驗證 HCP   | 已有註冊資料但尚未完成驗證；已有資料者免重填       | 家族樹 → 問答／答頁彈窗 → 影片 → 下載簡報        | 領取指引整理、再玩一次；不顯示 LINE 按鈕  |
 | 非已驗證 HCP | 首次需填姓名、縣市、服務院所；已有提交紀錄者免重填 | 註冊 → 家族樹 → 問答／答頁彈窗 → 影片 → 下載簡報 | 領取指引整理、註冊 AZ 官方 LINE、再玩一次 |
-| 已註銷 HCP | 系統判定身份已註銷 | 阻擋訊息頁，不得進入遊戲 | 不適用 |
+| 已註銷 HCP   | 系統判定身份已註銷                                 | 阻擋訊息頁，不得進入遊戲                         | 不適用                                    |
 
 其他角色：
 
@@ -201,16 +202,16 @@ family_selection → question → explanation → video → material → complet
 
 ## 頁面與功能規格
 
-| 頁面／功能 | V1 狀態 | V2 調整 | 主要對象 |
-| --- | --- | --- | --- |
-| 業務端邀請畫面 | 既有 | 保留 QR Code；顯示今日與總累計參與人數。依 PRD／會議結論，本版總累計可歸零重新計算 | Sales |
-| 註冊頁 | 既有 | 僅非已驗證 HCP 首次使用；姓名、縣市、服務院所寫入 CRM | 非已驗證 HCP |
-| 家族樹頁 | 新增 | 顯示「阿冠家族案例分析」，可任選家族成員 | 可進入遊戲的 HCP |
-| 問答頁 | 需調整 | 情境與題目合併為一頁，每個案例僅一題 | 可進入遊戲的 HCP |
-| 答頁彈窗 | 既有 | 顯示作答結果、健保規定解析與學術 Reference | 可進入遊戲的 HCP |
-| 影片頁 | 新增 | 內嵌 16:9 學術個案分析影片，提供前往下載簡報的按鈕 | 可進入遊戲的 HCP |
-| 結果／下載簡報頁 | 既有 | 提供指引整理、再玩一次；依身份決定是否顯示 LINE CTA，不再拆成兩個頁面 | 可進入遊戲的 HCP |
-| V2 報表／案例管理 | 既有機制需改版 | 結束 V1 報表，建立符合一題制＋影片頁的新漏斗；管理案例上下架及影片／簡報資源 | Admin |
+| 頁面／功能        | V1 狀態        | V2 調整                                                                            | 主要對象         |
+| ----------------- | -------------- | ---------------------------------------------------------------------------------- | ---------------- |
+| 業務端邀請畫面    | 既有           | 保留 QR Code；顯示今日與總累計參與人數。依 PRD／會議結論，本版總累計可歸零重新計算 | Sales            |
+| 註冊頁            | 既有           | 僅非已驗證 HCP 首次使用；姓名、縣市、服務院所寫入 CRM                              | 非已驗證 HCP     |
+| 家族樹頁          | 新增           | 顯示「阿冠家族案例分析」，可任選家族成員                                           | 可進入遊戲的 HCP |
+| 問答頁            | 需調整         | 情境與題目合併為一頁，每個案例僅一題                                               | 可進入遊戲的 HCP |
+| 答頁彈窗          | 既有           | 顯示作答結果、健保規定解析與學術 Reference                                         | 可進入遊戲的 HCP |
+| 影片頁            | 新增           | 內嵌 16:9 學術個案分析影片，提供前往下載簡報的按鈕                                 | 可進入遊戲的 HCP |
+| 結果／下載簡報頁  | 既有           | 提供指引整理、再玩一次；依身份決定是否顯示 LINE CTA，不再拆成兩個頁面              | 可進入遊戲的 HCP |
+| V2 報表／案例管理 | 既有機制需改版 | 結束 V1 報表，建立符合一題制＋影片頁的新漏斗；管理案例上下架及影片／簡報資源       | Admin            |
 
 ## 家族樹解鎖機制
 
@@ -337,17 +338,17 @@ BRD 將以下項目列為 Nice-to-have，但風險對策又建議內容資料庫
 
 ## 關鍵問題與解法
 
-| 問題 | 根本原因 | 我的處理方式 | 可延伸的工程概念 |
-| --- | --- | --- | --- |
-| 選完角色後出現 `500 advance` 或 `409 select-member` | 前端畫面狀態、後端 session 狀態與重複 request 不一致 | 以後端狀態機限制合法轉移，所有 mutation 使用 idempotency key，錯誤時保留可追蹤的 HTTP status | Distributed state、idempotency、error contract |
-| A 角色到影片頁離開後，點 B 也直接進影片 | active session 只以使用者為單位，沒有正確綁定角色，stale pointer 被誤用 | session 與 active pointer 同時校驗 `familyMemberKey`；同角色續玩、不同角色建立／切換至自己的 session | Composite identity、state isolation |
-| 點選當下角色變彩色，但完成後或重整後狀態錯誤 | selected 與 completed 被當成同一種 UI 狀態 | selected 只控制高亮，unlocked 只接受後端 completed projection；以最後一頁作為完成標準 | Single source of truth、derived UI state |
-| `sites/astrazeneca` 底下出現多個 V2 collection | 早期設計把 session、participant、event 等資料各自建立 collection，增加公司共用資料庫管理成本 | 將玩家紀錄收斂成 `hcpChallengeV2` 單一隨機文件，並以獨立 `hcpChallengeV2Scenarios` 管理題目版本；runtime 不再寫入 profile／participant／session／auditEvent 子 collection，並以 layout test 防止回歸 | Bounded context、schema governance |
-| 本機啟動時查詢醫療院所出現 BigQuery 403 | 舊版院所查詢依賴所有開發者都無權限的跨專案 BigQuery view | V2 profile 改以同 site 的 Firestore `medicalInstitution` 文件驗證選擇的院所 key；報表查詢 HCP view 失敗時則回退 V2 profile，讓未驗證 HCP 仍能留下可用資料 | Least privilege、graceful degradation、data provenance |
-| 題目頁與 Figma 的標題／粗體不一致 | API 只提供 plain text，無法直接表達每個角色不同的字詞與出現次數 | 前端統一顯示「案例背景」，依角色、段落與 occurrence 設定控制選擇性粗體；後續移除案例標題中的英文 HP／HP+GP 標示，並以測試固定六組案例文案 | Presentation metadata、regression testing |
-| Box 影片桌面可播、手機 LIFF 無法觸控 | iframe 與 Box viewer 在行動 WebView 的相容性不足，分享網址也不是原始 video resource | 將 MP4 放到 Google Cloud Storage，使用原生 `<video controls playsinline>`，保留外部連結 fallback | Mobile WebView、media delivery、progressive fallback |
-| 題目頁先出現但圖片尚未載好 | SPA route 已切換，browser image request 還沒完成 | 在切換題目 phase 前預載圖片，以 spinner 呈現等待狀態 | Perceived performance、asset preloading |
-| BRD、PRD、Figma 與舊版行為互相衝突 | 文件時間與目的不同，部分需求仍是待確認或舊版遺留 | 先整理規格差異與風險，再以較新會議／設計決議落地；未確認項目明確留在驗收清單 | Requirements traceability、decision log |
+| 問題                                                | 根本原因                                                                                     | 我的處理方式                                                                                                                                                                                         | 可延伸的工程概念                                       |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 選完角色後出現 `500 advance` 或 `409 select-member` | 前端畫面狀態、後端 session 狀態與重複 request 不一致                                         | 以後端狀態機限制合法轉移，所有 mutation 使用 idempotency key，錯誤時保留可追蹤的 HTTP status                                                                                                         | Distributed state、idempotency、error contract         |
+| A 角色到影片頁離開後，點 B 也直接進影片             | active session 只以使用者為單位，沒有正確綁定角色，stale pointer 被誤用                      | session 與 active pointer 同時校驗 `familyMemberKey`；同角色續玩、不同角色建立／切換至自己的 session                                                                                                 | Composite identity、state isolation                    |
+| 點選當下角色變彩色，但完成後或重整後狀態錯誤        | selected 與 completed 被當成同一種 UI 狀態                                                   | selected 只控制高亮，unlocked 只接受後端 completed projection；以最後一頁作為完成標準                                                                                                                | Single source of truth、derived UI state               |
+| `sites/astrazeneca` 底下出現多個 V2 collection      | 早期設計把 session、participant、event 等資料各自建立 collection，增加公司共用資料庫管理成本 | 將玩家紀錄收斂成 `hcpChallengeV2` 單一隨機文件，並以獨立 `hcpChallengeV2Scenarios` 管理題目版本；runtime 不再寫入 profile／participant／session／auditEvent 子 collection，並以 layout test 防止回歸 | Bounded context、schema governance                     |
+| 本機啟動時查詢醫療院所出現 BigQuery 403             | 舊版院所查詢依賴所有開發者都無權限的跨專案 BigQuery view                                     | V2 profile 改以同 site 的 Firestore `medicalInstitution` 文件驗證選擇的院所 key；報表查詢 HCP view 失敗時則回退 V2 profile，讓未驗證 HCP 仍能留下可用資料                                            | Least privilege、graceful degradation、data provenance |
+| 題目頁與 Figma 的標題／粗體不一致                   | API 只提供 plain text，無法直接表達每個角色不同的字詞與出現次數                              | 前端統一顯示「案例背景」，依角色、段落與 occurrence 設定控制選擇性粗體；後續移除案例標題中的英文 HP／HP+GP 標示，並以測試固定六組案例文案                                                            | Presentation metadata、regression testing              |
+| Box 影片桌面可播、手機 LIFF 無法觸控                | iframe 與 Box viewer 在行動 WebView 的相容性不足，分享網址也不是原始 video resource          | 將 MP4 放到 Google Cloud Storage，使用原生 `<video controls playsinline>`，保留外部連結 fallback                                                                                                     | Mobile WebView、media delivery、progressive fallback   |
+| 題目頁先出現但圖片尚未載好                          | SPA route 已切換，browser image request 還沒完成                                             | 在切換題目 phase 前預載圖片，以 spinner 呈現等待狀態                                                                                                                                                 | Perceived performance、asset preloading                |
+| BRD、PRD、Figma 與舊版行為互相衝突                  | 文件時間與目的不同，部分需求仍是待確認或舊版遺留                                             | 先整理規格差異與風險，再以較新會議／設計決議落地；未確認項目明確留在驗收清單                                                                                                                         | Requirements traceability、decision log                |
 
 ## 驗證與可量化成果
 
@@ -388,12 +389,12 @@ V2-1 驗證紀錄（自動化測試截至 2026-09-15；合併狀態更新至 202
 
 ## 成功指標
 
-| 指標 | V1 基準 | V2 目標 | 量測方式 |
-| --- | ---: | ---: | --- |
-| 遊戲完賽率（至下載簡報頁） | 60% | >= 85% | 後台歷程 Log |
-| 簡報下載率 | 40% | >= 60% | 下載按鈕點擊紀錄 |
-| 非已驗證 HCP 轉化率 | 15% | >= 25% | LINE 點擊且完成 CRM 綁定 |
-| 內容合規核決天數 | 14 天 | <= 5 天 | 動態內容更新／核決流程 |
+| 指標                       | V1 基準 | V2 目標 | 量測方式                 |
+| -------------------------- | ------: | ------: | ------------------------ |
+| 遊戲完賽率（至下載簡報頁） |     60% |  >= 85% | 後台歷程 Log             |
+| 簡報下載率                 |     40% |  >= 60% | 下載按鈕點擊紀錄         |
+| 非已驗證 HCP 轉化率        |     15% |  >= 25% | LINE 點擊且完成 CRM 綁定 |
+| 內容合規核決天數           |   14 天 | <= 5 天 | 動態內容更新／核決流程   |
 
 ## 待確認與風險
 

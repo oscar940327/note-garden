@@ -7,11 +7,12 @@ tags:
   - 任務
   - Angular
   - LIFF
-  - Mock Service
+  - Mock-Service
   - CRUD
-  - Firebase Hosting
-  - API 串接
+  - Firebase-Hosting
+  - API-串接
 ---
+
 # 團隊 TODO LIST 機器人練習任務
 
 ## 任務目標
@@ -33,12 +34,12 @@ tags:
 
 ## 範圍與非目標
 
-| 類別 | 本次範圍 |
-| --- | --- |
-| 畫面 | 使用 Angular 製作可在 LIFF 中開啟的待辦清單畫面 |
-| 必做功能 | 顯示清單，以及新增、編輯、切換完成狀態、刪除待辦事項 |
+| 類別     | 本次範圍                                                                                                             |
+| -------- | -------------------------------------------------------------------------------------------------------------------- |
+| 畫面     | 使用 Angular 製作可在 LIFF 中開啟的待辦清單畫面                                                                      |
+| 必做功能 | 顯示清單，以及新增、編輯、切換完成狀態、刪除待辦事項                                                                 |
 | 資料來源 | 第二週原需求使用 mock；目前 Todo 的 local、development、production 均使用 API service，mock 檔案保留供閱讀與既有測試 |
-| 平台整合 | LIFF 登入、ID token、重新登入、Cloud Run API 串接與 Firebase Hosting 部署 |
+| 平台整合 | LIFF 登入、ID token、重新登入、Cloud Run API 串接與 Firebase Hosting 部署                                            |
 
 第二週 mock 主線不要求後端 API、資料庫、webhook 推播、LINE Bot 對話或資料持久化。目前已延伸進入 API 整合：Todo 改由後端回應提供資料，重新整理會重新查詢 API；只有早期 mock service 才會回到初始假資料。多團隊隔離、搜尋、排序、分頁、標籤與期限仍不在原主線範圍。
 
@@ -59,25 +60,25 @@ tags:
 
 ### 主線（全部必做）
 
-| # | 需求 | 驗收結果 |
-| --- | --- | --- |
+| #    | 需求         | 驗收結果                                                                                                    |
+| ---- | ------------ | ----------------------------------------------------------------------------------------------------------- |
 | 主-1 | 新增待辦事項 | 輸入並送出後，mock service 建立新資料；清單立即多一筆，狀態預設未完成，且有唯一 `id` 與建立時間；輸入框清空 |
-| 主-2 | 編輯待辦事項 | 可修改既有事項內容，或切換完成／未完成；清單顯示新值，原本的 `id` 與 `createdAt` 保持不變 |
-| 主-3 | 刪除待辦事項 | 指定資料從清單移除，其他資料不受影響；刪除最後一筆時顯示空狀態 |
+| 主-2 | 編輯待辦事項 | 可修改既有事項內容，或切換完成／未完成；清單顯示新值，原本的 `id` 與 `createdAt` 保持不變                   |
+| 主-3 | 刪除待辦事項 | 指定資料從清單移除，其他資料不受影響；刪除最後一筆時顯示空狀態                                              |
 
 清單顯示是三項操作的共同前提：初次開啟時需呈現 mock service 資料，並讓完成與未完成狀態可辨識。
 
 ### 待辦資料欄位
 
-| 欄位 | 型別 | 必填 | 規則 |
-| --- | --- | --- | --- |
-| `id` | `string` | 是 | 每筆唯一；建立後不可因編輯而改變 |
-| `title` | `string` | 是 | 待辦內容；不得為空字串或只有空白 |
-| `completed` | `boolean` | 是 | 新增時預設 `false` |
-| `createdAt` | `string` | 是 | ISO 8601 建立時間；建立後不可改變 |
-| `updatedAt` | `string` | 否 | ISO 8601 最後編輯時間；新增時與 `createdAt` 相同 |
-| `createdBy` | `string` | 否 | 建立者顯示名稱；主線可留空或使用假值 |
-| `updatedBy` | `string` | 否 | 最後編輯者顯示名稱；主線可留空或使用假值 |
+| 欄位        | 型別      | 必填 | 規則                                             |
+| ----------- | --------- | ---- | ------------------------------------------------ |
+| `id`        | `string`  | 是   | 每筆唯一；建立後不可因編輯而改變                 |
+| `title`     | `string`  | 是   | 待辦內容；不得為空字串或只有空白                 |
+| `completed` | `boolean` | 是   | 新增時預設 `false`                               |
+| `createdAt` | `string`  | 是   | ISO 8601 建立時間；建立後不可改變                |
+| `updatedAt` | `string`  | 否   | ISO 8601 最後編輯時間；新增時與 `createdAt` 相同 |
+| `createdBy` | `string`  | 否   | 建立者顯示名稱；主線可留空或使用假值             |
+| `updatedBy` | `string`  | 否   | 最後編輯者顯示名稱；主線可留空或使用假值         |
 
 題目與目前 API DTO 使用 `isCompleted`，UI model 使用 `completed`；service 的 `toTodoItem()` 負責轉換。`TodoItem` 已加入選填的 `createdBy`／`updatedBy`，用於接收後端驗證後的 LINE 使用者 ID，畫面目前不顯示這兩個欄位。API 契約中的 `updatedAt` 為必填字串。
 
@@ -85,11 +86,11 @@ tags:
 
 第二週 mock 主線要求至少三筆穩定初始資料，至少一筆已完成。保留的 `todo-list.mock.ts` 使用下列資料；目前網站改查詢 API，不會自動載入這三筆示範資料：
 
-| `id` | `title` | `completed` |
-| --- | --- | --- |
-| `todo-001` | 建好 LIFF app 並跑起來 | `true` |
-| `todo-002` | 熟悉 Angular 20 專案結構 | `false` |
-| `todo-003` | 完成 TODO 清單功能驗收 | `false` |
+| `id`       | `title`                  | `completed` |
+| ---------- | ------------------------ | ----------- |
+| `todo-001` | 建好 LIFF app 並跑起來   | `true`      |
+| `todo-002` | 熟悉 Angular 20 專案結構 | `false`     |
+| `todo-003` | 完成 TODO 清單功能驗收   | `false`     |
 
 每筆資料都要有固定的 `createdAt` 與 `updatedAt`；不要使用隨機資料或每次載入都變動的初始值。
 
@@ -97,12 +98,12 @@ tags:
 
 元件透過同一個 service 查詢與更新資料，不直接讀寫 mock 陣列。主線操作應符合下表：
 
-| 操作 | 輸入 | Service 行為 | 可觀察結果 |
-| --- | --- | --- | --- |
-| 查詢 | 無 | 回傳目前所有待辦事項 | 清單顯示所有資料及其完成狀態 |
-| 新增 | `title` | 產生唯一 `id`；設定 `createdAt`、`updatedAt`；`completed` 設為 `false`；加入並回傳新資料 | 清單增加一筆，輸入框清空 |
-| 編輯 | `id` 與更新欄位 | 更新 `title` 或 `completed` 及 `updatedAt`；保留 `id`、`createdAt` | 目標資料更新，其他資料與總筆數不變 |
-| 刪除 | `id` | 從資料集合移除指定項目 | 目標資料消失，其他資料不變 |
+| 操作 | 輸入            | Service 行為                                                                             | 可觀察結果                         |
+| ---- | --------------- | ---------------------------------------------------------------------------------------- | ---------------------------------- |
+| 查詢 | 無              | 回傳目前所有待辦事項                                                                     | 清單顯示所有資料及其完成狀態       |
+| 新增 | `title`         | 產生唯一 `id`；設定 `createdAt`、`updatedAt`；`completed` 設為 `false`；加入並回傳新資料 | 清單增加一筆，輸入框清空           |
+| 編輯 | `id` 與更新欄位 | 更新 `title` 或 `completed` 及 `updatedAt`；保留 `id`、`createdAt`                       | 目標資料更新，其他資料與總筆數不變 |
+| 刪除 | `id`            | 從資料集合移除指定項目                                                                   | 目標資料消失，其他資料不變         |
 
 邊界行為：
 
@@ -147,21 +148,21 @@ Issue、PR 實際 review 往返、merge 後關閉 Issue，以及任務連結要�
 
 以下路徑均相對於 `Oscar-liff-demo` repo 根目錄。
 
-| 功能 | 檔案 | 要看的地方 |
-| --- | --- | --- |
-| 畫面與事件綁定 | `src/app/features/todo-list/todo-list.component.html` | `[formGroup]`、`formControlName`、`(ngSubmit)`、`(click)` 與 `@if`／`@for` |
-| 表單與 CRUD 操作 | `src/app/features/todo-list/todo-list.component.ts` | `addTodo()`、`startEditing()`、`saveEdit()`、`toggleCompletion()`、`deleteTodo()`；呼叫 service 後更新畫面狀態 |
-| 頁面樣式 | `src/app/features/todo-list/todo-list.component.scss` | 黑白灰主題、待辦列排版、編輯／刪除按鈕與手機版樣式 |
-| 早期 mock 資料操作 | `src/app/features/todo-list/todo-list.mock.service.ts` | 保留給既有測試與閱讀；目前 Todo 網站執行時不使用 |
-| API CRUD 與欄位轉換 | `src/app/features/todo-list/todo-list.service.ts` | `HttpClient` 呼叫 GET／POST／PATCH／DELETE，附上認證 header；`toTodoItem()` 轉換欄位，成功後更新 signal |
-| API 網址設定 | `src/app/core/config/api-config.service.ts` | 讀取 `/assets/api-config.json`、檢查 HTTPS 網址並快取；讀取失敗時允許重試 |
-| 共用契約與資料欄位 | `todo-list.service.interface.ts`、`todo-list.models.ts`（同 feature 目錄） | service 的 public methods 與 `TodoItem` 型別 |
-| 提醒與錯誤彈窗 | `src/app/features/todo-list/todo-feedback-dialog.component.ts` | `MatDialog` 顯示的內容與關閉按鈕 |
-| LIFF 登入與 API 憑證 | `src/app/core/auth/liff-auth.service.ts` | `initialize()` 初始化登入，`getIdToken()` 取得 ID token，`requireLogin()`／`relogin()` 處理憑證失效 |
-| 啟動時初始化登入 | `src/app/app.config.ts` | `provideAppInitializer()` 在應用程式啟動時呼叫登入服務 |
-| 執行模式 | `angular.json` | Todo 的 mock replacement 已移除；`/demo` 仍保留 local mock replacement |
-| 程式流程圖與介紹 | `docs/onboarding/todo-list-code-walkthrough.md` | HTML → component → API → Firestore 的說明、Network 練習及 401 重新登入流程 |
-| API 交接文件 | `docs/tech/api-contract.md` | 待辦欄位、操作契約及 UI 狀態對照 |
+| 功能                 | 檔案                                                                       | 要看的地方                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| 畫面與事件綁定       | `src/app/features/todo-list/todo-list.component.html`                      | `[formGroup]`、`formControlName`、`(ngSubmit)`、`(click)` 與 `@if`／`@for`                                     |
+| 表單與 CRUD 操作     | `src/app/features/todo-list/todo-list.component.ts`                        | `addTodo()`、`startEditing()`、`saveEdit()`、`toggleCompletion()`、`deleteTodo()`；呼叫 service 後更新畫面狀態 |
+| 頁面樣式             | `src/app/features/todo-list/todo-list.component.scss`                      | 黑白灰主題、待辦列排版、編輯／刪除按鈕與手機版樣式                                                             |
+| 早期 mock 資料操作   | `src/app/features/todo-list/todo-list.mock.service.ts`                     | 保留給既有測試與閱讀；目前 Todo 網站執行時不使用                                                               |
+| API CRUD 與欄位轉換  | `src/app/features/todo-list/todo-list.service.ts`                          | `HttpClient` 呼叫 GET／POST／PATCH／DELETE，附上認證 header；`toTodoItem()` 轉換欄位，成功後更新 signal        |
+| API 網址設定         | `src/app/core/config/api-config.service.ts`                                | 讀取 `/assets/api-config.json`、檢查 HTTPS 網址並快取；讀取失敗時允許重試                                      |
+| 共用契約與資料欄位   | `todo-list.service.interface.ts`、`todo-list.models.ts`（同 feature 目錄） | service 的 public methods 與 `TodoItem` 型別                                                                   |
+| 提醒與錯誤彈窗       | `src/app/features/todo-list/todo-feedback-dialog.component.ts`             | `MatDialog` 顯示的內容與關閉按鈕                                                                               |
+| LIFF 登入與 API 憑證 | `src/app/core/auth/liff-auth.service.ts`                                   | `initialize()` 初始化登入，`getIdToken()` 取得 ID token，`requireLogin()`／`relogin()` 處理憑證失效            |
+| 啟動時初始化登入     | `src/app/app.config.ts`                                                    | `provideAppInitializer()` 在應用程式啟動時呼叫登入服務                                                         |
+| 執行模式             | `angular.json`                                                             | Todo 的 mock replacement 已移除；`/demo` 仍保留 local mock replacement                                         |
+| 程式流程圖與介紹     | `docs/onboarding/todo-list-code-walkthrough.md`                            | HTML → component → API → Firestore 的說明、Network 練習及 401 重新登入流程                                     |
+| API 交接文件         | `docs/tech/api-contract.md`                                                | 待辦欄位、操作契約及 UI 狀態對照                                                                               |
 
 ## LIFF 登入與 Hosting 更新方式
 

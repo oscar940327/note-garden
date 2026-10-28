@@ -21,17 +21,16 @@ status: reviewing
 
 ### 🧠 雙指針思路
 
-因為原題目是遞增順序排列，就代表最大數一定在最左或最右，只要左右檢查看哪邊比較大放到新的陣列裡面就可以了。
+原陣列已按非遞減順序排列，因此絕對值最大的元素一定在左右兩端之一。比較兩端元素的平方，將較大的平方值從結果陣列的尾端往前填入，再移動對應指標。
 
 ![[0977.gif]]
-
 
 ```cpp
 
 vector<int> result(nums.size());
-k = nums.size()-1;
-for(i = 0 , j = nums.size()-1 ; i <= j){ // 註解 1、註解 2
-    if(nums[i]*nums[i] > num[j]*nums[j]){
+int k = static_cast<int>(nums.size()) - 1;
+for(int i = 0, j = static_cast<int>(nums.size()) - 1; i <= j; ){ // 註解 1、註解 2
+    if(nums[i]*nums[i] > nums[j]*nums[j]){
         result[k] = nums[i]*nums[i];
         i++;
         k--;
@@ -42,7 +41,9 @@ for(i = 0 , j = nums.size()-1 ; i <= j){ // 註解 1、註解 2
     }
 }
 ```
+
 > [!note]- 註解
+>
 > - **註解 1**：這邊條件設為 `i <= j`，是因為當 `i == j` 時，代表還剩下一個元素尚未處理。若使用 `i < j`，可能會略過這個元素。
 > - **註解 2**：`for` 迴圈最後不能直接寫 `i++`、`j--`，因為兩個指標是否移動取決於比較結果，不能在每次迴圈結束時都一起移動。
 
@@ -66,7 +67,7 @@ public:
             }else{
                 result[k] = nums[last]*nums[last];
                 last--;
-                k--;     
+                k--;
             }
         }
         return result;

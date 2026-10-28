@@ -26,7 +26,7 @@ int main(){
         cin >> nums[i];
         i++;
     }
- 
+
     int start, end;
     int sum;
     while (~scanf("%d %d", &start, &end)){
@@ -54,15 +54,16 @@ int main(){
 ### 🧠 核心思路
 
 如果要取區間和只要先把陣列內容都先加上去，要取的時候就會方便很多。
-例：要計算索引 1 到 3 的區間和，只要用索引 3 的元素減去索引 1 的元素即可。
+令 `p[i]` 表示索引 `0` 到 `i`（包含兩端）的總和。索引 `1` 到 `3` 的區間和為 `p[3] - p[0]`。
+一般情況下，區間 `[start, end]` 的總和是 `p[end] - p[start - 1]`；若 `start == 0`，則直接使用 `p[end]`。
 
 ![[KamaCoder-0058-1.png|500]]
 ![[KamaCoder-0058-2.png|500]]
 
-
 ### 💡 解法實作
 
 用 `scanf`、`printf` 會比 `cin`、`cout` 快很多
+
 ```cpp
 #include<iostream>
 #include<vector>

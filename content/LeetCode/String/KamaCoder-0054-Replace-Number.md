@@ -5,18 +5,20 @@ tags:
   - string
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://kamacoder.com/problempage.php?pid=1064)
 
 ### 📘 先嘗試自己寫
 
-在沒看講解的情況有寫出來，校能跟他的解答差不多...，很玄
+在沒看講解的情況有寫出來，效能跟他的解答差不多...，很玄
 
 > [!example]- 自己寫的
+>
 > ```cpp
 > #include<iostream>
-> 
+>
 > using namespace std;
-> 
+>
 > int main(){
 >     string s;
 >     cin >> s;
@@ -41,17 +43,17 @@ status: reviewing
 - 這解法我是真的想不出來
 
 1. 遇到數字的時候把陣列擴充
-![[KamaCoder-0054-1.png]]
+   ![[KamaCoder-0054-1.png]]
 2. 其他操作跟圖片一樣，細節我直接寫在程式碼裡面。
-![[KamaCoder-0054-2.png]]
+   ![[KamaCoder-0054-2.png]]
 
 > [!example]- **解法實作**
-> 
+>
 > ```cpp
 > #include<iostream>
-> 
+>
 > using namespace std;
-> 
+>
 > int main(){
 >     string s;
 >     while(cin >> s){
@@ -62,7 +64,7 @@ status: reviewing
 >                 count++;
 >             }
 >         }
-> 
+>
 >         // 計算新陣列的大小
 >         s.resize(s.size() + count*5);
 >         int newIndex = s.size() - 1;

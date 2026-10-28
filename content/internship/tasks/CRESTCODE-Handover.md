@@ -8,7 +8,7 @@ tags:
   - 實習
   - 專案交接
   - CRESTCODE
-  - LINE LIFF
+  - LINE-LIFF
   - AstraZeneca
 ---
 
@@ -44,9 +44,9 @@ V2-1 個人負責的開發項目已完成，目前沒有另外列出的未完成
 
 本人沿用 Tiffany（`tiffanyaiii`）既有的 `feature/hcp-challenge-dynamic-scenarios` 分支進行 V2-1 開發，並透過該分支原有的 PR 提交成果。下列兩個 PR 皆由 Tiffany 建立，提交清單均包含本人的 `oscaraiii` 提交。PR 作者、來源分支、合併狀態及提交清單於 2026-10-28 以 GitHub 紀錄核對。
 
-| Repo | 協作分支 | Tiffany 建立的 PR | PR 狀態 |
-| --- | --- | --- | --- |
-| 後端 `astrazeneca-hcp-api` | `feature/hcp-challenge-dynamic-scenarios` | [#64](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/64) | 2026-09-15 已合併至 `main`，包含本人提交。 |
+| Repo                        | 協作分支                                  | Tiffany 建立的 PR                                                      | PR 狀態                                    |
+| --------------------------- | ----------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------ |
+| 後端 `astrazeneca-hcp-api`  | `feature/hcp-challenge-dynamic-scenarios` | [#64](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/64)  | 2026-09-15 已合併至 `main`，包含本人提交。 |
 | 前端 `astrazeneca-liff-med` | `feature/hcp-challenge-dynamic-scenarios` | [#45](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/45) | 2026-09-15 已合併至 `main`，包含本人提交。 |
 
 原始 Draft PR 歷史：本人另曾以 Stage 分支向 `main` 建立後端 [#90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90) 與前端 [#52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52)，這兩個 Draft PR 均已關閉、未合併。

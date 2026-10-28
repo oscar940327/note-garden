@@ -9,11 +9,13 @@ status: reviewing
 🔗 [**題目連結**](https://kamacoder.com/problempage.php?pid=1044)
 
 ### 📘 先嘗試自己寫
+
 我寫不出來
 
 ---
 
 ### 📹 看影片後(此題沒有影片)
+
 [講解](https://programmercarl.com/kamacoder/0044.%E5%BC%80%E5%8F%91%E5%95%86%E8%B4%AD%E4%B9%B0%E5%9C%9F%E5%9C%B0.html#%E6%80%9D%E8%B7%AF)
 
 ---
@@ -79,6 +81,7 @@ int main(){
 ```
 
 > [!example]- 簡化
+>
 > ```cpp
 > #include <iostream>
 > #include <vector>

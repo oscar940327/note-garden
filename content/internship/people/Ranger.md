@@ -1,3 +1,10 @@
+---
+title: Ranger
+tags:
+  - 實習
+  - 人物
+---
+
 # Ranger
 
 - 職位：Chief Engineer

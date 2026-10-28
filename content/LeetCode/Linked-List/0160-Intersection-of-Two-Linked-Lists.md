@@ -78,7 +78,7 @@ status: reviewing
 ![[0160-2.png|500]]
 
 > [!example]- **解法實作**
-> 
+>
 > ```cpp
 > /**
 >  * Definition for singly-linked list.
@@ -94,17 +94,17 @@ status: reviewing
 >         ListNode* curA = headA;
 >         ListNode* curB = headB;
 >         int countA = 0, countB = 0;
->         
+>
 >         while(curA != nullptr){
 >             curA = curA->next;
 >             countA++;
 >         }
-> 
+>
 >         while(curB != nullptr){
 >             curB = curB->next;
 >             countB++;
 >         }
-> 
+>
 >         curA = headA;
 >         curB = headB;
 >         int n = abs(countA - countB);
@@ -117,7 +117,7 @@ status: reviewing
 >                 curB = curB->next;
 >             }
 >         }
-> 
+>
 >         while(curA != nullptr){
 >             if(curA == curB){
 >                 return curA;

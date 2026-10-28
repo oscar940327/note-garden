@@ -6,6 +6,7 @@ tags:
 difficulty: Easy
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://leetcode.com/problems/happy-number/)
 
 ### 📘 先嘗試自己寫
@@ -24,6 +25,7 @@ status: reviewing
 把每輪算出來的數字丟到 `set` 裡面，如果 `set` 裡面已經有該數字的話，返回 `false`，直到 `n = 1`。
 
 > [!example]- **解法實作**
+>
 > ```cpp
 > class Solution {
 > public:
@@ -42,7 +44,7 @@ status: reviewing
 >             if(sum == 1){
 >                 return true;
 >             }
-> 
+>
 >             if(set.find(sum) != set.end()){ // 有出現過重複的 sum，註 1
 >                 return false;
 >             }else{
@@ -55,4 +57,4 @@ status: reviewing
 > ```
 
 > [!note]- **註解**
-> **註解 1**：如果在 `set` 裡面有找到 `sum` 的話，`set.find()` 會等於 `set.end()`。
+> **註解 1**：如果在 `set` 裡面找到 `sum`，則 `set.find(sum) != set.end()`；找不到時才會等於 `set.end()`。重複出現同一個 `sum` 代表進入循環，因此回傳 `false`。

@@ -53,7 +53,7 @@ tags:
 
 **交付成果**：完成可開啟的 Angular 示範頁，顯示 LINE 暱稱、User ID、頭像及狀態訊息，並以手機 LINE 完成實際登入與資料顯示測試。此任務建立了後續 LIFF 專案的部署與測試基礎。
 
-紀錄依據：[完整任務紀錄](firebase-hosting-liff.md)、[08/24 工作日誌](../work-log/2026-08-24.md)。
+紀錄依據：[完整任務紀錄](firebase-hosting-liff.md)、[[internship/work-log/2026-08-24|08/24 工作日誌]]。
 
 ### 02｜AstraZeneca 活動 HCP 邀請 Excel API
 
@@ -67,7 +67,7 @@ tags:
 
 **協作與收尾**：配合 Julie 協助驗證、工程師 Review 與 PR 流程，將 LIFF ID 改為環境設定，並集中管理 TypeScript 型別與註解。任務筆記保留核心合併與後續 Stage 修正的不同版本，便於追溯。
 
-紀錄依據：[完整任務紀錄](astrazeneca-hcp-invite-excel-api.md)、[08/26 工作日誌](../work-log/2026-08-26.md)、[08/31 工作日誌](../work-log/2026-08-31.md)。
+紀錄依據：[完整任務紀錄](astrazeneca-hcp-invite-excel-api.md)、[[internship/work-log/2026-08-26|08/26 工作日誌]]、[[internship/work-log/2026-08-31|08/31 工作日誌]]。
 
 ### 03｜CRESTCODE V2-1 遊戲使用流程改版
 
@@ -77,11 +77,11 @@ tags:
 
 **本人工作**：整理 BRD、PRD、Figma 與舊版程式的差異，跨前後端 Repository 開發。完成六角色畫面與 API 串接、每角色獨立進度與續玩、題目內容資料化，以及身分對應的結果頁。依團隊建議調整 Firestore 資料邊界，處理圖片預載、載入提示、跨角色狀態及手機影片播放問題。
 
-**交付成果**：完成主要前後端流程與 11 個 V2 API 的建立或整合，並完成事件追蹤及每日 Excel 報表。當時後端專案測試紀錄為 230 項通過，前端 Stage build 成功；另以實際輸出檔核對 24 欄報表及完成狀態。提供前後端 Stage 版本、整合文件與 [API PR #90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90)、[LIFF PR #52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52) 供團隊審查與交付追蹤。
+**交付成果**：完成主要前後端流程與 12 個 V2-1 API 的建立或整合，並完成事件追蹤及每日 Excel 報表。當時後端專案測試紀錄為 230 項通過，前端 Stage build 成功；另以實際輸出檔核對 24 欄報表及完成狀態。提供前後端 Stage 版本、整合文件與早期 [API PR #90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90)、[LIFF PR #52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52) 供團隊審查與交付追蹤；這兩筆 Draft PR 後來關閉且未合併，實際合併紀錄見 [[internship/tasks/AZ_crestcode_V2-1#專案資訊|V2-1 任務文件]]。
 
 **協作與收尾**：由 Tiffany 交接既有專案，與 Bryant、Ranger、Kyle 及 CS Team 討論需求、資料結構與驗收回饋，完成本人負責的開發和修正工作，將正式環境與客戶端的交付流程交由團隊統籌。
 
-紀錄依據：[完整任務紀錄](AZ_crestcode_V2-1.md)、[09/14 工作日誌](../work-log/2026-09-14.md)、[09/15 工作日誌](../work-log/2026-09-15.md)。
+紀錄依據：[完整任務紀錄](AZ_crestcode_V2-1.md)、[[internship/work-log/2026-09-14|09/14 工作日誌]]、[[internship/work-log/2026-09-15|09/15 工作日誌]]。
 
 ### 04｜CRESTCODE V2-2 每日抽卡與卡牌收藏
 
@@ -95,7 +95,7 @@ tags:
 
 **協作與收尾**：因時程安排，後端後續由 Bryant 接手。前端串接後，將 Review 發現的局別識別、API 欄位與收藏視窗非同步問題一併交接，完成本人階段成果及問題脈絡的移交。
 
-紀錄依據：[完整任務紀錄](AZ_crestcode_V2-2.md)、[09/22 工作日誌](../work-log/2026-09-22.md)、[09/23 工作日誌](../work-log/2026-09-23.md)。
+紀錄依據：[完整任務紀錄](AZ_crestcode_V2-2.md)、[[internship/work-log/2026-09-22|09/22 工作日誌]]、[[internship/work-log/2026-09-23|09/23 工作日誌]]。
 
 ### 05｜Awiqli LIFF 劑量轉換器 UI Prototype
 
@@ -107,7 +107,7 @@ tags:
 
 **交付成果**：完成可在瀏覽器操作的 UI Prototype，初版程式已提交並推送功能分支；09/29 日誌記錄了展示驗收與小幅修正。Loading dose 以欄位及規則提示呈現，交付範圍為介面原型，醫療公式的決策由需求與醫學團隊負責。
 
-紀錄依據：[完整任務紀錄](awiqli-dose-converter-ui.md)、[09/29 工作日誌](../work-log/2026-09-29.md)。
+紀錄依據：[完整任務紀錄](awiqli-dose-converter-ui.md)、[[internship/work-log/2026-09-29|09/29 工作日誌]]。
 
 ### 06｜第二週新人訓練：Todo 前端與 LIFF
 
@@ -119,7 +119,7 @@ tags:
 
 **交付成果**：Mock 主線留有 30 項測試通過及 local build 紀錄；之後完成 Firebase Hosting 部署與手機開啟測試，再將 Todo Service 改接後端。交付 [前端 PR #1](https://github.com/Aiii-Developers/Oscar-liff-demo/pull/1)、API 契約與程式閱讀文件，並保留 [Todo 展示入口](https://oscar-todo-list.web.app/todo-list)。
 
-紀錄依據：[完整任務紀錄](engineer-training-week2.md)、[10/07 工作日誌](../work-log/2026-10-07.md)、[10/13 工作日誌](../work-log/2026-10-13.md)。
+紀錄依據：[完整任務紀錄](engineer-training-week2.md)、[[internship/work-log/2026-10-07|10/07 工作日誌]]、[[internship/work-log/2026-10-13|10/13 工作日誌]]。
 
 ### 07｜第三週新人訓練：Todo API 與雲端部署
 
@@ -131,7 +131,7 @@ tags:
 
 **交付成果**：完成 API 與 Firestore 資料存取實作，透過 `s0.1.2` 版本成功部署至個人 Cloud Run。紀錄包含 GitHub Actions 部署成功、服務健康檢查，以及匿名 Todo 請求回傳 401。留下本機新增／修改資料與欄位保留驗證、[後端 PR #2](https://github.com/Aiii-Developers/Oscar-api-demo/pull/2) 及部署說明，完成從畫面、API 到資料庫的訓練實作。
 
-紀錄依據：[完整任務紀錄](engineer-training-week3.md)、[10/12 工作日誌](../work-log/2026-10-12.md)、[10/13 工作日誌](../work-log/2026-10-13.md)。
+紀錄依據：[完整任務紀錄](engineer-training-week3.md)、[[internship/work-log/2026-10-12|10/12 工作日誌]]、[[internship/work-log/2026-10-13|10/13 工作日誌]]。
 
 ### 08｜Awiqli HCP Learning Game 前端
 
@@ -145,7 +145,7 @@ tags:
 
 **協作與收尾**：Carlos 完成後續課程、作答、HCP 與進度 API 串接；Twiggy 完成平台圖片上傳、長按儲存、`nn-web-share` 分享頁及路由重構。本人配合後續整合，保留正式流程及本機下載測試，並於 10/27 處理 rebase 衝突。報告依此區分個人原始開發與團隊整合成果。
 
-紀錄依據：[完整任務紀錄與分工表](Awiqli-HCP-Learning-Game-UI.md)、[10/14 工作日誌](../work-log/2026-10-14.md)、[10/19 工作日誌](../work-log/2026-10-19.md)。
+紀錄依據：[完整任務紀錄與分工表](Awiqli-HCP-Learning-Game-UI.md)、[[internship/work-log/2026-10-14|10/14 工作日誌]]、[[internship/work-log/2026-10-19|10/19 工作日誌]]。
 
 ## 四、其他工作與工程實務
 
@@ -177,4 +177,4 @@ tags:
 
 各項成果以本人實際負責範圍敘述；測試數量與部署版本引用相應歷史紀錄。缺少精確日期、驗收細節或量測數字的部分採範圍描述，未補造紀錄。Stage、原型展示、訓練部署與正式站成果依各任務的實際交付形式表述。
 
-參考入口：[實習筆記索引](../index.md)、[SDD 筆記](../concepts/SDD.md)、[Git 與 Git Graph](../concepts/Git%20Graph.md)、[Codex＋OpenSpec 工作流程](../concepts/workflow.md)。
+參考入口：[[internship/index|實習筆記索引]]、[[internship/concepts/SDD|SDD 筆記]]、[[internship/concepts/Git Graph|Git 與 Git Graph]]、[[internship/concepts/workflow|Codex＋OpenSpec 工作流程]]。

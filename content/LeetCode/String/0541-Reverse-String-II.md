@@ -6,6 +6,7 @@ tags:
 difficulty: Easy
 status: reviewing
 ---
+
 🔗 [**題目連結**](https://leetcode.com/problems/reverse-string-ii/)
 
 ### 📘 先嘗試自己寫
@@ -19,9 +20,10 @@ status: reviewing
 ---
 
 ### 🧠 核心思路
- 
+
 - 這解法我是真的想不出來
-1. 只要 `i += (2 * k)`，`i` 每次移動 `2 * k` 
+
+1. 只要 `i += (2 * k)`，`i` 每次移動 `2 * k`
 2. 然後判斷是否需要有反轉的區間
 
 ```cpp
@@ -33,7 +35,6 @@ for(i = 0 ; i < s.size ; i+=2*k){
     reverse(s, i, s.size);
 }
 ```
-
 
 > [!example]- **解法實作**
 >

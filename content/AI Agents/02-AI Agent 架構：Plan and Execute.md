@@ -6,10 +6,10 @@ source_language: "簡體中文"
 note_language: "zh-TW"
 created: 2026-07-15
 tags:
-  - AI Agent
-  - Plan and Execute
-  - Reactor Agent
-  - Agent 架構
+  - AI-Agent
+  - Plan-and-Execute
+  - Reactor-Agent
+  - Agent-架構
   - LLM
   - Tools
   - 重新規劃
@@ -19,7 +19,7 @@ tags:
 
 ## 摘要
 
-[Plan and Execute](Plan%20and%20Execute) Agent 的核心方式是：先由 LLM 將任務拆成多個具體步驟，再逐步執行。每個步驟的執行可以重複使用 [Reactor Agent](Reactor%20Agent) 的工具呼叫與反應迴圈；若執行失敗，外層流程還能觸發重新規劃。影片以「計算 21 + 21，並統計結果字串的字元數」示範完整流程。〔00:00:00–00:18:52〕
+**Plan and Execute** Agent 的核心方式是：先由 LLM 將任務拆成多個具體步驟，再逐步執行。每個步驟的執行可以重複使用 Reactor Agent 的工具呼叫與反應迴圈；若執行失敗，外層流程還能觸發重新規劃。影片以「計算 21 + 21，並統計結果字串的字元數」示範完整流程。〔00:00:00–00:18:52〕
 
 > [!note] 影片內容
 > Plan and Execute 可以理解為「外層負責計畫，內層負責反應式執行」：Plan 負責拆解任務，Execute 負責逐步完成，每一步又可能嵌套 Reactor Loop。〔00:00:00–00:03:20〕
@@ -168,12 +168,12 @@ Tools 是 Agent 的必要元件。Plan and Execute 並不會取代工具層，�
 
 接著逐步執行：
 
-| 步驟 | 執行方式 | 結果 |
-|---|---|---|
-| Step 0 | 呼叫 `calculate` | `42` |
-| Step 1 | 將結果轉成字串 | `"42"` |
-| Step 2 | 呼叫 `word_count` | `2` |
-| Step 3 | 彙整輸出 | `42`，字串有 2 個字元 |
+| 步驟   | 執行方式          | 結果                  |
+| ------ | ----------------- | --------------------- |
+| Step 0 | 呼叫 `calculate`  | `42`                  |
+| Step 1 | 將結果轉成字串    | `"42"`                |
+| Step 2 | 呼叫 `word_count` | `2`                   |
+| Step 3 | 彙整輸出          | `42`，字串有 2 個字元 |
 
 影片另外提到，若任務過於簡單，Reactor 本身可能已經能直接得到答案；此時 Plan and Execute 的額外規劃與多次 LLM 呼叫反而顯得成本較高。對較複雜的工程任務，影片則認為這種方式可能更容易得到結果。〔00:10:50–00:13:20〕〔00:16:20–00:17:40〕
 
@@ -246,14 +246,14 @@ def plan_and_execute(task, llm, tools, max_replans):
 
 ## Plan and Execute 與 Reactor Agent 的比較
 
-| 面向 | Reactor Agent | Plan and Execute Agent |
-|---|---|---|
-| 核心方式 | 邊思考、邊選工具、邊執行 | 先產生計畫，再逐步執行 |
-| 任務分解 | 通常由每輪推理動態決定 | 先建立明確的 Steps 列表 |
-| 控制層級 | 主要是單一反應迴圈 | 外層 Planner/Executor + 內層 Reactor Loop |
+| 面向     | Reactor Agent                        | Plan and Execute Agent                                       |
+| -------- | ------------------------------------ | ------------------------------------------------------------ |
+| 核心方式 | 邊思考、邊選工具、邊執行             | 先產生計畫，再逐步執行                                       |
+| 任務分解 | 通常由每輪推理動態決定               | 先建立明確的 Steps 列表                                      |
+| 控制層級 | 主要是單一反應迴圈                   | 外層 Planner/Executor + 內層 Reactor Loop                    |
 | 結束條件 | 常依模型是否產生 `Final Answer` 判斷 | 外層依步驟是否完成判斷，單步 Reactor 仍可產生 `Final Answer` |
-| 適合情境 | 路徑不確定、需要即時決策 | 步驟較多、可先拆分並追蹤進度 |
-| 主要風險 | 可能缺乏全局規劃 | 規劃錯誤、成本與延遲增加 |
+| 適合情境 | 路徑不確定、需要即時決策             | 步驟較多、可先拆分並追蹤進度                                 |
+| 主要風險 | 可能缺乏全局規劃                     | 規劃錯誤、成本與延遲增加                                     |
 
 > [!note] 影片內容
 > 講者強調，Plan and Execute 並不是完全不同的工具執行方式，而是在 Reactor Agent 外面再套一層計畫與步驟控制。〔00:03:00–00:04:10〕

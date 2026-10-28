@@ -27,7 +27,6 @@ status: reviewing
 
 ![209.長度最小的子陣列 (2)](0209.gif)
 
-
 ```cpp
 i = 0;
 result = Max;
@@ -42,7 +41,9 @@ for(j = 0 ; j < nums.size ; j++){
 }
 return result;
 ```
+
 > [!note]- 註解
+>
 > - 註解 1：這邊用 `while` 不用 `if` 是因為不可能只遍歷一遍，`while` 迴圈是用來縮減最後的 `result` ，不可能每次都只縮減一遍。
 
 ### 💡 解法實作

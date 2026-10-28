@@ -28,8 +28,11 @@ public:
 這沒有通過，因為是用暴力解 O(n)，但我忘記怎麼寫 Binary Search 了
 
 ---
+
 ## 📹 看影片後
----      
+
+---
+
 ### 🧠 核心思路
 
 二分搜尋的核心是：
@@ -41,20 +44,15 @@ public:
 常見的兩種寫法：
 
 1. 左閉右閉：`[left, right]`
-    
 2. 左閉右開：`[left, right)`
-    
 
 兩種寫法都正確，但初始化、迴圈條件和邊界更新必須保持一致。
 
 ### ⚠️ 常見易錯點
 
 - `while` 條件應該使用 `left < right` 還是 `left <= right`？
-    
 - 當 `nums[middle] > target` 時，`right` 應該更新為 `middle` 還是 `middle - 1`？
-    
 - `right` 應該初始化為 `nums.size()` 還是 `nums.size() - 1`？
-    
 
 這些問題都取決於區間的定義。
 
@@ -62,10 +60,10 @@ public:
 
 ## ✅ 二分搜尋的兩種區間
 
-|分類|區間表示|包含範圍|
-|---|---|---|
-|左閉右閉|`[left, right]`|包含 `left` 和 `right`|
-|左閉右開|`[left, right)`|包含 `left`，不包含 `right`|
+| 分類     | 區間表示        | 包含範圍                    |
+| -------- | --------------- | --------------------------- |
+| 左閉右閉 | `[left, right]` | 包含 `left` 和 `right`      |
+| 左閉右開 | `[left, right)` | 包含 `left`，不包含 `right` |
 
 ---
 
@@ -104,7 +102,7 @@ return -1;
 
 #### 1. 為什麼是 `left <= right`？
 
-   當：
+當：
 
 ```text
 left == right
@@ -171,9 +169,11 @@ middle 一定不是答案
 ```
 
 所以要寫：
+
 ```cpp
 left = middle + 1;
 ```
+
 ---
 
 ## 🚀 解法一：左閉右閉
@@ -313,12 +313,12 @@ public:
 
 ## 📊 兩種寫法比較
 
-|特性|左閉右閉 `[left, right]`|左閉右開 `[left, right)`|
-|---|---|---|
-|`right` 初始化|`nums.size() - 1`|`nums.size()`|
-|`while` 條件|`left <= right`|`left < right`|
-|更新 `right`|`middle - 1`|`middle`|
-|更新 `left`|`middle + 1`|`middle + 1`|
-|`left == right` 時|還有一個元素|搜尋區間為空|
+| 特性               | 左閉右閉 `[left, right]` | 左閉右開 `[left, right)` |
+| ------------------ | ------------------------ | ------------------------ |
+| `right` 初始化     | `nums.size() - 1`        | `nums.size()`            |
+| `while` 條件       | `left <= right`          | `left < right`           |
+| 更新 `right`       | `middle - 1`             | `middle`                 |
+| 更新 `left`        | `middle + 1`             | `middle + 1`             |
+| `left == right` 時 | 還有一個元素             | 搜尋區間為空             |
 
 ---

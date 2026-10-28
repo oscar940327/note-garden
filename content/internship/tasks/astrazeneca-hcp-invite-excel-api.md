@@ -15,8 +15,9 @@ tags:
   - HCP
   - Bun
   - TypeScript
-  - API Design
+  - API-Design
 ---
+
 # AstraZeneca 活動 HCP 邀請連結 Excel API
 
 ## 專案成果摘要
@@ -218,19 +219,19 @@ Stage 測試必須使用 Test LIFF ID；正式站不可用本次測試連結。
 
 ## Phase 進度
 
-| Phase | 內容 | 狀態 |
-| --- | --- | --- |
-| 0 | 確認 Issue、Request、Excel、Firestore、LIFF 規格 | 完成 |
-| 1 | Request 驗證與 Excel 基礎解析 | 完成 |
-| 2 | 逐列驗證 HCP／業務資料及錯誤隔離 | 完成 |
-| 3 | 建立 Firestore 邀請文件 | 完成 |
-| 4 | 產生邀請連結及環境 LIFF 對應 | 完成 |
-| 5 | 結果 Excel 產生與下載 response | 完成 |
-| 6 | Stage Firebase 實際寫入驗收 | 完成 |
-| 7 | 與既有功能整合及 API 權限 | 完成 |
-| 8 | 完整自動化測試、型別檢查、建置 | 完成 |
-| 9 | Stage 手動完整流程測試 | 核心流程完成；過期連結等補充案例列入後續驗證 |
-| 10 | 交付前清理、差異檢查與 PR | 完成；PR #83 已合併至 `main` |
+| Phase | 內容                                             | 狀態                                         |
+| ----- | ------------------------------------------------ | -------------------------------------------- |
+| 0     | 確認 Issue、Request、Excel、Firestore、LIFF 規格 | 完成                                         |
+| 1     | Request 驗證與 Excel 基礎解析                    | 完成                                         |
+| 2     | 逐列驗證 HCP／業務資料及錯誤隔離                 | 完成                                         |
+| 3     | 建立 Firestore 邀請文件                          | 完成                                         |
+| 4     | 產生邀請連結及環境 LIFF 對應                     | 完成                                         |
+| 5     | 結果 Excel 產生與下載 response                   | 完成                                         |
+| 6     | Stage Firebase 實際寫入驗收                      | 完成                                         |
+| 7     | 與既有功能整合及 API 權限                        | 完成                                         |
+| 8     | 完整自動化測試、型別檢查、建置                   | 完成                                         |
+| 9     | Stage 手動完整流程測試                           | 核心流程完成；過期連結等補充案例列入後續驗證 |
+| 10    | 交付前清理、差異檢查與 PR                        | 完成；PR #83 已合併至 `main`                 |
 
 ## 自動化驗證結果
 

@@ -1,3 +1,11 @@
+---
+title: Codex + OpenSpec 使用指南
+tags:
+  - 實習
+  - 技術概念
+  - OpenSpec
+---
+
 # Codex + OpenSpec 使用指南
 
 這份文件記錄如何使用 Codex 搭配 OpenSpec，從釐清需求、規劃 Change，到實作、測試與歸檔。
@@ -122,22 +130,22 @@ openspec/changes/add-email-notification/
 └── specs/
 ```
 
-| Artifact | 要回答的問題 |
-| --- | --- |
+| Artifact      | 要回答的問題                         |
+| ------------- | ------------------------------------ |
 | `proposal.md` | 為什麼要改、要改什麼、影響哪些範圍？ |
-| `specs/` | 系統應該具備什麼行為與 Scenario？ |
-| `design.md` | 技術上要怎麼實作？ |
-| `tasks.md` | 實作時要完成哪些工作？ |
+| `specs/`      | 系統應該具備什麼行為與 Scenario？    |
+| `design.md`   | 技術上要怎麼實作？                   |
+| `tasks.md`    | 實作時要完成哪些工作？               |
 
 ---
 
 ## 3. 根據目前狀態選擇流程
 
-| 目前狀態 | 起點 | 目的 |
-| --- | --- | --- |
-| 已有 PRD | 請 Codex 閱讀 PRD 與 Codebase | 找出模糊處、缺漏和影響範圍，再拆 Changes |
-| 沒有 PRD，但已有 Codebase | `$openspec-explore` | 從現有程式、Schema、API、測試與設定釐清需求 |
-| 只有 Idea，沒有 Codebase | `$grill-me` → Product Brief → `$openspec-explore` | 先確認產品需求與 MVP，再探索架構與拆 Changes |
+| 目前狀態                  | 起點                                              | 目的                                         |
+| ------------------------- | ------------------------------------------------- | -------------------------------------------- |
+| 已有 PRD                  | 請 Codex 閱讀 PRD 與 Codebase                     | 找出模糊處、缺漏和影響範圍，再拆 Changes     |
+| 沒有 PRD，但已有 Codebase | `$openspec-explore`                               | 從現有程式、Schema、API、測試與設定釐清需求  |
+| 只有 Idea，沒有 Codebase  | `$grill-me` → Product Brief → `$openspec-explore` | 先確認產品需求與 MVP，再探索架構與拆 Changes |
 
 ### 情況 A：已有 PRD
 
@@ -211,10 +219,10 @@ $openspec-explore
 
 #### Grill、Explore 與 Propose 的分工
 
-| 工具 | 用途 |
-| --- | --- |
-| `$grill-me` | 透過提問找出模糊需求、隱藏假設與重要限制 |
-| `$openspec-explore` | 探索需求、技術方案、架構與 Change 的切分方式 |
+| 工具                | 用途                                           |
+| ------------------- | ---------------------------------------------- |
+| `$grill-me`         | 透過提問找出模糊需求、隱藏假設與重要限制       |
+| `$openspec-explore` | 探索需求、技術方案、架構與 Change 的切分方式   |
 | `$openspec-propose` | 把已決定的內容正式整理成 Spec、Design 與 Tasks |
 
 Grill 的重點包括：
@@ -291,7 +299,7 @@ docs/product-brief.md
 請把剛才 grill-me 確認的內容整理成 docs/product-brief.md。
 
 包含：
-- Problem               -> 要解決什麼問題？為什麼需要做？   
+- Problem               -> 要解決什麼問題？為什麼需要做？
 - Target Users          -> 誰會使用？不同使用者有什麼需求？
 - Goal                  -> 這個產品希望達成什麼結果？
 - MVP Scope             -> 第一版一定要完成的功能。
@@ -367,14 +375,14 @@ $openspec-archive-change
 下一個 Change
 ```
 
-| Skill | 功能 | 產出 |
-| --- | --- | --- |
-| `$openspec-explore` | 研究需求、Codebase 與技術方案，並拆分 Changes | 技術決策與 Change 清單 |
-| `$openspec-propose <change-name>` | 建立一個 Change 的完整規劃 | `proposal.md`、`specs/`、`design.md`、`tasks.md` |
-| `$openspec-update-change` | 修改既有規劃，但不實作程式碼 | 更新後且彼此一致的規劃文件 |
-| `$openspec-apply-change <change-name>` | 按照 `tasks.md` 實作 | 程式碼、測試與完成的 Tasks |
-| `$openspec-verify-change <change-name>` | 比對 Spec、Design、Tasks 與實作 | 缺漏、錯誤與是否可歸檔的報告 |
-| `$openspec-archive-change <change-name>` | 驗收完成後歸檔 | Change 歷史與正式 Specs |
+| Skill                                    | 功能                                          | 產出                                             |
+| ---------------------------------------- | --------------------------------------------- | ------------------------------------------------ |
+| `$openspec-explore`                      | 研究需求、Codebase 與技術方案，並拆分 Changes | 技術決策與 Change 清單                           |
+| `$openspec-propose <change-name>`        | 建立一個 Change 的完整規劃                    | `proposal.md`、`specs/`、`design.md`、`tasks.md` |
+| `$openspec-update-change`                | 修改既有規劃，但不實作程式碼                  | 更新後且彼此一致的規劃文件                       |
+| `$openspec-apply-change <change-name>`   | 按照 `tasks.md` 實作                          | 程式碼、測試與完成的 Tasks                       |
+| `$openspec-verify-change <change-name>`  | 比對 Spec、Design、Tasks 與實作               | 缺漏、錯誤與是否可歸檔的報告                     |
+| `$openspec-archive-change <change-name>` | 驗收完成後歸檔                                | Change 歷史與正式 Specs                          |
 
 ### 每個 Change 的實際操作
 
@@ -430,13 +438,13 @@ propose → review/update → apply → verify → archive
 
 這些不是每次都需要：
 
-| Skill | 使用時機 |
-| --- | --- |
-| `$openspec-onboard` | 第一次使用 OpenSpec，想跟著引導完成完整流程 |
-| `$openspec-new-change` | 想逐步建立 Change，而不是一次產生全部規劃文件 |
-| `$openspec-continue-change` | 使用 `new-change` 後，繼續建立下一份 Artifact |
-| `$openspec-ff-change` | Change 已存在，想快速補齊後續規劃文件 |
-| `$openspec-sync-specs` | 想同步 Change Specs，但暫時不 Archive |
-| `$openspec-bulk-archive-change` | 多個完成的 Changes 要一起歸檔 |
+| Skill                           | 使用時機                                      |
+| ------------------------------- | --------------------------------------------- |
+| `$openspec-onboard`             | 第一次使用 OpenSpec，想跟著引導完成完整流程   |
+| `$openspec-new-change`          | 想逐步建立 Change，而不是一次產生全部規劃文件 |
+| `$openspec-continue-change`     | 使用 `new-change` 後，繼續建立下一份 Artifact |
+| `$openspec-ff-change`           | Change 已存在，想快速補齊後續規劃文件         |
+| `$openspec-sync-specs`          | 想同步 Change Specs，但暫時不 Archive         |
+| `$openspec-bulk-archive-change` | 多個完成的 Changes 要一起歸檔                 |
 
 一般情況使用 `$openspec-propose` 即可；`new-change → continue-change` 是想逐份確認 Artifact 時才使用。
