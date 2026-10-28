@@ -17,7 +17,7 @@ tags:
 
 | 功能         | 使用情境與範圍                                                                  | 開發位置                                   |
 | ------------ | ------------------------------------------------------------------------------- | ------------------------------------------ |
-| 劑量轉換器   | 討論畫面與輸入互動的 UI 原型；每週換算為 Demo 示意，Loading dose 尚未實作計算。 | `nnhcp-awiqli-liff`。                      |
+| 劑量轉換器   | 討論畫面與輸入互動的 UI 原型；每週換算為 Demo 示意，Loading dose 尚未實作計算。 | [nnhcp-liff-awiqli](https://github.com/Aiii-Developers/nnhcp-liff-awiqli)。 |
 | HCP 學習遊戲 | HCP 從 LINE LIFF 學習課程、作答、續接進度，完成後取得個人化證書。               | `nnhcp-liff-main`。                        |
 | 證書相關畫面 | 本人負責證書畫面與 Canvas 產圖；後續上傳、下載及分享整合由其他同事接手。        | `src/app/product-course/certificate-page/` |
 

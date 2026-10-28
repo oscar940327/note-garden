@@ -20,6 +20,7 @@ tags:
 ## 專案資訊
 
 - Repository：`/Users/oscar/Documents/nnhcp-awiqli-liff`
+- GitHub Repository：[nnhcp-liff-awiqli](https://github.com/Aiii-Developers/nnhcp-liff-awiqli)
 - Feature branch：`feature/awiqli-dose-converter-demo-v3`
 - 參考畫面：`/Users/oscar/Downloads/Awiqli_LIFF_劑量轉換器_Demo_v3.html`
 - 建議功能路由：`/awiqli-dose-converter`
