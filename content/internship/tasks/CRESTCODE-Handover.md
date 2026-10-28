@@ -40,14 +40,16 @@ V2-1 個人負責的開發項目已完成，目前沒有另外列出的未完成
 | 邀請參與計數   | 首次完成任一角色後計入參與人數，同一 LINE 使用者僅計算一次。               | 已完成 |
 | 每日報表       | 完成遊玩紀錄整理、Excel 產生與寄送功能，並進行測試站測試。                 | 已完成 |
 
-### V2-1 我的開發分支與 PR
+### V2-1 協作分支與 PR
 
-V2-1 前後端皆使用 `feature/hcp-challenge-dynamic-scenarios` 開發。下表只記錄本人建立的原始 Draft PR；當時 PR 的來源為 Stage 分支，目標為 `main`。PR 狀態於 2026-10-28 以 GitHub 紀錄核對。
+本人沿用 Tiffany（`tiffanyaiii`）既有的 `feature/hcp-challenge-dynamic-scenarios` 分支進行 V2-1 開發，並透過該分支原有的 PR 提交成果。下列兩個 PR 皆由 Tiffany 建立，提交清單均包含本人的 `oscaraiii` 提交。PR 作者、來源分支、合併狀態及提交清單於 2026-10-28 以 GitHub 紀錄核對。
 
-| Repo                        | 開發分支                                  | 當時 PR 來源 → 目標     | 本人提交的 Draft PR／狀態                                                                                      |
-| --------------------------- | ----------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 後端 `astrazeneca-hcp-api`  | `feature/hcp-challenge-dynamic-scenarios` | `stage/s1.3.0` → `main` | [#90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90)；作者 `oscaraiii`，已關閉、未直接合併。  |
-| 前端 `astrazeneca-liff-med` | `feature/hcp-challenge-dynamic-scenarios` | `stage/s1.7.0` → `main` | [#52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52)；作者 `oscaraiii`，已關閉、未直接合併。 |
+| Repo | 協作分支 | Tiffany 建立的 PR | PR 狀態 |
+| --- | --- | --- | --- |
+| 後端 `astrazeneca-hcp-api` | `feature/hcp-challenge-dynamic-scenarios` | [#64](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/64) | 2026-09-15 已合併至 `main`，包含本人提交。 |
+| 前端 `astrazeneca-liff-med` | `feature/hcp-challenge-dynamic-scenarios` | [#45](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/45) | 2026-09-15 已合併至 `main`，包含本人提交。 |
+
+原始 Draft PR 歷史：本人另曾以 Stage 分支向 `main` 建立後端 [#90](https://github.com/Aiii-Developers/astrazeneca-hcp-api/pull/90) 與前端 [#52](https://github.com/Aiii-Developers/astrazeneca-liff-med/pull/52)，這兩個 Draft PR 均已關閉、未合併。
 
 ### V2-1 我的測試站部署
 
