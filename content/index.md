@@ -11,6 +11,7 @@ tags:
 
 ## 筆記分類
 
+- [[Programming Fundamentals/index|Programming Fundamentals]]：程式基礎、八週學習計畫與除錯練習
 - [[LeetCode/index|LeetCode]]：演算法題目與解題紀錄
 - [[AI Agents/index|AI Agents]]：AI Agent 架構與應用
 - [[internship/index|實習筆記]]：工作日誌、任務與技術概念
