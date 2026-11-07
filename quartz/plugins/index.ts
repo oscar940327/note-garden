@@ -1,18 +1,10 @@
 import { StaticResources } from "../util/resources"
 import { BuildCtx } from "../util/ctx"
-// @ts-expect-error - inline script loaded as text by the Quartz esbuild plugin
-import responsiveExplorerScript from "../components/scripts/responsive-explorer.inline"
 
 export function getStaticResourcesFromPlugins(ctx: BuildCtx) {
   const staticResources: StaticResources = {
     css: [],
-    js: [
-      {
-        loadTime: "afterDOMReady",
-        contentType: "inline",
-        script: responsiveExplorerScript,
-      },
-    ],
+    js: [],
     additionalHead: [],
   }
 

@@ -6,6 +6,74 @@
   grid-row: grid-header-start / grid-center-end;
 }
 
+// Keep the header outside the scrollable tree. The plugin's 1.2rem collapsed
+// flex basis is shorter than the title and used to clip/scroll it upwards.
+.sidebar.left .explorer > .explorer-toggle {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1200px) {
+  .sidebar.left .explorer.collapsed {
+    flex: 0 0 auto;
+  }
+
+  .sidebar.left .explorer.collapsed > .explorer-content {
+    display: none;
+  }
+}
+
+// Explorer uses a scrollbar. Its async overflow marker can leave a stale mask
+// that fades the last real entry even when the entire list fits on screen.
+.sidebar.left .explorer .explorer-ul.overflow {
+  mask-image: none;
+}
+
+// Manual folder toggles have a short, matching motion for the tree and arrow.
+// Automatic page updates still use the initialization override below.
+.sidebar.left .explorer .folder-outer {
+  transition:
+    grid-template-rows 180ms ease,
+    visibility 180ms ease;
+}
+
+.sidebar.left .explorer .folder-icon,
+.sidebar.left .explorer .fold {
+  transition:
+    transform 180ms ease,
+    color 100ms ease;
+}
+
+.sidebar.left .explorer .folder-container,
+.sidebar.left .explorer .folder-button,
+.sidebar.left .explorer .explorer-ul li > a {
+  border-radius: 0.25rem;
+  transition:
+    background-color 100ms ease,
+    color 100ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sidebar.left .explorer .folder-container:hover,
+  .sidebar.left .explorer .explorer-ul li > a:hover {
+    background-color: var(--highlight);
+  }
+}
+
+.sidebar.left .explorer .folder-container:focus-within,
+.sidebar.left .explorer .explorer-ul li > a:focus-visible {
+  background-color: var(--highlight);
+}
+
+// Apply the current page's Explorer state without playing folder, arrow or
+// overlay transitions. The script removes this after committing the layout.
+.sidebar.left .explorer.explorer-initializing,
+.sidebar.left .explorer.explorer-initializing *,
+.sidebar.left .explorer.explorer-initializing *::before,
+.sidebar.left .explorer.explorer-initializing *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 // Keep interaction feedback short and predictable. Avoid broad `transition: all`
 // rules because Quartz components change layout across responsive breakpoints.
 :where(a, button, input, summary) {
@@ -50,6 +118,14 @@
 // Phones and tablets share one overlay Explorer. This avoids Quartz's default
 // narrow-screen drawer moving the page and keeps the responsive states aligned.
 @media (max-width: 1199px) {
+  // The static tree is immediately visible on desktop. Keep the mobile overlay
+  // closed until its viewport-specific controls have initialized.
+  .sidebar.left .explorer:not([data-explorer-ready]) > .explorer-content {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .page > #quartz-body > .sidebar.left .readermode {
     display: none;
   }

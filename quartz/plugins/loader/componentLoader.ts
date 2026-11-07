@@ -2,6 +2,7 @@ import { componentRegistry } from "../../components/registry"
 import { ComponentManifest, PluginManifest } from "./types"
 import { QuartzComponentConstructor } from "../../components/types"
 import { getPluginSubpathEntry, toFileUrl } from "./gitLoader"
+import { withStaticExplorerTree } from "../../components/StaticExplorer"
 
 export async function loadComponentsFromPackage(
   pluginName: string,
@@ -17,6 +18,16 @@ export async function loadComponentsFromPackage(
       componentsModule = await import(toFileUrl(componentsPath))
     } else {
       componentsModule = await import(`${pluginName}/components`)
+    }
+
+    if (
+      (pluginName === "explorer" || pluginName === "@quartz-community/explorer") &&
+      componentsModule.Explorer
+    ) {
+      componentsModule = {
+        ...componentsModule,
+        Explorer: withStaticExplorerTree(componentsModule.Explorer as QuartzComponentConstructor),
+      }
     }
 
     const componentEntries = Object.entries(manifest.components)
