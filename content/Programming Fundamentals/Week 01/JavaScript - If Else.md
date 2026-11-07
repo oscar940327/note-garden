@@ -58,4 +58,3 @@ description: Week 01 的 JavaScript If Else 學習紀錄範本。
 ## 還不理解的問題
 
 - 待記錄。
-

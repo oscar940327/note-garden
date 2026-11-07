@@ -19,7 +19,7 @@ This plugin accepts the following configuration options:
 - `priority`: The data sources to consult for date information. Highest priority first. Possible values are `"frontmatter"`, `"git"`, and `"filesystem"`. Defaults to `["frontmatter", "git", "filesystem"]`.
 - `defaultDateType`: Which date type to use when displaying dates. Can be `"created"`, `"modified"`, or `"published"`. Defaults to `"modified"`.
 
-When loading the frontmatter, the value of [[Frontmatter#List]] is used.
+When reading dates from frontmatter, the [[Frontmatter#Supported frontmatter|supported date fields]] are used.
 
 > [!warning]
 > If you rely on `git` for dates, make sure `defaultDateType` is set to `modified` in the plugin's options.

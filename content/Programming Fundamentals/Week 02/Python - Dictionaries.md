@@ -58,4 +58,3 @@ description: Week 02 的 Python Dictionaries 學習紀錄範本。
 ## 還不理解的問題
 
 - 待記錄。
-

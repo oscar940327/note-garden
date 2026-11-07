@@ -6,6 +6,12 @@
   "semi": false,
   "overrides": [
     {
+      "files": "plugins/graph/**",
+      "options": {
+        "semi": true
+      }
+    },
+    {
       "files": "*.canvas",
       "options": {
         "parser": "json"

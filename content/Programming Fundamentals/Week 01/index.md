@@ -34,4 +34,3 @@ description: Python 與 JavaScript 的單元筆記及每週驗收。
 - 最有收穫的單元：
 - Python 與 JavaScript 有哪些相似或不同：
 - 需要回頭練習的地方：
-

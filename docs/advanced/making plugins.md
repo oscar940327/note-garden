@@ -368,6 +368,8 @@ export const ContentPage: QuartzEmitterPlugin = () => {
 }
 ```
 
+### Page Types
+
 Page types define how a category of pages is rendered. They are the primary way to add support for new file types or virtual pages in Quartz.
 
 ```ts
@@ -739,7 +741,7 @@ npx quartz plugin prune --dry-run
 ```
 
 > [!tip]
-> Both `resolve` and `prune` fall back to `quartz.config.default.yaml` if no `quartz.config.yaml` is present. This is useful for CI environments where the default config is the source of truth. See [[cli/plugin#prune|prune]] and [[cli/plugin#resolve|resolve]] for full details.
+> Both `install --from-config` (formerly `resolve`) and `prune` fall back to `quartz.config.default.yaml` if no `quartz.config.yaml` is present. This is useful for CI environments where the default config is the source of truth. See [[cli/plugin#install|install]] and [[cli/plugin#prune|prune]] for full details.
 
 ## Component Plugins
 

@@ -32,14 +32,14 @@ tags:
 
 每週安排 3 天 Python、2 天 JavaScript／TypeScript，每天約 60–90 分鐘。
 
-| 星期 | 學習內容 |
-| --- | --- |
-| 週一 | Python：學習新章節 |
-| 週二 | Python：習題與程式追蹤 |
-| 週三 | JavaScript／TypeScript：學習新章節 |
-| 週四 | Python：Debugging 練習 |
+| 星期 | 學習內容                                 |
+| ---- | ---------------------------------------- |
+| 週一 | Python：學習新章節                       |
+| 週二 | Python：習題與程式追蹤                   |
+| 週三 | JavaScript／TypeScript：學習新章節       |
+| 週四 | Python：Debugging 練習                   |
 | 週五 | JavaScript／TypeScript：練習與 Debugging |
-| 週末 | 補進度、複習，或閱讀 Diary 的一個函式 |
+| 週末 | 補進度、複習，或閱讀 Diary 的一個函式    |
 
 一次約 75 分鐘可以分成：25 分鐘教材、20 分鐘練習、20 分鐘執行與除錯、10 分鐘請 AI 協助檢討。
 
