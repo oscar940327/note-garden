@@ -7,54 +7,68 @@ description: Week 01 的 Python Variables 學習紀錄範本。
 
 [[Programming Fundamentals/Week 01/index|返回 Week 01]] · [[Programming Fundamentals/index|八週學習計畫]]
 
-- 學習日期：
+- 學習日期：2026/11/11
 - 教材：[W3Schools Variables](https://www.w3schools.com/python/python_variables.asp)
-
-## 本單元目標
-
-能說明變數如何建立、賦值與更新，並追蹤執行後的值。
 
 ## 我的理解
 
-用自己的話解釋這個概念，並記下容易混淆的地方。
+1. python 的變數型別可以變換
+```python
+x = 4       # x is of type int
+x = "Sally" # x is now of type str
+```
+
+2. 變數名稱第一個字不能是數字、不能有空格、不能有 -
+```python 
+2myvar = "John"
+my-var = "John"
+my var = "John"
+```
+
+3. unpacking
+```python
+fruits = ["apple", "banana", "cherry"]
+x, y, z = fruits
+print(x) # apple
+print(y) # banana
+print(z) # cherry
+```
+
+4. global 變數
+```python
+def myfunc():
+  global x
+  x = "fantastic"
+
+myfunc()
+
+print("Python is " + x) # python is fantastic
+```
 
 ## 程式練習
 
 先寫預期結果，再貼上自己實際執行的程式碼。
 
+#### 題目
 ```python
-# 在這裡貼上練習程式碼
+# Create variable x with value 5
+
+# Create variable y with value "John"
+
+# Print the type of x
+
 ```
 
-- 預期結果：
-- 實際結果：
-- 我如何追蹤變數或執行流程：
-
-## 除錯紀錄
-
-有遇到錯誤時再填寫。
-
-- 錯誤訊息或不符合預期的行為：
-- 我原本以為：
-- 實際原因：
-- 做了什麼修改：
-- 如何確認修好了：
-
-## AI 協作紀錄
-
-有使用 AI 時再填寫。
-
-- 我怎麼描述問題：
-- AI 建議的修改：
-- 我理解這次修改的原因：
-- 我如何驗證：
-
-## 單元驗收
-
-- [ ] 能用自己的話解釋本單元概念。
-- [ ] 親自執行至少一個例子，並比較預期與實際結果。
-- [ ] 修改例子的輸入或條件，能說明結果為什麼改變。
+#### 答案
+```python
+# Create variable x with value 5
+x = 5
+# Create variable y with value "John"
+y = 'John'
+# Print the type of x
+print(type(x))
+```
 
 ## 還不理解的問題
 
-- 待記錄。
+- 無

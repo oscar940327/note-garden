@@ -7,7 +7,7 @@ description: Week 01 的 Python Data Types 學習紀錄範本。
 
 [[Programming Fundamentals/Week 01/index|返回 Week 01]] · [[Programming Fundamentals/index|八週學習計畫]]
 
-- 學習日期：
+- 學習日期：2026/11/11
 - 教材：[W3Schools Data Types](https://www.w3schools.com/python/python_datatypes.asp)
 
 ## 本單元目標
@@ -16,44 +16,47 @@ description: Week 01 的 Python Data Types 學習紀錄範本。
 
 ## 我的理解
 
-用自己的話解釋這個概念，並記下容易混淆的地方。
+| 程式碼 | 資料型別 |
+| --- | --- |
+| `x = "Hello World"` | `str` |
+| `x = 20` | `int` |
+| `x = 20.5` | `float` |
+| `x = 1j` | `complex` |
+| `x = ["apple", "banana", "cherry"]` | `list` |
+| `x = ("apple", "banana", "cherry")` | `tuple` |
+| `x = range(6)` | `range` |
+| `x = {"name": "John", "age": 36}` | `dict` |
+| `x = {"apple", "banana", "cherry"}` | `set` |
+| `x = frozenset({"apple", "banana", "cherry"})` | `frozenset` |
+| `x = True` | `bool` |
+| `x = b"Hello"` | `bytes` |
+| `x = bytearray(5)` | `bytearray` |
+| `x = memoryview(bytes(5))` | `memoryview` |
+| `x = None` | `NoneType` |
 
 ## 程式練習
 
-先寫預期結果，再貼上自己實際執行的程式碼。
-
+#### 題目
 ```python
-# 在這裡貼上練習程式碼
+# Create variables
+
+
+# Print the data type of each variable
+
 ```
 
-- 預期結果：
-- 實際結果：
-- 我如何追蹤變數或執行流程：
+#### 答案
+```python
+# Create variables
+x = 5
+y = 3.14
+z = "Hello"
 
-## 除錯紀錄
-
-有遇到錯誤時再填寫。
-
-- 錯誤訊息或不符合預期的行為：
-- 我原本以為：
-- 實際原因：
-- 做了什麼修改：
-- 如何確認修好了：
-
-## AI 協作紀錄
-
-有使用 AI 時再填寫。
-
-- 我怎麼描述問題：
-- AI 建議的修改：
-- 我理解這次修改的原因：
-- 我如何驗證：
-
-## 單元驗收
-
-- [ ] 能用自己的話解釋本單元概念。
-- [ ] 親自執行至少一個例子，並比較預期與實際結果。
-- [ ] 修改例子的輸入或條件，能說明結果為什麼改變。
+# Print the data type of each variable
+print(type(x))
+print(type(y)) 
+print(type(z))
+```
 
 ## 還不理解的問題
 
