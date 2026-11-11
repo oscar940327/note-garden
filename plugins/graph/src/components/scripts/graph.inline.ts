@@ -551,7 +551,8 @@ import {
         };
 
         var dragStarted = function (event) {
-          if (!event.active) simulation.alphaTarget(1).restart();
+          // Holding a node should freeze the layout, not keep reheating it.
+          if (!event.active) simulation.alphaTarget(0).stop();
           event.subject.fx = event.subject.x;
           event.subject.fy = event.subject.y;
           var mouseSimX = (event.x - currentTransform.x) / currentTransform.k - width / 2;
@@ -576,15 +577,23 @@ import {
           if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > dragMoveThreshold) {
             dragMoved = true;
           }
+          if (!dragMoved) return;
+
           var mouseSimX = (event.x - currentTransform.x) / currentTransform.k - width / 2;
           var mouseSimY = (event.y - currentTransform.y) / currentTransform.k - height / 2;
           event.subject.fx = mouseSimX - event.subject.__dragOffset.x;
           event.subject.fy = mouseSimY - event.subject.__dragOffset.y;
+          // Only actual movement needs layout updates; let it cool even while held.
+          simulation.alpha(Math.max(simulation.alpha(), 0.15)).alphaTarget(0).restart();
           if (renderScheduler) renderScheduler.invalidate();
         };
 
         var dragEnded = function (event) {
-          if (!event.active) simulation.alphaTarget(0);
+          if (!event.active) {
+            simulation.alphaTarget(0);
+            // Resume an unfinished initial layout without reheating a settled graph.
+            if (simulation.alpha() >= simulation.alphaMin()) simulation.restart();
+          }
           event.subject.fx = null;
           event.subject.fy = null;
           dragging = false;
